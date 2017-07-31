@@ -1,0 +1,198 @@
+<% content_for :head do %>
+	<link rel="stylesheet" href="/assets/profile.scss">
+	<script type="text/javascript" src='/assets/profile.js'></script>
+	<script type="text/javascript" src='/assets/bootstrap-filestyle.min.js'></script>
+	<link href="/assets/colorbox.css" rel="stylesheet">
+	<script type="text/javascript" src='/assets/jquery.colorbox.js'></script>
+	<script>
+	$(document).ready(function(){
+		$('ul li a').click(function(){
+			$('.active').attr('class','')
+			$(this).attr('class','active')
+			x = $(this).attr('tab')
+			$('#partialcontainer').load('/profile/<%=@user.id%>/'+x)
+		})
+	    $('#alreadyfriends').click(function(){
+	       x = confirm("Are you sure you want to unfriend <%=@user.display_name%> ?");
+	       if (x==true){
+		        $.ajax({
+					url:"/profile/unfriend/<%=@user.id%>",
+					type: 'GET',
+					success: function(){
+							$('#alreadyfriends').text('+ add friend')
+							$('#alreadyfriends').attr('id' , 'addfriend')
+							window.location = "/profile/<%=@user.id%>"
+					}
+				})
+	    	}
+		})
+		$('#addfriend').click(function(){
+			$.ajax({
+				url:"/profile/addfriend/<%=@user.id%>",
+				type: 'GET',
+				success: function(){
+						$('#addfriend').text('friendship requested')
+				}
+			})
+		})
+	})
+	</script>
+<% end %>
+<% if user_signed_in? && current_user.friends_with?(@user) %>
+<div style="display: none">
+	<div id="inline-content">
+		<div style="padding:20px">
+			<%= form_for @message do |f| %>
+				<div class='field'>
+				<%= f.text_area :body, class: 'form-control', placeholder: 'Write your message to '+@user.display_name+' here' %>
+				</div>
+				<%= hidden_field_tag :user_id, current_user.id %>
+				<%= hidden_field_tag :sender_id, current_user.id %>
+				<%= hidden_field_tag :recipient_id, @user.id %>
+				<div>
+				<%= f.submit 'Send message', class: 'btn' %>
+				</div>
+			<% end %>
+		</div>
+	</div>
+</div>
+<% end %>
+	<section class="container" style="background-color: black;height:150px;margin-bottom:50px;border-radius: 10px 10px 0px 0px;padding:0px">
+		<div class="col-sm-12" style="color:white;padding:10px;padding-right:0px;margin-right:0px;display:flex;flex-direction: row;">
+			<div class="col-sm-2 col-xs-5" style="padding:0;margin:0">
+			<%= image_tag @user.avatar.url(:medium), id: "profilePic" %>
+			</div>
+			<div class="col-sm-10 col-xs-7 multipages" style="padding-right:0px;margin-right: 0px;">
+				<div class="col-xs-12">
+
+				<% if user_signed_in? && current_user == @user %>
+					<div class='hidden-xs' style="height:140px"></div>
+				<% end %>
+
+				<button class="btn addbutton hidden-xs"
+				<% if user_signed_in? && current_user.friends_with?(@user) %>
+				 id='alreadyfriends'
+				<% elsif @requested == true %>
+				id='alreadyrequested'
+				<% elsif user_signed_in? && current_user == @user %>
+				style="display:none"
+				<% else %>
+				id='addfriend'
+				<% end %>
+				 style="float:right;margin-top:97px;margin-bottom:10px;color:black">
+				<% if user_signed_in? && current_user.friends_with?(@user) %>
+				<i class="fa fa-check" aria-hidden="true"></i> Friends
+				<% elsif @requested == true %>
+				Pending request
+				<% else %>
+				+ add friend
+				<% end %>
+				</button>
+				<button class="btn addbutton hidden-lg hidden-md hidden-sm"
+				<% if user_signed_in? && current_user.friends_with?(@user) %>
+				 id='alreadyfriends'
+				<% elsif @requested == true %>
+				id='alreadyrequested'
+				<% elsif user_signed_in? && current_user == @user %>
+				style="display:none"
+				<% else %>
+				id='addfriend'
+				<% end %>
+				 style="float:right;margin-bottom:10px;color:black">
+				<% if user_signed_in? && current_user.friends_with?(@user) %>
+				<i class="fa fa-check" aria-hidden="true"></i> Friends
+				<% elsif @requested == true %>
+				Pending request
+				<% else %>
+				+ add friend
+				<% end %>
+				</button>
+				<% if user_signed_in? && current_user.friends_with?(@user) %>
+				<button style="float:right;margin-top:97px;margin-bottom:10px;color:black;margin-right:10px" class="btn messagebutton" href="#inline-content">Send message</button>
+				<% end %>
+				</div>
+				<div class='col-xs-12'>
+				<ul id='ulx' style="padding-right:0px;margin-right: 0px">
+					<li><a class="active" tab="wall">My Wall</a></li>
+	  				<li><a tab="friends">Friends</a></li>
+					<li><a tab="photos">Photos</a></li>
+					<li><a>placeholder4</a></li>
+					<li><a>placeholder5</a></li>
+				</ul>
+				</div>
+			</div>
+		</div>
+	</section>
+<section class="container">
+	<div class="col-sm-4 hidden-xs">
+		<div class=" col-sm-12 infoContainer">
+			<div style="padding:10px;padding-left:20px;font-size:120%;background-color:#eeeeee;margin-bottom:10px"><i class="fa fa-universal-access fa-lg" aria-hidden="true"></i> General info</div>
+			<p><span class="para"><i class="fa fa-user-circle-o" aria-hidden="true"></i> Username</span><em> <%= @user.username.humanize %></em></p>
+			<p><span class="para"><i class="fa fa-id-card" aria-hidden="true"></i> Name</span><em> <%= @user.first_name.humanize %> <%= @user.last_name %></em></p>
+			<p><span class="para"><i class="fa fa-venus-mars" aria-hidden="true"></i> Gender</span><em> <%= @user.gender %></em></p>
+			<p><span class="para"><i class="fa fa-envelope" aria-hidden="true"></i> Email</span><em> <%= @user.email %></em></p>
+			<p><span class="para"><i class="fa fa-map-marker" aria-hidden="true"></i> Location</span><em> Cairo, Egypt</em></p>
+			<% if user_signed_in? && current_user == @user %>
+        	<a href="/profile/edit">Edit my  info</a>
+      		<% end %>
+		</div>
+		<div class=" col-sm-12 infoContainer">
+			<div style="padding:10px;padding-left:20px;font-size:120%;background-color:#eeeeee;margin-bottom:10px"><i class="fa fa-eye fa-lg" aria-hidden="true"></i> Photos</div>
+			<% if @photoposts.length == 0 %>
+				<p style="padding:20px"><i class="fa fa-heartbeat fa-lg" aria-hidden="true"></i> You have no photos to show and you're to blame.. Post some posts with photos, man!</p>
+			<% end %>
+			<% @photoposts.each do |p| %>
+	<div class="col-sm-3 col-xs-6" style="padding:5px;margin:0;">
+		<a href="<%= p.photo_one.url %>" data-lightbox="roadtrip<%=p.id%>"><%= image_tag p.photo_one.url(:thumb), class: 'thumbphoto' %></a>
+	</div>
+	<% end %>
+		</div>
+	</div>
+	<div class="col-sm-8" id="partialcontainer">
+	<% if current_user.friends_with?(@user) || current_user == @user %>
+		<%= render partial: "wall" %>	
+	<% else %>
+		<section id="newPanel">
+	<div class="col-sm-12" style="background-color: white;border-radius: 5px; margin-bottom: 10px;padding-top:10px;text-align: center;height:50px">
+	You can't see <%=@user.display_name%>'s <%=@things%>.. cause you know.. you're not friends with him
+</div>
+
+</section>
+	<% end %>
+	</div>
+	<div class="hidden-lg hidden-md hidden-sm col-xs-12">
+		<div class=" col-sm-12 infoContainer">
+			<div style="padding:10px;padding-left:20px;font-size:120%;background-color:#eeeeee;margin-bottom:10px"><i class="fa fa-universal-access fa-lg" aria-hidden="true"></i> General info</div>
+			<p><span class="para"><i class="fa fa-user-circle-o" aria-hidden="true"></i> Username</span><em> <%= @user.username.humanize %></em></p>
+			<p><span class="para"><i class="fa fa-id-card" aria-hidden="true"></i> Name</span><em> <%= @user.first_name.humanize %> <%= @user.last_name %></em></p>
+			<p><span class="para"><i class="fa fa-venus-mars" aria-hidden="true"></i> Gender</span><em> <%= @user.gender %></em></p>
+			<p><span class="para"><i class="fa fa-envelope" aria-hidden="true"></i> Email</span><em> <%= @user.email %></em></p>
+			<p><span class="para"><i class="fa fa-map-marker" aria-hidden="true"></i> Location</span><em> Cairo, Egypt</em></p>
+			<% if user_signed_in? && current_user == @user %>
+        	<a href="/profile/edit">Edit my  info</a>
+      		<% end %>
+		</div>
+		<div class=" col-sm-12 infoContainer">
+			<div style="padding:10px;padding-left:20px;font-size:120%;background-color:#eeeeee;margin-bottom:10px"><i class="fa fa-eye fa-lg" aria-hidden="true"></i> Photos</div>
+			<% if @photoposts.length == 0 %>
+				<p style="padding:20px"><i class="fa fa-heartbeat fa-lg" aria-hidden="true"></i> You have no photos to show and you're to blame.. Post some posts with photos, man!</p>
+			<% end %>
+			<% @photoposts.each do |p| %>
+	<div class="col-sm-3 col-xs-6" style="padding:5px;margin:0;">
+		<a href="<%= p.photo_one.url %>" data-lightbox="roadtrip<%=p.id%>"><%= image_tag p.photo_one.url(:thumb), class: 'thumbphoto' %></a>
+	</div>
+	<% end %>
+		</div>
+	</div>
+</section>
+<section class='container emptycontainer'>
+<div class='col-sm-12' style="height:30px">
+</div>
+</section>
+<link href="/assets/lightbox.css" rel="stylesheet">
+<script src="/assets/lightbox.js"></script>
+<script>
+$(document).ready(function(){
+	$('.messagebutton').colorbox({inline:true, width:"60%"});
+})
+</script>

@@ -1,0 +1,48 @@
+<% content_for :head do %>
+	<link rel="stylesheet" href="/assets/rockpaperscissors.scss">
+	<script type="text/javascript" src="/assets/rockpaperscissors.js"></script>
+<meta property="og:description"   content="Play rock paper scissors lizard spock against randomness"/>
+<meta property="og:image"         content="http://www.appjunk.com/assets/rpslsimage.PNG"/>
+<meta property="og:url"           content="http://www.appjunk.com/rockpaperscissors"/>
+<% end %>
+  		<section class="jumbotronk">
+    	<div class="container">
+      		<div class="row text-center">
+      			<h1 id="result">Hit it!</h1>
+      		</div>
+    	</div>
+  	</section>
+	<section class="container">
+		<div class="row">
+			<div class="col-md-4 col-sm-2 hidden-x"></div>
+			<div  class="col-md-4 col-sm-8 col-xs-12" id="showDown">
+				<div id="loader" style="display:none"></div>
+				<div id="computer">Computer's choice</div>
+				<div id="user">Choose your hand</div>
+			</div>
+			<div class="col-sm-4">
+			</div>
+		</div>
+		<div class=col-sm-12 style="padding:0;margin:0;">
+			<div class="col-md-2 col-xs-6" style="display:flex;justify-content: center;padding:0;margin:0">
+				<div id="rock" onclick="rock()"><strong>Rock</strong></div>
+			</div>
+			<div class="col-md-2 col-xs-6" style="display:flex;justify-content: center;padding:0;margin:0">
+				<div id="paper" onclick="paper()"><strong>Paper</strong></div>
+			</div>
+			<div class="col-md-4 col-xs-6" style="display:flex;justify-content: center;padding:0;margin:0">
+				<div id="scissors" onclick="scissors()"><strong>Scissors</strong></div>
+			</div>
+			<div class="col-md-2 col-xs-6" style="display:flex;justify-content: center;padding:0;margin:0">
+				<div id="lizard" onclick="lizard()"><strong>Lizard</strong></div>
+			</div>
+			<div class="col-md-2 col-xs-12" style="display:flex;justify-content: center;padding:0;margin:0">
+				<div id="spock" onclick="spock()"><strong>Spock</strong></div>
+			</div>
+		</div>
+		<div class="col-sm-12" style="text-align: center;margin-top:20px">
+			<button class="btn btn-primary" id="classic">Play the classic</button>
+			<div style="padding-top:10px"><a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]=http://www.appjunk.com/rockpaperscissors&p[images][0]=&p[title]=Rock paper scissors &p[summary]=Play rock paper scissors against randomness" target="_blank" onclick="window.open(this.href,'targetWindow','toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=250'); return false"><button type="button" class="btn btn-facebook"><i class="fa fa-facebook" aria-hidden="true"></i> Share on Facebook </button></a></div>
+		</div>
+		</div>
+	</section>

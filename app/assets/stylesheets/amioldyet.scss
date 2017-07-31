@@ -1,0 +1,41 @@
+@font-face {
+	font-family: DSDIGI;
+	src: url('/assets/spyagencyv3') format('truetype');
+}
+
+#result,#result2{
+	padding-top:20px;
+	font-size:200%;
+	font-weight: bold;
+}
+input{
+	margin-top:15px;
+	font-size:200%;
+}
+.number{
+	color:red;
+}
+#message{
+	text-align: center;
+	font-size:200%;
+
+}
+#loader {
+	margin:auto;
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid red;
+  width: 150px;
+  height: 150px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

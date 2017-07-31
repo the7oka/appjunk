@@ -1,0 +1,56 @@
+<% content_for :head do %>
+	<script>
+		$(document).ready(function(){
+			c="";
+	companies = $('#complaint_company_id').html();
+	options= null;
+	$('#company_category_id').val(<%= @catid %>);
+	category = $('#company_category_id :selected').text();
+		options = $(companies).filter("optgroup[label="+'"'+category+'"'+"]").html();
+		if (options == null){
+			$('#complaint_company_id').html("<option value="+c+">Select a category first</option>")
+		}
+		else{
+			$('#complaint_company_id').html("<option value="+c+">All "+ category +" Companies</option>"+options)
+		}
+		$('#complaint_company_id').val(<%= @comid %>);
+	$('#company_category_id').change(function() {
+		catval = $('#company_category_id :selected').val();
+		if (catval == "") {
+			window.location.href = "/blacklist/index";
+		}
+		else {
+		window.location.href = "/blacklist/index/cat/"+catval;
+	}
+	});
+
+	$('#complaint_company_id').change(function() {
+		company = $('#complaint_company_id :selected').val();
+		catval = $('#company_category_id :selected').val();
+		if (company =="" && catval == ""){
+			window.location.href = "/blacklist/index";
+		}
+		else if (company == ""){
+			window.location.href = "/blacklist/index/cat/"+catval;
+		}
+		else {
+		window.location.href = "/blacklist/index/"+company;
+}
+		});
+});
+	</script>
+<% end %>
+<section class="container">
+	<div class="row" style="border-radius:5px;background-color: #006bb3;padding-top:20px;padding-bottom:10px;">
+		<div class="col-sm-3">
+			<p style="font-weight:bold;font-size:105%;padding-top:5px">Show specific category or company:</p>
+		</div>
+		<div class="col-sm-4" style="margin-bottom:10px;">
+			<%= collection_select(:company,:category_id, Category.order(:name) , :id ,:name,{:include_blank => 'All Categories'}, prompt: true,class: 'form-control') %>
+		</div>
+		<div class="col-sm-4" style="margin-bottom:10px">
+			<%= grouped_collection_select(:complaint, :company_id, Category.order(:name) , :companies ,:name, :id, :name,{}, prompt: true,class: 'form-control') %>
+		</div>
+		</div>
+	</div>
+</section>

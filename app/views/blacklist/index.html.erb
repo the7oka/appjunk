@@ -1,0 +1,135 @@
+<% content_for :head do %>
+	<link href="/assets/blacklist.scss" rel="stylesheet" >
+	<link href="/assets/bootstrap-social.scss" rel="stylesheet" >
+	<script type="text/javascript" src='/assets/blacklist.js'></script>
+	<script type="text/javascript" src='/assets/bootstrap-filestyle.min.js'></script>
+	<meta property="og:description"   content="AppJunk's shopping blacklist is the best way to get feedback for products and services before it's too late."/>
+	<meta property="og:image"         content="http://www.appjunk.com/assets/blacklistimage.PNG"/>
+	<meta property="og:url"           content="http://www.appjunk.com/blacklist"/>
+	<script>
+		$(document).ready(function(){
+			$(":file").filestyle({icon: false});
+			$(":file").filestyle('size', 'sm');
+			c="";
+	companies = $('#companyList').html();
+	$('#companyList').html("<option value="+c+">Select company name</option>")
+	options= null;
+	$('#categoryList').change(function() {
+		category = $('#categoryList :selected').text();
+		options = $(companies).filter("optgroup[label="+'"'+category+'"'+"]").html();
+		if (options == null){
+			$('#companyList').html("<option value="+c+">Select a category first</option>")
+		}
+		else{
+			$('#companyList').html(options)
+		}
+		});
+
+		
+});
+	</script>
+<% end %>
+<div style="display:none">
+<a href="/blacklist/new">new</a>
+<a href="/blacklist/new_company">new company</a>
+<a href="/blacklist/new_category">new category</a>
+</div>
+<section class="container" id="welcoming">
+<div class="col-sm-2">
+	</div>
+	<div class="col-sm-8" id="welcomeMessage" style="min-height:239px">
+			AppJunk's <span id="app" style="font-size:120%">shopping</span><span id="junk" style="font-size:120%"> blacklist</span> is the best way to get feedback for products and services before it's too late.<br>
+
+			<% if user_signed_in? %>
+				<p style="margin-top:10px">You're already signed in, <a href= "/profile/<%= current_user.id%>" style="font-weight:bold;margin:0px;"><%= current_user.display_name.humanize %></a></p>
+				<div style="margin-top:35px">
+				<div class="col-sm-5" style="text-align: center">
+				<button type="button" class="btn btn-primary btn-lg" onclick="categoryFun()"><i class="fa fa-cogs fa-lg" aria-hidden="true"></i> Browse categories</button>
+				</div>
+				<div class="col-sm-2">
+				 <p style="margin-top:10px;text-align: center"> Or </p>
+				 </div>
+				 <div class="col-sm-5" style="text-align: center">
+				 <button  type="button" class="btn btn-primary btn-lg" onclick="newCFun()"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i> Post your complaint</button>
+				 </div>
+				 </div>
+			<%else%>
+				<p>We see you're not signed in yet. 
+				Sign in now:</p>
+				<div class="col-sm-6">
+				<div style="display:flex;flex-direction:column;margin-top:10px">
+					<a href="<%=user_twitter_omniauth_authorize_path%>" class="btn btn-block btn-social btn-lg btn-twitter" style="margin:auto;margin-bottom:10px;">
+                <span class="fa fa-twitter"></span> Sign in with Twitter
+            </a>
+            <a href="<%=user_facebook_omniauth_authorize_path%>" class="btn btn-block btn-social btn-lg btn-facebook" style="margin:auto;">
+              <span class="fa fa-facebook"></span> Sign in with Facebook
+            </a>
+      			</div>
+      			</div>
+      			<div class="col-sm-6">
+      			<div style="margin-top:10px;display:flex;flex-direction:column">
+      			Or just:
+      			<button type="button" class="btn btn-primary btn-lg" onclick="categoryFun()"><i class="fa fa-cogs fa-lg" aria-hidden="true"></i> Browse our categories</button>
+      			</div>
+      			</div>
+			<%end%>
+	</div>
+	<div class="col-sm-2">
+	</div>
+	</div>
+</section>
+<section class="container" id="categoriesPanel" style="display:none">
+<div class="col-sm-1" style="text-align: center;">
+		<button onclick="reversecategoryFun()" class="btn btn-primary"> 
+		back
+		</button>
+		</div>
+<div class="col-sm-11" style="height:239px;background-color: white;border-radius: 5px; margin-bottom: 10px;">
+<p style="font-weight: bold;text-decoration: underline;font-size: 120%;margin-top: 10px;">Categories:</p>
+<ul>
+	<% @categoriess.each do |m|%>
+	<li><a href="/blacklist/index/cat/<%=m.id%>"><%= m.name.humanize %></a></li>
+	<% end %>
+</ul>
+</div>
+</section>
+<% if user_signed_in? %>
+<section class="container" id="newPanel" style="display:none">
+<div class="col-sm-1" style="text-align: center;">
+		<button onclick="reversenewCFun()" class="btn btn-primary"> 
+		back
+		</button>
+		</div>
+	<div class="col-sm-11" style="min-height:239px;background-color: white;border-radius: 5px; margin-bottom: 10px;">
+		<div class="col-sm-4">
+			<%= form_for([@user, @complaint]) do |f| %>
+			<p style="margin-top:5px;margin-bottom:5px;font-weight:bold;text-decoration: underline">Post a complaint</p>
+			<%= collection_select(:company,:category_id, Category.order(:name) , :id ,:name,{:include_blank => 'Select company category'}, prompt: true,class: 'form-control form-control-sm',id: "categoryList") %>
+			<%= grouped_collection_select(:complaint, :company_id, Category.order(:name) , :companies ,:name, :id, :name,{}, prompt: true,class: 'form-control form-control-sm',id: "companyList") %>
+			<%= f.text_field :companymanual, :maxlength => "50", :minlength => "5", placeholder: "enter company name manually", class: "form-control form-control-sm", id: "companymanual" %>
+			<p id="companychange">Or enter the company name manually..</p>
+			<%= f.file_field :photo_one, accept: "image/*" %>
+			<%= f.file_field :photo_two, accept: "image/*"%>
+			<%= f.file_field :photo_three, accept: "image/*" %>
+		</div>
+		<div class="col-sm-8">
+			  <p style="margin-top:10px">Complaint :</p>
+			    <%= f.text_area :content, :maxlength => "6000", :minlength=> "5",class: 'form-control',style: "width:100%;height:150px" %>
+			  <p>
+			    <%= f.submit :Submit, class: 'btn btn-primary' %>
+			  </p>
+			<% end %>
+		</div>
+		
+		</div>
+</section>
+<% end %>
+<%= render partial: "show_complaint" %>
+<section class="container">
+<div class="col-sm-12" style="text-align: center">
+<%= will_paginate @complaints, renderer: BootstrapPagination::Rails %>
+</div>
+</section>
+<link href="/assets/lightbox.css" rel="stylesheet">
+<script src="/assets/lightbox.js"></script>
+	

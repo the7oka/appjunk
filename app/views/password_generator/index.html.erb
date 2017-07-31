@@ -1,0 +1,42 @@
+<%= content_for :head do %>
+<link rel="stylesheet" href="assets/password_generator.scss">
+<script type="text/javascript" src="/assets/password_generator.js"></script>
+	<meta property="og:description"   content="Press a button.. Get a brand new password"/>
+	<meta property="og:image"         content="http://www.appjunk.com/assets/passwordgeneratorimage.PNG"/>
+	<meta property="og:url"           content="http://www.appjunk.com/password_generator"/>
+<% end %>
+<section class="container" style="background-color: #9cacca">
+    <div class="col-sm-12">
+        <div id="welcome">
+        	<h1> Welcome to your password generator</h1>
+        </div>
+    </div>
+    <div class="col-sm-3">
+    	
+    </div>
+    <div class="col-sm-6">
+        <div id="password">
+        	
+        </div>
+        <div class="col-sm-12" style="text-align: center;padding:0px;margin:0px">
+        	<button onclick="passwordMaker(); clickFunction()" class="btn btn-lg"> Generate Password </button>
+        </div>
+        <div class="col-sm-12">
+          <p style="text-align: center;margin:0px;padding-top:15px">Password length:</p>
+        </div>
+        <div class="col-sm-12" style="display:flex;justify-content:center">
+	        <div id="passlength">
+	          	<input type= "number" id="length" value="8" class="form-control">
+	        </div>
+        </div>
+        <div class="col-sm-12">
+            <p><input type="checkbox" id="myCheck1" checked> Lowercase letters</p>
+            <p><input type="checkbox" id="myCheck2"> Uppercase letters</p>
+            <p><input type="checkbox" id="myCheck3" checked> Numbers</p>
+            <p><input type="checkbox" id="myCheck4"> Symbols</p>     
+    	</div>
+    	<div class="col-sm-12" style="text-align: center;margin-bottom:20px">
+      		<a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]=http://www.appjunk.com/password_generator&p[images][0]=&p[title]=Password Generator&p[summary]=Let's generate a password" target="_blank" onclick="window.open(this.href,'targetWindow','toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=250'); return false"><button type="button" class="btn btn-facebook"><i class="fa fa-facebook" aria-hidden="true"></i> Share on Facebook </button></a>
+      </div>
+    </div>
+</section>

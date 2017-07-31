@@ -1,0 +1,36 @@
+<%= content_for :head do%>
+<link rel="stylesheet" href="/assets/geometry_swiss_army_knife.scss">
+<script type="text/javascript" src='/assets/geometry_swiss_army_knife.js'></script>
+	<meta property="og:description"   content="Your very own geometry Swiss Army Knife"/>
+	<meta property="og:image"         content="http://www.appjunk.com/assets/geometryswissarmyknifeimage.PNG"/>
+	<meta property="og:url"           content="http://www.appjunk.com/geometry_swiss_army_knife"/>
+<% end %>
+<section class="container" id="universe">
+	<div class="col-sm-6">
+      		<div class="col-sm-12">
+			<h3>This is your very own</h3>
+			<h1>Geometry Swiss Army Knife</h1>
+		</div>
+		<div class="col-sm-12">
+			<h4>Go ahead..choose your shape!</h4>
+			<select id="mySelect" onchange="shapeFunction(); clickFunction()">
+				<option value="" disabled selected hidden> Please Choose a shape...</option>
+    			<option>Square</option>
+    			<option>Rectangle</option>
+    			<option>Triangle</option>
+    			<option>Parallelogram</option>
+				<option>Circle</option>
+				<option>Sphere</option>
+				<option>Cylinder</option>
+				<option>Cube</option>
+				<option>Ellipsoid</option>
+			</select>
+			<p id="demo"></p>
+			<p id="demos"></p>
+		</div>
+	</div>
+	<div class="col-sm-6">
+		<a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]=http://www.appjunk.com/geometry_swiss_army_knife&p[images][0]=&p[title]=Geometry Swiss Army Knife&p[summary]=Your very own geometry Swiss Army Knife" target="_blank" onclick="window.open(this.href,'targetWindow','toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=250'); return false" style="float:right"><button type="button" class="btn btn-facebook"><i class="fa fa-facebook" aria-hidden="true"></i> Share on Facebook</button></a>
+
+	</div>
+</section>

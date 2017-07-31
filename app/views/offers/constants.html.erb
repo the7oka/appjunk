@@ -1,0 +1,16 @@
+<% content_for :head do %>
+	<link href="/assets/offers.scss" rel="stylesheet" >
+<% end %>
+<section class="container">
+	<div class="col-sm-3" style="margin-bottom:10px">
+		<%= form_for @offercategory do |f| %>
+			Name :
+		    <%= f.text_field :name, :maxlength => "30", :minlength=> "3",class: 'form-control form-control-sm' %>
+		    <%= f.submit %>
+		<% end %>
+		<% @offercategories.each do |cat| %>
+		<%= cat.id %>:
+		<%= cat.name.humanize %><br>
+		<% end %>
+	</div>
+</section>

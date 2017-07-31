@@ -1,0 +1,124 @@
+body{
+	background-color: #eeeeee;
+}
+#hr {
+  border: 0;
+  height: 1px;
+  background: #333;
+  background-image: linear-gradient(to right, #ccc, #333, #ccc);
+}
+.searchcontainer{
+	background-color: grey;
+	padding:15px;
+	padding-right:0.5%;
+	border-radius: 5px;
+}
+#search{
+	direction: rtl;
+	padding-right :20px;
+}
+form,.randombutton,.addbutton,.searchbutton{
+	width:70px;
+	height:70px;
+	border-radius: 50%;
+	margin-top:-5px;
+	margin-left:0.5%;
+	display:inline;
+}
+#search{
+	border-radius: 3px;
+	font-size: 170%;
+	width:65%;
+	padding:5px;
+	display:inline-block;
+}
+.wordcontainer{
+	direction: rtl;
+	text-align: right;
+}
+.word{
+	color:blue;
+	font-weight: bold;
+	font-size: 180%;
+	direction: rtl;
+	text-align: right;
+}
+.definition{
+	font-family: tahoma;
+	direction: rtl;
+	text-align: right;
+}
+.example{
+	font-family: tahoma;
+	direction: rtl;
+	text-align: right;
+}
+.wordcontainer{
+	background-color: white;
+	padding:20px;
+	margin-top:20px;
+}
+#creationbox{
+	font-family: tahoma;
+	direction: rtl;
+	text-align: right;
+	font-size: 110%;
+	padding:5px;
+}
+#word_word{
+	margin-bottom:20px;
+	font-family: arial;
+	padding-right:10px;
+	font-size: 250%;
+	width:100%;
+}
+#definition_definition{
+	width:100%;
+	font-family: tahoma;
+	padding-right: 10px;
+	height:120px;
+	margin-bottom:20px;
+}
+#definition_example{
+	margin-bottom:20px;
+	width:100%;
+	font-family: tahoma;
+	padding-right: 10px;
+	height:100px;
+}
+#submitbutton{
+		width:100%;
+}
+#wewantyou{
+	background-color: white;
+	padding:10px;
+	margin-top:20px;
+	font-family: tahoma;
+	direction: rtl;
+	text-align: right;
+	font-size: 110%;
+	display:flex;
+}
+#wewantyouphoto{
+	margin-right: 20px;
+	margin-top:10px;
+	display:inline-block;
+	background-color: black;
+	border-radius: 50%;
+	width:150px;
+	height:150px;
+	background-image: url("/assets/wwy2");
+	background-size: 100%;
+}
+#wewantyoumessage{
+	margin-top:30px;
+	line-height: 60px;
+	display:inline-block;
+	font-family: arial;
+	font-size: 200%;
+	max-width:150px;
+	font-weight: bold;
+}
+.explanation{
+	font-family: tahoma;
+}

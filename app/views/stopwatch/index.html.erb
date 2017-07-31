@@ -1,0 +1,95 @@
+<% content_for :head do %>
+	<link href="/assets/stopwatch.scss" rel="stylesheet" >
+	<script type="text/javascript" src='/assets/stopwatch.js'></script>
+	<meta property="og:description"   content="This is a stopwatch on steroids"/>
+	<meta property="og:image"         content="http://www.appjunk.com/assets/stopwatchimage.PNG"/>
+	<meta property="og:url"           content="http://www.appjunk.com/stopwatch"/>
+<% end %>
+<section class="container titlescontainer">
+	<div class="col-sm-12" style="text-align: center"><h1>Choose your weapon</h1></div>
+	<div class="col-sm-6" style="margin-bottom:10px">
+		<div class="stopwatchcontainer">
+		<p class="stopwatchtitle"><i class="fa fa-hourglass-o fa-3x" aria-hidden="true"></i>STOPWATCH</p>
+		</div>
+	</div>
+	<div class="col-sm-6">
+		<div class="timercontainer">
+		<p class="timertitle"><i class="fa fa-clock-o fa-3x" aria-hidden="true"></i>TIMER</p>
+		</div>
+	</div>
+
+</section>
+
+<section class="container choosepanel" style="font-weight:bold;text-align: center;padding:0px;background-color: #e6e6e6;border-radius: 5px 5px 0px 0px;display:none;margin-top:50px;">
+	<div class="col-sm-12" style=";padding:0px;border-radius: 5px 5px 0px 0px;">
+		<div class="col-sm-6 choosepanelstopwatch" style=";border-radius: 5px 0px 0px 0px;padding:10px;padding-bottom:5px">
+			<p><i class="fa fa-hourglass-o fa-lg" aria-hidden="true"></i>STOPWATCH</p>
+		</div>
+		<div class="col-sm-6 choosepaneltimer" style="border-radius: 0px 5px 0px 0px;padding:10px;padding-bottom:5px">
+			<p><i class="fa fa-clock-o fa-lg" aria-hidden="true"></i>TIMER</p>
+		</div>
+	</div>
+</section>
+
+<section class="container stopwatchelements" style="display:none">
+	<div class="col-sm-12 numberscontainer">
+		<p id="hours">00</p>:
+		<p id="minutes">00</p>:
+		<p id="seconds">00</p>:
+		<p id="milliseconds">000</p>
+	</div>
+	<div class="col-sm-12 lapnumberscontainer">
+		<p id="laphours">00</p>:
+		<p id="lapminutes">00</p>:
+		<p id="lapseconds">00</p>:
+		<p id="lapmilliseconds">000</p>
+	</div>
+	<div class="col-sm-12 buttonscontainer">
+		<button onclick="startfunction()" id="startbutton" class="btn btn-primary btn-lg">Start</button>
+		<button onclick="resetfunction()" id="resetbutton" class="btn btn-primary btn-lg">Reset</button>
+	</div>
+	<div class="col-sm-12" >
+		<div class="col-sm-3 hidden-xs">
+		</div>
+		<div class="col-sm-6 col-xs-12">
+		<p id="laptimeview"></p>
+		</div>
+	</div>
+	<div class="col-sm-12" >
+		<div class="col-sm-3 hidden-xs">
+		</div>
+		<div class="col-sm-6 col-xs-12 statisticsbox" style="background-color: #006bb3;border-radius: 10px;display:none">
+		<p id="maxview" style="display:none">0</p>
+		<p id="minview" style="display:none">0</p>
+		<p id="average" style="display:none">0</p>
+		</div>
+	</div>
+</section>
+<section class="container timerelements" style="display:none">
+	<div class="col-sm-12 numberscontainer">
+		<input type="number"  min="0" id="timerhours" value= "00"/>:
+		<input type="number"  min="0" id="timerminutes" value= "00"/>:
+		<input type="number" min="0" id="timerseconds" value= "00"/>:
+		<input type="number" min="0" id="timermilliseconds" value= "000"/>
+	</div>
+		<div class="col-sm-12 buttonscontainer">
+	<button onclick="timerfunction()" id="timerstartbutton" class="btn btn-primary btn-lg">Start</button>
+	<button onclick="timerresetfunction()" id="timerresetbutton" class="btn btn-primary btn-lg">Reset</button>
+</div>
+</section>
+<section>
+	<div class="col-sm-12" style="text-align: center;margin-top:20px;margin-bottom:20px">
+      		<a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]=http://www.appjunk.com/stopwatch&p[images][0]=&p[title]=Stopwatch&p[summary]=This is a stopwatch on steroids" target="_blank" onclick="window.open(this.href,'targetWindow','toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=250'); return false"><button type="button" class="btn btn-facebook"><i class="fa fa-facebook" aria-hidden="true"></i> Share on Facebook </button></a>
+      </div>
+</section>
+<p id="max" style="display:none">0</p>
+<p id="min" style="display:none">0</p>
+<p id="maxview" style="display:none">0</p>
+<p id="minview" style="display:none">0</p>
+<p id="average" style="display:none">0</p>
+<p id="millisecondsall" style="display:none"></p>
+<p id="laptime" style="display:none">0</p>
+<p id="laptimeall" style="display:none">0</p>
+<p id="lapcount" style="display:none">0</p>
+
+

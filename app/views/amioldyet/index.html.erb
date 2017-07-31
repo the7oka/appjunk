@@ -1,0 +1,31 @@
+<% content_for :head do %>
+	<link rel="stylesheet" href="/assets/amioldyet.scss">
+	<script type="text/javascript" src="/assets/amioldyet.js"></script>
+<% end %>
+<section class="container">
+	<div class="row">
+		<div class="col-sm-8">
+			<h1>Let <span id="app" style="font-size:80%">app</span><span id="junk" style="font-size:80%">junk</span> tell you if you're old yet.</h1>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-4" style="text-align: right"><h2>Select your birth date:</h2></div>
+		<div class="col-sm-4" style="text-align: center">
+			<input type="date" id="birth" value="1988-02-12"/>
+		</div class="col-sm-4"><button onclick="ageFunction()" style="margin-top:15px;font-size:200%;">Tell me</button></div>
+		<div>
+	</div>
+	<div class="row">
+		<div class="col-sm-1"></div>
+		<div class="col-sm-10">
+			<div id="result"></div>
+			<div id="result2"></div>
+			<div id="loader" style="display:none"></div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-1"></div>
+		<div class="col-sm-10">
+			<div id="message"></div>
+		</div>
+	</div>

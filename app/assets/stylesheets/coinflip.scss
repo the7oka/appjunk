@@ -1,0 +1,121 @@
+h1{
+	font-family:"Lucida Console", Monaco, monospace;
+	font-size: 50px;
+	font-weight: bold;
+}
+#info{
+	font-family:"Lucida Console", Monaco, monospace;
+	text-align: center;
+	padding-top: 20px;
+}
+.flipItButton{
+	margin-top:20px;
+	margin-bottom:20px;
+	font-size: 40px;
+	width: 250px;
+	border-radius: 5px;
+}
+button:focus {outline:0;}
+
+#defaultHeads {
+	margin: auto;
+	width : 183px;
+	height : 183px;
+	background : url('/assets/coinimage.png') no-repeat;
+}
+#defaultTails {
+	margin: auto;
+	width : 183px;
+	height : 183px;
+	background : url('/assets/coinimage.png') no-repeat;
+	background-position: -1647px;
+	
+}
+#fromHeadsToHeads {
+	margin: auto;
+	width : 183px;
+	height : 183px;
+	background : url('/assets/coinimage.png') no-repeat;
+	animation: loop1 0.9s steps(27) forwards, loop2 0.3s 0.9s steps(9) forwards;
+	-webkit-animation: loop1 0.9s steps(27) forwards, loop2 0.3s 0.9s steps(9) forwards;
+}
+@keyframes loop1 {
+  	0% { background-position: 0px; }
+	100% { background-position: -4941px; }
+}
+@keyframes loop2 {
+	0% { background-position: -1647px; }
+	100% {  background-position: -3294px; } 
+}
+@-webkit-keyframes loop1 {
+  	0% { background-position: 0px; }
+	100% { background-position: -4941px; }
+}
+@-webkit-keyframes loop2 {
+	0% { background-position: -1647px; }
+	100% {  background-position: -3294px; } 
+}
+#fromHeadsToTails {
+	margin: auto;
+	width : 183px;
+	height : 183px;
+	background : url('/assets/coinimage.png') no-repeat;
+	animation: loop3 0.9s steps(27) forwards;
+	-webkit-animation: loop3 0.9s steps(27) forwards;
+}
+@keyframes loop3 {
+  	0% { background-position: 0px; }
+	100% { background-position: -4941px; }
+}
+@-webkit-keyframes loop3 {
+  	0% { background-position: 0px; }
+	100% { background-position: -4941px; }
+}
+#fromTailsToTails {
+	margin: auto;
+	width : 183px;
+	height : 183px;
+	background : url('/assets/coinimage.png') no-repeat;
+	animation: loop4 0.6s steps(17) forwards, loop5 0.6s 0.6s steps(17) forwards;
+	-webkit-animation: loop4 0.6s steps(17) forwards, loop5 0.6s 0.6s steps(17) forwards;
+}
+@keyframes loop4 {
+  	0% { background-position: -1830px; }
+	100% { background-position: -4941px; }
+}
+@keyframes loop5 {
+	0% { background-position: -1830px; }
+	100% {  background-position: -4941px; } 
+}
+@-webkit-keyframes loop4 {
+  	0% { background-position: -1830px; }
+	100% { background-position: -4941px; }
+}
+@-webkit-keyframes loop5 {
+	0% { background-position: -1830px; }
+	100% {  background-position: -4941px; } 
+}
+#fromTailsToHeads {
+	margin: auto;
+	width : 183px;
+	height : 183px;
+	background : url('/assets/coinimage.png') no-repeat;
+	animation: loop6 0.3s steps(8) forwards, loop7 0.6s 0.3s steps(17) forwards;
+	-webkit-animation: loop6 0.3s steps(8) forwards, loop7 0.6s 0.3s steps(17) forwards;
+}
+@keyframes loop6 {
+  	0% { background-position: -1830px; }
+	100% { background-position: -3294px; }
+}
+@keyframes loop7 {
+	0% { background-position: -183px; }
+	100% {  background-position: -3294px; } 
+}
+@-webkit-keyframes loop6 {
+  	0% { background-position: -1830px; }
+	100% { background-position: -3294px; }
+}
+@-webkit-keyframes loop7 {
+	0% { background-position: -183px; }
+	100% {  background-position: -3294px; } 
+}

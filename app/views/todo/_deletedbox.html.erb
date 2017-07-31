@@ -1,0 +1,12 @@
+<ul>
+			<% @deletedtasks.each_with_index do |task,index| %>
+			<div id="taskcoldeleted<%=task.id%>">
+			<div class="col-sm-10" style="padding:0;font-size: 140%;">
+				<%=index+1%>-<p id="task<%=task.id%>" class="tasktitle"><%= task.title.humanize %></p>
+			</div>
+			<div class="col-sm-1">
+			<a id="taskdelete<%=task.id%>"onclick="undeletefunction(<%=task.id%>)"><i class="fa fa-recycle fa-2x" aria-hidden="true"></i></a>
+			</div>
+			</div>
+			<% end %>
+			</ul>

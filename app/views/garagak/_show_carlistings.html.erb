@@ -1,0 +1,9 @@
+<section class="container">
+	<div class="col-sm-6">
+	</div>
+	<div class="col-sm-6">
+		<% @carlistings.each do |c|%>
+			<%= c.carmodel.carbrand.name %><br>
+		<% end %>
+	</div>
+</section>

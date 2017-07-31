@@ -1,0 +1,2 @@
+module ComicshopHelper
+end

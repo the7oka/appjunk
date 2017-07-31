@@ -1,0 +1,95 @@
+<% content_for :head do %>
+	<link href="/assets/garagak.scss" rel="stylesheet" >
+	<script>
+		$(document).ready(function(){
+	$('#app').html('Garag');
+	$('#junk').html('ak');
+	$("#logolink").attr("href", "/garagak");
+	$('#carlisting_year').val(<%=@carlisting.year%>);
+	$('#carlisting_engine').val(<%=@carlisting.engine%>);
+	$('#carlisting_price').val(<%=@carlisting.price%>);
+	$('#carlisting_tire').val(<%=@carlisting.tire%>);
+	$('#carlisting_milleage').val(<%=@carlisting.milleage%>);
+			if (<%= @carlisting.automatic %> == false){
+				$("#carlisting_automatic_0").prop("checked", true); 
+			}
+			if (<%= @carlisting.automatic %> == true){
+				$("#carlisting_automatic_1").prop("checked", true); 
+			}
+			if (<%= @carlisting.fourdoor %> == false){
+				$("#carlisting_fourdoor_0").prop("checked", true); 
+			}
+			if (<%= @carlisting.fourdoor %> == true){
+				$("#carlisting_fourdoor_1").prop("checked", true); 
+			}
+	$('.sellcontainer').click(function(){
+		window.location = "/garagak/new";
+	})
+	$('.buycontainer').click(function(){
+		window.location = "/garagak/search";
+	})
+	c="";
+	carmodels = $('#carmodelList').html();
+	$('#carmodelList').html("<option value="+c+">Select a carbrand first</option>")
+	options= null;
+	carbrand = $('#carbrandList :selected').text();
+		options = $(carmodels).filter("optgroup[label="+'"'+carbrand+'"'+"]").html();
+	$('#carbrandList').change(function() {
+		carbrand = $('#carbrandList :selected').text();
+		options = $(carmodels).filter("optgroup[label="+'"'+carbrand+'"'+"]").html();
+		if (options == null){
+			$('#carmodelList').html("<option value="+c+">Select a carbrand first</option>")
+		}
+		else{
+			$('#carmodelList').html(options)
+		}
+		});
+	areas = $('#areaList').html();
+	$('#areaList').html("<option value="+c+">Select a city first</option>")
+	options= null;
+	city = $('#cityList :selected').text();
+		options = $(areas).filter("optgroup[label="+'"'+city+'"'+"]").html();
+		$('#cityList').change(function() {
+		city = $('#cityList :selected').text();
+		options = $(areas).filter("optgroup[label="+'"'+city+'"'+"]").html();
+		if (options == null){
+			$('#areaList').html("<option value="+c+">Select a city first</option>")
+		}
+		else{
+			$('#areaList').html(options)
+		}
+		});
+		$('#carbrandList').val(<%=@carlisting.carmodel.carbrand.id%>);
+		carbrand = $('#carbrandList :selected').text();
+		options = $(carmodels).filter("optgroup[label="+'"'+carbrand+'"'+"]").html();
+		if (options == null){
+			$('#carmodelList').html("<option value="+c+">Select a carbrand first</option>")
+		}
+		else{
+			$('#carmodelList').html(options)
+		}
+		$('#carmodelList').val(<%=@carlisting.carmodel.id%>);
+
+		$('#cityList').val(<%=@carlisting.area.city.id%>);
+		city = $('#cityList :selected').text();
+		options = $(areas).filter("optgroup[label="+'"'+city+'"'+"]").html();
+		if (options == null){
+			$('#areaList').html("<option value="+c+">Select a city first</option>")
+		}
+		else{
+			$('#areaList').html(options)
+		}
+		$('#areaList').val(<%=@carlisting.area.id%>);
+})
+	</script>
+
+<% end %>
+<section class="jumbotron introcontainer">
+<span id="app" style="font-size:100%">garag</span><span id="junk" style="font-size:100%">ak</span> recommends that you double check every entry before submiting your ad to reach the perfect buyer for your car.
+</section>
+<section class="container" style="padding:0px">
+	<div class="col-sm-6 activetitle selltitle">
+	Sell your car
+	</div>
+</section>
+<%= render partial: "carlisting_form" %>

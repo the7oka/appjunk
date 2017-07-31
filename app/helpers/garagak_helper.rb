@@ -1,0 +1,2 @@
+module GaragakHelper
+end

@@ -1,0 +1,38 @@
+<% content_for :head do %>
+	<link href="/assets/blacklist.scss" rel="stylesheet" >
+<% end %>
+<section class="container">
+	<div class="row">
+		<div class="col-sm-6" style="margin-bottom:10px">
+			<%= form_for @category do |f| %>
+				<p>Name :</p>
+			    <%= f.text_field :name, :maxlength => "50", :minlength=> "3" %>
+
+			  <p>
+			    <%= f.submit %>
+			  </p>
+			<% end %>
+			<% @categories.each do |cat| %>
+			<%= cat.name %><br>
+			<% end %>
+		</div>
+		<div class="col-sm-6" style="margin-bottom:10px">
+			<%= form_for @company do |f| %>
+			<p>Category :</p>
+			<%= collection_select(:company, :category_id, Category.all, :id, :name, prompt: true) %>
+				<p>Name :</p>
+			    <%= f.text_field :name, :maxlength => "50", :minlength=> "4" %>
+
+			  <p>
+			    <%= f.submit %>
+			  </p>
+			<% end %>
+			<% @categories.each do |c| %>
+			<%= c.name %> : 
+			<% c.companies.each do |company| %>
+			<%= company.name %><br>
+			<%end%>
+			<% end %>
+		</div>
+	</div>
+</section>

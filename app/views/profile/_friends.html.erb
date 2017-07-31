@@ -1,0 +1,121 @@
+<script>
+$(document).ready(function(){
+	$("#friendsallbutton").click(function(){
+        $("#friendsall").slideToggle("fast");
+    });
+
+	$("#friendsrequestsbutton").click(function(){
+        $("#friendsrequests").slideToggle("fast");
+    });
+
+	$("#friendspendingbutton").click(function(){
+        $("#friendspending").slideToggle("fast");
+    });
+})
+var acceptaction = function(id){
+	    $.ajax({
+	            url: '/profile/acceptfriend/'+id,
+	            type: 'GET',
+	            success: function(){
+	                $('#requestaction'+id).html('Friendship accepted')
+	            }
+	    })
+	}
+	var declineaction = function(id){
+	    $.ajax({
+	            url: '/profile/declinefriend/'+id,
+	            type: 'GET',
+	            success: function(){
+	                $('#requestaction'+id).html('request declined')
+	            }
+	    })
+	}
+
+	var cancelaction = function(id){
+	    $.ajax({
+	            url: '/profile/unfriend/'+id,
+	            type: 'GET',
+	            success: function(){
+	                $('#cancelaction'+id).html('request canceled')
+	            }
+	    })
+	}
+	var unfriendaction = function(id){
+	    $.ajax({
+	            url: '/profile/unfriend/'+id,
+	            type: 'GET',
+	            success: function(){
+	                $('#unfriendaction'+id).html('ex-friend unfriended')
+	            }
+	    })
+	}
+</script>
+<div class="col-sm-12 infoContainer" id="offers">
+<% if current_user == @user || (user_signed_in? && current_user.friends_with?(@user))%>
+	<div class='col-sm-12' id="friendsallbutton" style="padding:10px;padding-left:20px;font-size:120%;background-color:#eeeeee;margin-bottom:10px">
+		<i class="fa fa-bolt fa-lg" aria-hidden="true"></i> Friends (<%=@user.friends.length%>)
+	</div>
+	<div class="col-sm-12" id="friendsall" style="padding-left:20px;margin-bottom:10px;display:none">
+<% @user.friends.each do |r| %>
+		<div style="display:flex;flex-direction:row;margin-bottom:0px" class='col-sm-6'>
+			<div>
+				<%= image_tag r.avatar.url(:medium) , :id => "userBigLogo", :style => "margin-right:10px;"%>
+			</div>
+			<div style='display:flex;flex-direction:column;'>
+				<a href= "/profile/<%= r.id%>" style="font-weight:bold;margin:0px;"><%= r.display_name %></a>
+				<% if current_user == @user %>
+				<p id='unfriendaction<%=r.id%>'>
+			 	<a onclick='unfriendaction(<%=r.id%>)' style='cursor:pointer'>(-) unfriend</a>
+			 	</p>
+			 	<% end %>
+			</div>
+		</div>
+<% end %>
+	</div>
+<% end %>
+
+
+
+<% if user_signed_in? && current_user == @user %>
+	<div id="friendsrequestsbutton" class='col-sm-12' style="padding:10px;padding-left:20px;font-size:120%;background-color:#eeeeee;margin-bottom:10px">
+		<i class="fa fa-bolt fa-lg" aria-hidden="true"></i> Friends requests (<%=@user.requested_friends.length%>)
+	</div>
+	<div id="friendsrequests" style="padding-left:20px;margin-bottom:10px;display:none">
+<% @user.requested_friends.each do |r| %>
+		<div class="col-sm-12" style="display:flex;flex-direction:row;margin-bottom:0px">
+			<div>
+				<%= image_tag r.avatar.url(:medium) , :id => "userBigLogo", :style => "margin-right:10px;"%>
+			</div>
+			<div style='display:flex;flex-direction:column;'>
+				<a href= "/profile/<%= r.id%>" style="font-weight:bold;margin:0px;"><%= r.display_name %></a>
+				<p id='requestaction<%=r.id%>'> added you as a friend
+			 	<a onclick='acceptaction(<%=r.id%>)' style='cursor:pointer'>Accept friendship</a> - 
+			 	<a onclick='declineaction(<%=r.id%>)' style='cursor:pointer'>decline friendship</a>
+			 	</p>
+			</div>
+		</div>
+			<% end %>
+	</div>
+			<% end %>
+
+<% if user_signed_in? && current_user == @user %>
+	<div id="friendspendingbutton" class='col-sm-12' style="padding:10px;padding-left:20px;font-size:120%;background-color:#eeeeee;margin-bottom:10px">
+		<i class="fa fa-bolt fa-lg" aria-hidden="true"></i> Pending requests (<%=@user.pending_friends.length%>)
+	</div>
+	<div id="friendspending" style="padding-left:20px;margin-bottom:10px;display:none">
+<% @user.pending_friends.each do |r| %>
+		<div class="col-sm-12" style="display:flex;flex-direction:row;margin-bottom:0px">
+			<div>
+				<%= image_tag r.avatar.url(:medium) , :id => "userBigLogo", :style => "margin-right:10px;"%>
+			</div>
+			<div style='display:flex;flex-direction:column;'>
+				<a href= "/profile/<%= r.id%>" style="font-weight:bold;margin:0px;"><%= r.display_name %></a>
+				<p id='cancelaction<%=r.id%>'> was added as a friend
+			 	<a onclick='cancelaction(<%=r.id%>)' style='cursor:pointer'>Cancel request</a>
+			 	</p>
+			</div>
+		</div>
+			<% end %>
+	</div>
+			<% end %>
+</div>

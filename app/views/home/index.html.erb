@@ -1,0 +1,63 @@
+<% content_for :head do %>
+  <link href="/assets/home.scss" rel="stylesheet" type="text/css">
+  <script type="text/javascript" src='/assets/home.js'></script>
+  <meta property="og:description"   content="Appjunk initiative is a coding journey made to encourage people who are new to writing code to start their very own code-self-learning path, By making 31 website (a website a day) to document my learning progress."/>
+  <meta property="og:image"         content="http://www.appjunk.com/assets/home_page2.PNG"/>
+  <meta property="og:url"           content="http://www.appjunk.com"/>
+<% end %>
+<section class="jumbotronk">
+ 	<div class="container">
+ 		<div class="row text-left">
+   		<h2 id="infobutton">Welcome to <span id="app" style="font-size: 100%">app</span><span id="junk" style="font-size: 100%">junk </span> ! </h2>
+      <div id='pageinfo' style="display:none">
+			<h3>Appjunk initiative is a coding journey made to encourage people who are new to writing code to start their very own <br>code-self-learning path, By making 31 website (a website a day) to document my learning progress.</h3>
+			<h3>You can follow the whole project on this <a href="http://the7oka.tumblr.com/" target="_blank">Blog</a> or <a href="https://www.facebook.com/appjunkcom" target="_blank">Facebook</a>. And you can check out my code on <a href="https://github.com/the7oka/appjunk" target="_blank">Github.</a></h3>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="container">
+	<div class ="row text-center">
+		<div class ="col-sm-4">
+			<div id="today"> Today's website: <a href="<%= @lastproject.url %>"><%= @lastproject.title.humanize %></a></div>
+		</div>
+    <div class ="col-sm-8" style="padding-top:5px">
+      <div class="col-sm-12" style="padding-bottom:10px">
+        <div class="col-sm-9" style="text-align: center;margin-bottom:10px">
+<%= form_for(@visitoremail) do |f| %>
+          <%= f.email_field :address, :placeholder => "example@example.com", :class => "form-control" %>
+          <%= f.submit "Subscribe to our newsletter", :class => "btn btn-primary subscribebutton"%>
+<% end %>
+        </div>
+        <div class="col-sm-3" style="text-align: center">
+          <a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]=http://www.appjunk.com&p[images][0]=&p[title]=Title%20Goes%20Here&p[summary]=Description%20goes%20here!" target="_blank" onclick="window.open(this.href,'targetWindow','toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=250'); return false"><button type="button" class="btn btn-facebook"><i class="fa fa-facebook" aria-hidden="true"></i> Share on Facebook</button></a>
+        </div>
+      </div>
+    </div>
+	</div>
+</section>
+<section class="container" id="projects">
+ 	<div class="row">
+<% @projects.each_with_index do |project,index| %>
+   	<div class="col-sm-3 col-md-3 col-xs-6 col-lg-2 col-xl-2">
+			<a href="<%= project.url %>">
+       	<div <%if project.super?%> class="super"<%end%>>
+					<p class="day">
+					<% if index < 9 %>
+						Day #0<%= (index+1) %>
+					<% else %>
+						Day #<%= (index+1) %>
+					<% end %>
+					</p>
+					<p class="pt"><%= project.title.humanize %></p>
+				</div>
+			</a>
+		</div>
+<% end %>
+	</div>
+</section>
+<footer class="container">
+	<div class="row">
+  		<div class="col-sm-8" id="copyr">&copy; 2017 APPJUNK</div>
+	</div>
+</footer>

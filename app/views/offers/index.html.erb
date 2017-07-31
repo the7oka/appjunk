@@ -1,0 +1,32 @@
+<% content_for :head do %>
+  <link href="/assets/offers.scss" rel="stylesheet" type="text/css">
+  <script type="text/javascript" src="/assets/offers.js"></script>
+<% end %>
+<section class="jumbotronk">
+	<div class="container">
+    <div class="row text-left">
+  		<h2>Welcome to <span id="app" style="font-size: 100%">app </span><span id="junk" style="font-size: 100%"> junk shop </span> ! </h2>
+		  <h3>appjunkshop is the best way to recieve a simple -but suffecient- service from a hobbiest who is good at what he does.</h3>
+      <div style="margin-top:35px">
+        <div class="col-sm-5" style="text-align: center">
+        <a href="offers/search"><button type="button" class="btn btn-primary btn-lg"><i class="fa fa-cogs fa-lg" aria-hidden="true"></i> Search for a service or a product</button></a>
+        </div>
+        <div class="col-sm-2">
+         <p style="margin-top:10px;text-align: center"> Or </p>
+         </div>
+         <div class="col-sm-5" style="text-align: center">
+         <a href="offers/new"><button  type="button" class="btn btn-primary btn-lg"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i> Post your service or product</button></a>
+         </div>
+         </div>
+  	</div>
+	</div>
+</section>
+<section class="container">
+<% @offers.each do |offer| %>
+  <div class="col-sm-3 offerlink" style="margin-bottom:10px" href="/offers/show/<%= offer.id%>">
+      <%= image_tag offer.photo.url(:medium), class: "offerphoto" %>
+    <div class="offertitle">
+      <%= offer.title.humanize %>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,70 @@
+.stopwatchtitle, .timertitle{
+	font-family: outrunfuture;
+	font-size:300%;
+	display:flex;
+	flex-direction: column;
+	text-align:center;
+	color:white;
+}
+h1{
+	text-shadow: 0.25px 0.25px 0.25px black;
+}
+.stopwatchcontainer, .timercontainer{
+	background-color: black;
+	padding-top:100px;
+	padding-bottom:100px;
+	border-radius: 5px;
+	cursor:pointer;
+}	
+.titlescontainer{
+	margin-top:0px;
+}
+.stopwatchelements, .timerelements{
+	font-size:200%;
+	min-height: 200px;
+	background-color: #e6e6e6;
+	padding:10px;
+	text-align: center;
+	border-radius: 0px 0px 5px 5px
+}
+#startbutton,#resetbutton,#timerstartbutton,#timerresetbutton{
+	margin-top:20px;
+	width:140px;
+	height:70px;
+	margin-right: 5px;
+	margin-left:5px;
+	font-size:140%;
+}
+.numberscontainer{
+	font-size: 160%;
+	display:flex;
+	flex-direction: row;
+	justify-content: center;
+}
+.lapnumberscontainer{
+	font-size: 60%;
+	display:flex;
+	flex-direction: row;
+	justify-content: center;
+}
+.buttonscontainer{
+	display:flex;
+	flex-direction: row;
+	justify-content: center;
+}
+.numberscontainer input{
+	width:70px;
+	border-radius: 5px;
+	text-align: right;
+	background-color: #e6e6e6;
+	box-shadow:none;
+}
+#timermilliseconds{
+	width:115px;
+}
+.choosepanelinner{
+	border-radius: 5px 5px 0px 0px;
+}
+#laptimeview,#maxview,#minview,#average{
+	font-size: 80%;
+}

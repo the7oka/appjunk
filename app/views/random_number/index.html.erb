@@ -1,0 +1,28 @@
+<%= content_for :head do %>
+<link rel="stylesheet" href="/assets/random_number.scss">
+<script type="text/javascript" src="/assets/random_number.js"></script>
+	<meta property="og:description"   content="Let's generate a random number"/>
+	<meta property="og:image"         content="http://www.appjunk.com/assets/randomnumbergenimage.PNG"/>
+	<meta property="og:url"           content="http://www.appjunk.com/random_number"/>
+<% end %>
+<section class="container" style="background-color:#dfdfdf;display:flex;flex-direction:column;justify-content:center;text-align:center;padding:10px">
+	<h1>Random Number Generator</h1>
+	<div style="margin-bottom:10px">
+		<p style="display:inline;width:100px;">Min: </p>
+		<input type="number" id="min" value="0" class="form-control">
+	</div>
+	<div style="margin-bottom:10px">
+		<p style="display:inline;width:100px;margin-left:-4px">Max: </p>
+		<input type="number" id="max" value="100" class="form-control">
+	</div>
+	<div id="int">
+		<input type="checkbox" id="myCheck">
+		<p style="width:100px;text-align:center;padding-top:5px">Integers Only</p>
+	</div>
+	<p><button id="button" onclick="myFunction()" class="btn btn-primary">Generate</button></p>
+	<p style="font-weight:bold;margin-bottom:0px">Your random number is :</p>
+	<h3 id="demoss">Hit it!</h3>
+	<div class="col-sm-12" style="text-align: center">
+      <a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]=http://www.appjunk.com/random_number&p[images][0]=&p[title]=Random Number Generator&p[summary]=Let's generate a random number" target="_blank" onclick="window.open(this.href,'targetWindow','toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=250'); return false"><button type="button" class="btn btn-facebook"><i class="fa fa-facebook" aria-hidden="true"></i> Share on Facebook</button></a>
+      </div>
+</section>

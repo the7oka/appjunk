@@ -1,0 +1,138 @@
+<% content_for :head do %>
+	<link href="/assets/explain.scss" rel="stylesheet">
+	<link href="/assets/colorbox.css" rel="stylesheet">
+	<script type="text/javascript" src='/assets/jquery.colorbox.js'></script>
+	<script type="text/javascript" src='/assets/explain.js'></script>
+	<link rel="stylesheet" href="/assets/bootstrap-social.css">
+
+	<% @query.explanations.order(:cached_votes_score).reverse.each_with_index do |explanation,index| %>
+	<% if index == 0 %>
+	<meta property="og:description"   content="<%=explanation.explanation%>"/>
+	<% end %>
+	<% end %>
+	<meta property="og:url"           content="http://www.appjunk.com/explain/show/<%=@query.id%>"/>
+	<meta property="og:image"         content="http://www.appjunk.com/assets/explainimage.jpg"/>
+<% end %>
+<section class="container" style='border-radius: 2px;margin-bottom:10px;'>
+<div class="col-sm-12" style="direction: rtl;background-color: white;font-family: tahoma;padding:5px;border-radius: 2px;">
+<p style='font-size: 150%'>اشرحلى كأنى ف خامسة ابتدائى هو موقع معمول عشان نساعد بعض بمعلومة دقيقة و بسيطة و سريعة</p>
+<div style='text-align: center'>
+<button href="#inline-content" class="btn btn-primary addyoursbutton">اسأل متخافش</button>
+</div>
+</div>
+</section>
+
+<div style="display:none">
+<% if user_signed_in? %>
+	<div id="inline-content">
+		<div id="creationbox">
+		<%= form_for @newquery do |f| %>
+			<p style="font-size: 110%">اختار المجال اللى هتسأل فيه :</p>
+			<%= collection_select(:query, :querycategory_id, Querycategory.order(:name) , :id ,:name, {include_blank: 'اختار المجال'}, prompt: true,class: 'form-control') %>
+			<p style="font-size: 110%;margin-top:20px">اشرحلى</p><%=f.text_field :title, placeholder: "كذا كذا كذا", class: 'form-control' %><p style="font-size: 110%">كأنى فى خامسة ابتدائي</p>
+   <%= f.submit 'Submit',class: "btn btn-primary btn-lg", id: "submitbutton", onclick: "submitfunction()"%>
+   		</div>
+   	</div>
+<% end %>
+<% else %>
+<div id="inline-content">
+	<div id='creationbox'>
+	<h3>عندنا احساس مرير انك مش مسجل دخول.. الموضوع مش هياخد ثانية</h3>
+		<div class="col-sm-6">
+		<a href="<%=user_twitter_omniauth_authorize_path%>" class="btn btn-block btn-social btn-lg btn-twitter" style="margin:auto;margin-bottom:10px;margin-top:20px">
+                <span class="fa fa-twitter"></span> Sign in with Twitter
+            </a>
+        </div>
+        <div class="col-sm-6">
+            <a href="<%=user_facebook_omniauth_authorize_path%>" class="btn btn-block btn-social btn-lg btn-facebook" style="margin:auto;margin-bottom:10px;margin-top:20px">
+              <span class="fa fa-facebook"></span> Sign in with Facebook
+            </a>
+        </div>
+        </div>
+    </div>
+<% end %>
+</div>
+<section class="container">
+	<div class="col-lg-8 col-md-12">
+	<% if user_signed_in? %>
+		<div class="wordcontainer">
+		<p style="padding:0;margin:0;font-size: 180%;font-family: tahoma;font-weight: bold"><%= @query.title %></p>
+		<%= form_for @newexplanation do |f| %>
+			<%=f.text_area :explanation, placeholder: "اكتب اجابتك هنا", class: 'form-control' %>
+			<%= f.submit 'Submit',class: "btn btn-primary", id: "submitbutton"%>
+		<% end %>
+		</div>
+	<% else %>
+		<div class="wordcontainer">
+		<p style="padding:0;margin:0;margin-bottom:10px;font-size: 180%;font-family: tahoma;font-weight: bold"><%= @query.title %></p>
+		<div style="text-align: center">
+		<button href="#inline-content" class="btn btn-primary addyoursbutton">ضيف اجابتك</button>
+		</div>
+
+		</div>
+	<% end %>
+		<% @query.explanations.order(:cached_votes_score).reverse.each do |explanation| %>
+			<div class="wordcontainer">
+			<a href="/explain/show/<%=@query.id%>" class="query"><p style="font-size: 130%;font-family: tahoma;"><%= @query.title %></p></a>
+			<%=simple_format explanation.explanation, class: "explanation" %>
+			<button style="margin-left:5px" 
+					<% if user_signed_in? %>
+					onclick="validfun(<%=explanation.id%>)" 
+					<% else %>
+					onclick="pleaseSignIn(<%=explanation.id%>)" 
+					<% end %>
+					type="button"
+						<% if user_signed_in? %>
+						<% if current_user.voted_up_on? explanation %>
+							class="btn btn-success"
+						<% else %>
+							class="btn btn-default" 
+						<% end %>
+						<% else %> 
+							class="btn btn-default" 
+						<% end %>
+						id="vvalid<%=explanation.id%>"><span id="likes<%=explanation.id%>"><%= explanation.get_likes.size %></span> 
+						<i class="fa fa-thumbs-o-up fa-md" aria-hidden="true"></i></button>
+					<button  style="margin-left:10px"
+					<% if user_signed_in? %>
+					onclick="invalidfun(<%=explanation.id%>)"
+					<% else %>
+					onclick="pleaseSignIn(<%=explanation.id%>)" 
+					<% end %>
+					type="button" 
+						<% if user_signed_in? %>
+						<% if current_user.voted_down_on? explanation %>
+							class="btn btn-danger"
+						<% else %>
+							class="btn btn-default"
+						<% end %>
+						<% else %>
+							class="btn btn-default" 
+						<% end %>
+							id="vinvalid<%=explanation.id%>"><span id="dislikes<%=explanation.id%>"><%= explanation.get_dislikes.size %></span> 
+							<i class="fa fa-thumbs-o-down fa-md" aria-hidden="true"></i></button>
+							<a href="/explain/show/<%=explanation.query.id%>"><button class="btn btn-default">ضيف اجابتك</button></a>
+
+			<p style="text-align: left;">Created by <a style="font-weight:bold;font-size:120%" href="/profile/<%= explanation.user.id %>"><%= explanation.user.display_name %></a> <%= time_ago_in_words(explanation.created_at) %> ago</p>
+			</div>
+		<% end %>
+</div>
+	<div class="col-lg-4 hidden-xs hidden-sm hidden-md" style="padding:0">
+	<p  style="font-size: 150%;direction: rtl;font-family: tahoma">آخر الأسئلة</p>
+	<div style='background-color: white;border-radius: 2px;padding:5px'>
+		<% @queries.each do |q|%>
+			<a href="show/<%=q.id%>"><p style="font-size: 110%;direction: rtl;font-family: tahoma">اشرحلى <%= q.title%> كإنى فى خمسة ايتدائي</p></a>
+			<div style="text-align: center">
+			<a href="/explain/show/<%=q.id%>"><button href="/explain/show/<%=q.id%>" class="btn btn-primary">جاوب ع الشؤال</button></a>
+			</div>
+		<% end %>
+	</div>
+	</div>
+</section>
+<script>
+$(document).ready(function(){
+	$('.addbutton').colorbox({inline:true, width:"50%"});
+	$('.newwordbutton').colorbox({inline:true, width:"50%"});
+	$('.addyoursbutton').colorbox({inline:true, width:"50%"});
+})
+</script>

@@ -1,0 +1,69 @@
+<%= content_for :head do %>
+<link rel="stylesheet" href="/assets/hexme.scss">
+<script type="text/javascript" src="assets/hexme.js"></script>
+<meta property="og:description"   content="It's time to add some color to your life!"/>
+<meta property="og:image"         content="http://www.appjunk.com/assets/hexmeimage.PNG"/>
+<meta property="og:url"           content="http://www.appjunk.com/hexme"/>
+<% end %>
+	<section class="jumbotronk">
+    	<div class="container">
+      		<div class="row text-left">
+	  			<h2><strong>It's time to add some color to your life!</strong></h2>
+	  			<p style="padding-left: 5px; margin-bottom:20px"> There're a lot of ways to represent digital color. The most common ones are Hex numbr, RGBA and HSLA.<br><strong>Hex</strong> is a hexidecimal number representing RED GREEN and BLUE<br><strong>RGB</strong> is very similar to HEX it also represents RED GREEN and BLUE<br><strong>HSLA</strong> -which we will be using today- stands for HUE SATURATION and LIGHTNESS with an additional A which represents the transparency.<br>For more information about digital color representation visit <a href="https://en.wikipedia.org/wiki/HSL_and_HSV">Wikipedia</a></p>
+	  			<div style='text-align: center;margin-bottom: 10px'><a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]=http://www.appjunk.com/hexme&p[images][0]=&p[title]=HexMe color picker&p[summary]=It's time to add some color to your life!" target="_blank" onclick="window.open(this.href,'targetWindow','toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=250'); return false"><button type="button" class="btn btn-facebook"><i class="fa fa-facebook" aria-hidden="true"></i> Share on Facebook </button></a></div>
+      		</div>
+    	</div>
+  	</section>
+	<section class="container">
+		<div class="row">
+			<div class="col-sm-3" id="label">Hue:</div>
+			<div class="col-sm-6">
+				<input type="range" min="0" max="360" value="220" id="h" oninput="showh(this.value);hexme()" onchange="showh(this.value);hexme()">
+			</div>
+			<div class="col-sm-1">
+				<input class='form-control input-sm' id="ho" oninput="inh(this.value);hexme()" value="220"></input>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-3" id="label">Saturation:</div>
+			<div class="col-sm-6">
+				<input type="range"	min="0" max="100" value="44" id="s" oninput="shows(this.value);hexme()" onchange="shows(this.value);hexme()">
+			</div>
+			<div class="col-sm-1">
+				<input class='form-control input-sm' id="so" oninput="ins(this.value);hexme()" value="44"></input>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-3" id="label">Lightness:</div>
+			<div class="col-sm-6">
+				<input type="range" min="0" max="100" value="41" id="l" oninput="showl(this.value);hexme()" onchange="showl(this.value);hexme()">
+			</div>
+			<div class="col-sm-1">
+				<input class='form-control input-sm' id="lo" oninput="inl(this.value);hexme()" value="41"></input>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-3" id="label">Transparency:</div>
+			<div class="col-sm-6">
+				<input type="range" min="0" max="1" step="0.01" value="1" id="a" oninput="showa(this.value);hexme()" onchange="showa(this.value);hexme()">
+			</div>
+			<div class="col-sm-1">
+				<input class='form-control input-sm' id="ao" oninput="ina(this.value);hexme()" value="1"></input>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-3"></div>
+			<div class="col-sm-3" style="text-align:center">
+				<div id="floor"></div>
+				<div id="output"></div>
+			</div>
+			<div class="col-sm-4" id="info">
+				<div id="hsl"></div>
+				<div id="rgb"></div>
+				<div id="hex"></div>
+			</div>
+			</div>
+		</div>
+	</section>
+</body>
+</html>

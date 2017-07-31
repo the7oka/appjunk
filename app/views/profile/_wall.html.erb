@@ -1,0 +1,271 @@
+<script>
+$(document).ready(function(){
+			$(":file").filestyle({icon: false});
+			$(":file").filestyle('size', 'sm');
+	})
+var likeCCFun = function(id){
+	if ($('#upArrow'+id).css('background-position') === '0px 0px'){
+		$.ajax({
+			url:"/profile/cclike/"+ id,
+			type: 'GET',
+			success: function(){
+				var x = $('#comment'+id).html();
+				if ($('#downArrow'+id).css('background-position') === '-20px 0px'){
+				$('#comment'+id).html((x*1)+1);
+				$('#upArrow'+id).css('background-position', '0px -40px');
+				$('#downArrow'+id).css('background-position', '-20px 0px');
+				}
+				else if ($('#downArrow'+id).css('background-position') === '-20px -40px'){
+					$('#comment'+id).html((x*1)+2);
+				$('#upArrow'+id).css('background-position', '0px -40px');
+				$('#downArrow'+id).css('background-position', '-20px 0px');
+				}
+			}
+			
+		});
+	}
+	else if ($('#upArrow'+id).css('background-position') === '0px -40px'){
+		$.ajax({
+			url:"/profile/ccunlike/"+ id,
+			type: 'GET',
+			success: function(){
+				var x = $('#comment'+id).html();
+				$('#comment'+id).html((x*1)-1);
+				$('#upArrow'+id).css('background-position', '0px 0px');
+			}
+			
+		});
+	}
+};
+var dislikeCCFun = function(id){
+	if ($('#downArrow'+id).css('background-position') === '-20px 0px'){
+		$.ajax({
+			url:"/profile/ccdislike/"+ id,
+			type: 'GET',
+			success: function(){
+				if ($('#upArrow'+id).css('background-position') === '0px 0px'){
+				var x = $('#comment'+id).html();
+				$('#comment'+id).html((x*1)-1);
+				$('#downArrow'+id).css('background-position', '-20px -40px');
+				$('#upArrow'+id).css('background-position', '0px 0px');
+				}
+				else if ($('#upArrow'+id).css('background-position') === '0px -40px'){
+					var x = $('#comment'+id).html();
+				$('#comment'+id).html((x*1)-2);
+				$('#downArrow'+id).css('background-position', '-20px -40px');
+				$('#upArrow'+id).css('background-position', '0px 0px');
+				}
+			}
+			
+		});
+	}
+	else if ($('#downArrow'+id).css('background-position') === '-20px -40px'){
+		$.ajax({
+			url:"/profile/ccundislike/"+ id,
+			type: 'GET',
+			success: function(){
+				var x = $('#comment'+id).html();
+				$('#comment'+id).html((x*1)+1);
+				$('#downArrow'+id).css('background-position', '-20px 0px');
+			}
+			
+		});
+	}
+};
+var validfun = function(id){
+	if ($('#cvalid'+id).hasClass('btn btn-default')){
+		$.ajax({
+			url:"/profile/validpost/"+ id,
+			type: 'GET',
+			success: function(){
+				if ($('#cinvalid'+id).hasClass('btn btn-danger')){
+					$("#cinvalid"+id).toggleClass('btn btn-danger btn btn-default');
+				}
+				$("#cvalid"+id).toggleClass('btn btn-default btn btn-success');
+			}
+		});
+};
+	if ($('#cvalid'+id).hasClass('btn btn-success')){
+		$.ajax({
+			url:"/profile/unvalidpost/"+ id,
+			type: 'GET',
+			success: function(){
+				$("#cvalid"+id).toggleClass('btn btn-success btn btn-default');
+			}
+		});	
+	};
+};
+var invalidfun = function(id){
+	if ($('#cinvalid'+id).hasClass('btn btn-default')){
+		$.ajax({
+			url:"/profile/invalidpost/"+ id,
+			type: 'GET',
+			success: function(){
+				if ($('#cvalid'+id).hasClass('btn btn-success')) {
+					$("#cvalid"+id).toggleClass('btn btn-success btn btn-default');
+				}
+				$("#cinvalid"+id).toggleClass('btn btn-default btn btn-danger');
+			}
+		});
+};
+	if ($('#cinvalid'+id).hasClass('btn btn-danger')){
+		$.ajax({
+			url:"/profile/uninvalidpost/"+ id,
+			type: 'GET',
+			success: function(){
+				$("#cinvalid"+id).toggleClass('btn btn-danger btn btn-default');
+			}
+		});	
+	};
+};
+var deletepost = function(id){
+	x = confirm ('Do you really want to delete this post ?')
+	if (x == true){
+	$.ajax({
+			url:"/profile/deletepost/"+ id,
+			type: 'GET',
+			success: function(){
+				$('#postnumber'+id).fadeOut('slow')
+			}
+		});
+}
+}
+</script>
+<section id="newPanel">
+	<div class="col-sm-12" style="background-color: white;border-radius: 5px; margin-bottom: 10px;padding-top:10px">
+	<%= form_for @post do |f| %>
+		<div class="col-sm-12">
+			    <%= f.text_area :content, :maxlength => "4000", :minlength=> "5",style: "width:100%;height:40px;margin-bottom:10px", class: 'form-control' %>
+			    <%= f.hidden_field :location_id, :value => @user.id %>
+			    <%= f.file_field :photo_one, accept: "image/*" %>
+			  <p>
+			    <%= f.submit 'Post', class: 'btn btn-primary btn-sm', style: 'margin-top:10px' %>
+			  </p>
+			<% end %>
+		</div>
+		
+		</div>
+</section>
+<section id='timeline'>
+	<div style="min-height:50px;background-color: white">
+	<% if @posts.length == 0 %>
+	<div class='col-sm-12' style='margin-bottom:10px;background-color: white;padding:10px'>
+		<p style='text-align: center'>You have no posts on your timeline.. please start posting some posts :)</p>
+	</div>
+	<% end %>
+	<% @posts.each_with_index do |m,index| %>
+		<div class='col-sm-12'  id='postnumber<%=m.id%>' style='margin-bottom:10px'>
+		<div id="showMessage">
+			<nav id="messageUser">
+				<a href="/profile/<%= m.user.id %>"  style="display:flex;flex-direction:row;text-decoration: none;">
+					<%= image_tag m.user.avatar.url(:medium) , :id => "postuserLogo", :style => ""%>
+					<div style="display:flex;flex-direction:column;margin-left:10px">
+					<span style="font-weight:bold;margin-top:5px;color:#002266"><%= m.user.display_name.humanize %></span>
+					<span style="font-size:75%;"><%= time_ago_in_words(m.created_at) %></span>
+					</div>
+				</a>
+			</nav>
+			<div style="margin:0px;padding:5px;">
+				<%= simple_format m.content.humanize, class: "ctext" %>
+			</div>
+	<% if m.photo_one.present? %>
+			<div class="showphotos">
+				<a href="<%= m.photo_one.url %>" data-lightbox="roadtrip<%=m.id%>"><%= image_tag m.photo_one.url(:postsize), class: "postsize"%></a>
+			</div>
+	<% end %>
+			<button 
+			<% if user_signed_in? %>
+			onclick="validfun(<%=m.id%>)" 
+			<% else %>
+			onclick="pleaseSignIn(<%=m.id%>)" 
+			<% end %>
+			type="button"
+				<% if user_signed_in? %>
+				<% if current_user.voted_up_on? m %>
+					class="btn btn-success btn-xs"
+				<% else %>
+					class="btn btn-default btn-xs" 
+				<% end %>
+				<% else %> 
+					class="btn btn-default btn-xs" 
+				<% end %>
+				id="cvalid<%=m.id%>">
+				<i class="fa fa-thumbs-o-up fa-xs" aria-hidden="true"></i> Like 
+			</button>
+			<button 
+			<% if user_signed_in? %>
+			onclick="invalidfun(<%=m.id%>)"
+			<% else %>
+			onclick="pleaseSignIn(<%=m.id%>)" 
+			<% end %>
+			type="button" 
+				<% if user_signed_in? %>
+				<% if current_user.voted_down_on? m %>
+					class="btn btn-danger btn-xs"
+				<% else %>
+					class="btn btn-default btn-xs"
+				<% end %>
+				<% else %>
+					class="btn btn-default btn-xs" 
+				<% end %>
+					id="cinvalid<%=m.id%>"><i class="fa fa-thumbs-o-down fa-xs" aria-hidden="true"></i> Dislike
+			</button>
+			<button onclick="slidedownfunction(<%=m.id%>)" class="btn btn-default btn-xs">Comments</button>
+			<%if m.user_id == current_user.id %>
+			<button onclick="deletepost(<%=m.id%>)" class="btn btn-default btn-xs">Delete post</button>
+			<% end %>
+		</div>
+		<div class="col-sm-12 commentscontainer" style="display:none;padding:0;" id="commentstuff<%=m.id%>">
+	<% m.postcomments.each do |comment| %>
+		<div class="col-sm-12" style="display:flex;flex-direction:row;margin-bottom:0px;background-color: white">
+			<div>
+				<%= image_tag comment.user.avatar.url(:medium) , :id => "userBigLogo", :style => "margin-right:10px;"%>
+			</div>
+			<div>
+				<a href= "/profile/<%= comment.user.id%>" style="font-weight:bold;margin:0px;"><%= comment.user.display_name %></a>
+				<p style="display:inline-block;font-size:80%"><span id="comment<%= comment.id %>"><%= comment.get_likes.size - comment.get_dislikes.size %></span> points</p>
+				<%= simple_format comment.content, style: "margin:0px" %>
+				<div style="display:flex;flex-direction:row">
+						<a onclick="likeCCFun(<%= comment.id %>)" class="upArrow" id="upArrow<%= comment.id %>"
+							<% if user_signed_in? %>
+							<% if current_user.voted_up_on? comment %>
+								style="background-position: 0px -40px"
+							<% end %>
+							<% end %>
+						></a>
+						<a onclick="dislikeCCFun(<%= comment.id %>)" class="downArrow" id="downArrow<%= comment.id %>"
+							<% if user_signed_in? %>
+							<% if current_user.voted_down_on? comment %>
+							style="background-position: -20px -40px"
+							<% end %>
+							<% end %>
+						></a>
+				</div>
+
+			</div>
+		</div>
+		<div class="col-sm-12" id='hr' style="margin:0px">
+				<hr style="margin:0px;">
+			</div>
+	<% end %>
+	<% if user_signed_in? %>
+			<div class="col-sm-12 postingcommentcontainer" style="background:white;display:flex;flex-direction:row;padding-top:10px;padding-left:5px;padding-right:5px;">
+				<nav  id="messageUser">
+					<a href="/profile/<%= current_user.id %>" >
+										<%= image_tag current_user.avatar.url(:medium) , :id => "userBigLogo", :style => "margin-right:10px"%>
+								</a>
+				</nav>
+				<div style="width:100%">
+				<%= form_for([m, m.postcomments.build]) do |f| %>
+					<%= f.text_area :content,class: 'form-control form-sm', style: "width: 100%;" %>
+
+					<%= f.submit "Post comment", class: "btn btn-primary btn-xs", style: 'float:right'%>
+				<% end %>
+				</div>
+			</div>
+				<% end %>
+	</div>	
+</div>
+<% end %>
+</div>
+</section>

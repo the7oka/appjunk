@@ -1,0 +1,56 @@
+<% content_for :head do %>
+	<link href="/assets/tweetamela5er.scss" rel="stylesheet" >
+	<script type="text/javascript" src='/assets/tweetamela5er.js'></script>
+	<link rel="stylesheet" href="/assets/bootstrap-social.css">
+	<meta property="og:description"   content="بنحط هنا احلى تويتات ف تويتر"/>
+	<meta property="og:image"         content="http://www.appjunk.com/assets/tweetamela5erimage.PNG"/>
+	<meta property="og:url"           content="http://www.appjunk.com/tweetamela5er"/>
+
+<% end %>
+<section class="container" id="tweetamela5erintro">
+	<div class="col-sm-12" style="direction: rtl;font-family: tahoma;padding-bottom:20px;padding-top:20px;background-color: #e6e6e6">
+		<h1 style='padding-bottom:20px'>اهلا بيك فى تويتة م الآخر.. بنحط هنا احسن تويتات ف تويتر</h1>
+		<div style="text-align: center">
+		<button class="btn btn-primary" id="newbutton">حط انت كمان تويتة م الآخر</button>
+		<% if user_signed_in? && current_user.admin ==true %>
+		<button class="btn btn-primary" id="unapprovedpage">ايه دة!! أدمن!! لا دانت تدخل هنا بقي</button>
+		<% end %>
+		</div>
+	</div>
+</section>
+<section class="container" id="tweetamela5ernew" style="display:none">
+	<div class="col-sm-3">
+	</div>
+	<div class="col-sm-6" style="direction: rtl;font-family: tahoma;padding-bottom:20px;padding-top:20px;background-color: #e6e6e6">
+	<% if user_signed_in? %>
+<%= form_for([@user, @tweet]) do |f| %>
+    <%= f.text_field :url, :maxlength => "1500", :minlength=> "5", class: 'form-control input-md', placeholder: 'اكتب هنا لينك التويتة' %>
+    <div style="display:flex; flex-direction:row; justify-content: space-around;">
+    <span><%= radio_button :cover,nil, "1" , name: 'cover' %>حط التويتة باسم appjunk</span>
+	<span><%= radio_button :cover,nil, "0", name: 'cover' %>حط التويتة باسمى</span>
+	</div>
+	<div>
+    <%= f.submit :Submit, class: 'btn' %>
+    </div>
+<% end %>
+	<% else %>
+	<div class="col-sm-12">
+	<h3>عندنا احساس مرير انك مش مسجل دخول.. الموضوع مش هياخد ثانية</h3>
+		<div class="col-sm-6">
+		<a href="<%=user_twitter_omniauth_authorize_path%>" class="btn btn-block btn-social btn-md btn-twitter" style="margin:auto;margin-bottom:10px;">
+                <span class="fa fa-twitter"></span> Sign in with Twitter
+            </a>
+        </div>
+        <div class="col-sm-6">
+            <a href="<%=user_facebook_omniauth_authorize_path%>" class="btn btn-block btn-social btn-md btn-facebook" style="margin:auto;">
+              <span class="fa fa-facebook"></span> Sign in with Facebook
+            </a>
+        </div>
+    </div>
+	<% end %>
+<div style="text-align: center">
+<button class="btn btn-primary" id="gobackbutton">ارجع تانى</button>
+</div>
+</div>
+</section>
+<%= render partial: "show_tweetamela5ers" %>

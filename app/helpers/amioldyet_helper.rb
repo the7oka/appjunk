@@ -1,0 +1,2 @@
+module AmioldyetHelper
+end

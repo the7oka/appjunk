@@ -1,0 +1,173 @@
+<% content_for :head do %>
+	<link rel="stylesheet" href="/assets/rockpaperscissors.scss">
+<meta property="og:description"   content="Play rock paper scissors against randomness"/>
+<meta property="og:image"         content="http://www.appjunk.com/assets/rpsimage.PNG"/>
+<meta property="og:url"           content="http://www.appjunk.com/rockpaperscissors"/>
+	<script>
+	$(document).ready(function(){
+		$('#advanced').click(function(){
+			window.location = "/rockpaperscissors/advanced";
+		})
+		$('#app').html('rock paper');
+		$('#junk').html(' scissors');
+	})
+		function rock(){
+	$.ajax({
+			url: "/rpsls/click",
+    		type: 'GET'
+		});
+	$("#user").css({"background-image":"url(/assets/maxresdefault.jpg)","background-position":"50.01% 20.8%","background-size":"710%"});
+	document.getElementById("user").innerHTML="";
+	document.getElementById("computer").innerHTML="";
+	$("#computer").css("display","none");
+	$("#loader").css("display","block");
+	document.getElementById("result").innerHTML="loading..";
+	setTimeout(function(){
+		$("#loader").css("display","none");
+		$("#computer").css("display","block");
+
+	var c = Math.floor(Math.random()*3);
+	switch(c){
+		case 0:
+			$("#computer").css({"background-image":"url(/assets/maxresdefault.jpg)","background-position":"50.01% 20.8%","background-size":"710%"});
+			document.getElementById("result").innerHTML="It's a tie!";
+		break;
+		case 1:
+			$("#computer").css({"background-image":"url(/assets/maxresdefault.jpg)","background-position":"65.8% 45%","background-size":"710%"});
+			document.getElementById("result").innerHTML="You lose!";
+		break;
+		case 2:
+			$("#computer").css({"background-image":"url(/assets/maxresdefault.jpg)","background-position":"60.3% 83.1%","background-size":"710%"});
+			document.getElementById("result").innerHTML="You win!";
+		break;
+		case 3:
+			$("#computer").css({"background-image":"url(/assets/maxresdefault.jpg)","background-position":"40.25% 83.1%","background-size":"710%"});
+			document.getElementById("result").innerHTML="You win!";
+		break;
+		case 4:
+		case 5:
+			$("#computer").css({"background-image":"url(/assets/maxresdefault.jpg)","background-position":"34.3% 45%","background-size":"710%"});
+			document.getElementById("result").innerHTML="You lose!";
+		break;
+	};
+}
+, 2000);
+};
+//rock=0 paper=1 scissors=2 lizard=3 spock=4  
+function paper(){
+	$.ajax({
+			url: "/rpsls/click",
+    		type: 'GET'
+		});
+	$("#user").css({"background-image":"url(/assets/maxresdefault.jpg)","background-position":"65.8% 45%","background-size":"710%"});
+	document.getElementById("user").innerHTML="";
+	document.getElementById("computer").innerHTML="";
+	$("#computer").css("display","none");
+	$("#loader").css("display","block");
+	document.getElementById("result").innerHTML="loading..";
+	setTimeout(function(){
+		$("#loader").css("display","none");
+		$("#computer").css("display","block");
+	var c = Math.floor(Math.random()*3);
+	switch(c){
+		case 0:
+			$("#computer").css({"background-image":"url(/assets/maxresdefault.jpg)","background-position":"50.01% 20.8%","background-size":"710%"});
+			document.getElementById("result").innerHTML="You win!";
+		break;
+		case 1:
+			$("#computer").css({"background-image":"url(/assets/maxresdefault.jpg)","background-position":"65.8% 45%","background-size":"710%"});
+			document.getElementById("result").innerHTML="It's a tie!";
+		break;
+		case 2:
+			$("#computer").css({"background-image":"url(/assets/maxresdefault.jpg)","background-position":"60.3% 83.1%","background-size":"710%"});
+			document.getElementById("result").innerHTML="You lose!";
+		break;
+		case 3:
+			$("#computer").css({"background-image":"url(/assets/maxresdefault.jpg)","background-position":"40.25% 83.1%","background-size":"710%"});
+			document.getElementById("result").innerHTML="You lose!";
+		break;
+		case 4:
+		case 5:
+			$("#computer").css({"background-image":"url(/assets/maxresdefault.jpg)","background-position":"34.3% 45%","background-size":"710%"});
+			document.getElementById("result").innerHTML="You win!";
+		break;
+	};
+	}
+, 2000);
+};
+//rock=0 paper=1 scissors=2 lizard=3 spock=4  
+function scissors(){
+	$.ajax({
+			url: "/rpsls/click",
+    		type: 'GET'
+		});
+	$("#user").css({"background-image":"url(/assets/maxresdefault.jpg)","background-position":"60.3% 83.1%","background-size":"710%"});
+	document.getElementById("user").innerHTML="";
+	document.getElementById("computer").innerHTML="";
+		$("#computer").css("display","none");
+	$("#loader").css("display","block");
+	document.getElementById("result").innerHTML="loading..";
+	setTimeout(function(){
+		$("#loader").css("display","none");
+		$("#computer").css("display","block");
+	var c = Math.floor(Math.random()*3);
+	switch(c){
+		case 0:
+			$("#computer").css({"background-image":"url(/assets/maxresdefault.jpg)","background-position":"50.01% 20.8%","background-size":"710%"});
+			document.getElementById("result").innerHTML="You lose!";
+		break;
+		case 1:
+			$("#computer").css({"background-image":"url(/assets/maxresdefault.jpg)","background-position":"65.8% 45%","background-size":"710%"});
+			document.getElementById("result").innerHTML="You win!";
+		break;
+		case 2:
+			$("#computer").css({"background-image":"url(/assets/maxresdefault.jpg)","background-position":"60.3% 83.1%","background-size":"710%"});
+			document.getElementById("result").innerHTML="It's a tie!";
+		break;
+		case 3:
+			$("#computer").css({"background-image":"url(/assets/maxresdefault.jpg)","background-position":"40.25% 83.1%","background-size":"710%"});
+			document.getElementById("result").innerHTML="You win!";
+		break;
+		case 4:
+		case 5:
+			$("#computer").css({"background-image":"url(/assets/maxresdefault.jpg)","background-position":"34.3% 45%","background-size":"710%"});
+			document.getElementById("result").innerHTML="You lose!";
+		break;
+	};
+	}
+, 2000);
+};
+	</script>
+<% end %>
+  		<section class="jumbotronk">
+    	<div class="container">
+      		<div class="row text-center">
+      			<h1 id="result">Hit it!</h1>
+      		</div>
+    	</div>
+  	</section>
+	<section class="container">
+		<div class="row">
+			<div class="col-md-4 col-sm-2 hidden-x"></div>
+			<div class="col-md-4 col-sm-8 col-xs-12" id="showDown">
+				<div id="loader" style="display:none"></div>
+				<div id="computer">Computer's choice</div>
+				<div id="user">Choose your hand</div>
+			</div>
+		</div>
+		<div class=col-sm-12 style="padding:0;margin:0">
+			<div class="col-sm-6 col-xs-6" style="display:flex;justify-content: center;padding:0;margin:0">
+				<div id="rock" onclick="rock()"><strong>Rock</strong></div>
+			</div>
+			<div class="col-sm-6 col-xs-6" style="display:flex;justify-content: center;padding:0;margin:0">
+				<div id="paper" onclick="paper()"><strong>Paper</strong></div>
+			</div>
+			<div class="col-xs-12" style="display:flex;justify-content: center;padding:0;margin:0">
+				<div id="scissors" onclick="scissors()"><strong>Scissors</strong></div>
+			</div>
+		</div>
+		<div class="col-sm-12" style="text-align: center;margin-top:20px">
+		<button class="btn btn-primary" id="advanced">Play the five-weapon expansion</button>
+		<div style="padding-top:10px"><a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]=http://www.appjunk.com/rockpaperscissors&p[images][0]=&p[title]=Rock paper scissors &p[summary]=Play rock paper scissors against randomness" target="_blank" onclick="window.open(this.href,'targetWindow','toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=250'); return false"><button type="button" class="btn btn-facebook"><i class="fa fa-facebook" aria-hidden="true"></i> Share on Facebook </button></a></div>
+		</div>
+	</section>

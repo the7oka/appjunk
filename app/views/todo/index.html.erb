@@ -1,0 +1,60 @@
+<% content_for :head do %>
+	<link href="/assets/todo.scss" rel="stylesheet" >
+	<script type="text/javascript" src='/assets/todo.js'></script>
+	<link rel="stylesheet" href="/assets/bootstrap-social.css">
+<% end %>
+<% if user_signed_in? %>
+<section class="container">
+	<div class="col-md-3">
+		
+	</div>
+	<div class="col-md-6 taskscontainer">
+	<h1><%=current_user.display_name%>&#39;s To-Do list</h1><h1 id="addbutton" style="float:right;cursor:pointer"><i class="fa fa-plus-square" aria-hidden="true"></i></h1>
+	<div id="taskfield" style="display:none">
+		<%= form_for @task do |f| %>
+			<%= f.text_field :title, :maxlength => "50", :minlength=> "4" %>
+		<% end%>
+	</div>
+	<div id="alltasksrender">
+		<%= render partial: "alltasks" %>
+	</div>
+		<div style="padding-bottom:40px;">
+			<div style="position: relative;" class="col-sm-6 col-xs-6 doneboxtoggle">
+				<i class="fa fa-check-square fa-3x" aria-hidden="true"></i>
+				<div id="notificationdone"><%=@donetasks.size%></div>
+			</div>
+			<div class="col-sm-6 col-xs-6 deletedboxtoggle"  style="position: relative;">
+				<i style="float:right" class="fa fa-trash fa-3x" aria-hidden="true"></i>
+				<div id="notificationdelete"><%=@deletedtasks.size%></div>
+			</div>
+		</div>
+		<div class='donebox' style="display:none">
+			<%= render partial: "donebox" %>
+		</div>
+		<div class='deletedbox' style="display:none">
+			<%= render partial: "deletedbox" %>
+		</div>
+	</div>
+</section>
+<% else %>
+<section class='container'>
+<div class="col-sm-2"></div>
+<div class='col-sm-8'>
+	<div id="inline-content">
+	<div id='creationbox'>
+	<h3>عندنا احساس مرير انك مش مسجل دخول.. الموضوع مش هياخد ثانية</h3>
+		<div class="col-sm-6">
+		<a href="<%=user_twitter_omniauth_authorize_path%>" class="btn btn-block btn-social btn-lg btn-twitter" style="margin:auto;margin-bottom:10px;margin-top:20px">
+                <span class="fa fa-twitter"></span> Sign in with Twitter
+            </a>
+        </div>
+        <div class="col-sm-6">
+            <a href="<%=user_facebook_omniauth_authorize_path%>" class="btn btn-block btn-social btn-lg btn-facebook" style="margin:auto;margin-bottom:10px;margin-top:20px">
+              <span class="fa fa-facebook"></span> Sign in with Facebook
+            </a>
+        </div>
+        </div>
+    </div>
+</div>
+</section>
+<% end %>

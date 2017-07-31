@@ -1,0 +1,59 @@
+<style>
+	.messagingavatar{
+		width:30px;
+	}
+	.messagingme{
+		padding:5px;
+		background-color: #a1ce7f;
+		border-radius: 5px
+	}
+	.messagingyou{
+		padding:5px;
+		background-color: #a5af9d;
+		border-radius: 5px
+	}
+</style>
+<script>
+$(document).ready(function(){
+	$(".messageform").keypress(function(event) {
+    if (event.which == 13) {
+        event.preventDefault();
+        $("form").submit();
+    }
+});
+});
+</script>
+<section class="container">
+<div class='col-sm-2'></div>
+<div class="col-sm-8">
+<a href="/inbox"><h2>Back to inbox</h2></a>
+</div>
+</section>
+<section class="container">
+<div class='col-sm-3'></div>
+<div class="col-sm-6">
+<% if @messages.length == 0 %>
+	You have no messages, hun.
+<% end %>
+<% @messages.each do |message| %>
+<% if message.body? %>
+<% if message.user == current_user %>
+<div class="messagingme">
+<% else %>
+<div class="messagingyou">
+<% end %>
+  <%= image_tag message.user.avatar.url(:medium), class: 'messagingavatar' %>
+         <%= message.body %>
+</div>
+<% end %>
+<br>
+<% end %>
+<%= form_for @message do |f| %>
+   <%= f.text_area :body, class: 'form-control messageform' %>
+ <%= hidden_field_tag :user_id, current_user.id %>
+        <%= hidden_field_tag :sender_id, current_user.id %>
+        <%= hidden_field_tag :recipient_id, @targetuser.id %>
+<% end %>
+</div>
+</div>
+</section>

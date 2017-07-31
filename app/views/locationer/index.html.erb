@@ -1,0 +1,18 @@
+<% content_for :head do %>
+	<script type="text/javascript" src="/assets/locationer.js"></script>
+	<style>
+		#map{
+			width:100%;
+			height:600px;
+		}
+	</style>
+
+<% end %>
+<section class="container">
+	<div class="col-sm-12">
+		<div id="map"></div>
+	</div>
+</section>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA6QCBv6NmNwX8Bjg35YV8AG0XBfUpqW7Q&callback=initMap">
+    </script>

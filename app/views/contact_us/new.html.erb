@@ -1,0 +1,30 @@
+<% content_for :head do %>
+	<link href="/assets/contact_us.scss" rel="stylesheet" >
+	<script type="text/javascript" src='/assets/bootstrap-filestyle.min.js'></script>
+	<script>
+	$(document).ready(function(){
+	$(":file").filestyle({icon: false,size: "md"});
+})
+</script>
+<% end %>
+<section class="container">
+	<div class="row">
+		<div class="col-sm-2"></div>
+		<div class="col-sm-8" style="margin-bottom:10px;background-color: orange;border-radius: 5px">
+			<%= form_for([@user, @contactme]) do |f| %>
+			<p style="margin-top:20px;font-weight: bold">This is regarding :</p>
+			<%= collection_select(:contactme, :regarding_id, Regarding.order(:title) , :id ,:title, {}, prompt: true,class: 'form-control') %>
+			  <p style="margin-top:20px;font-weight: bold">Contents :</p>
+			    <%= f.text_area :content, :maxlength => "300", :minlength=> "5",class: 'form-control', style: 'height:100px' %>
+			  <p style="margin-top:20px;font-weight: bold">Attach related file :</p>
+			    <%= f.file_field :document, accept: '.jpg,.pdf,.png,.bmp,.doc,.txt,.docx,.xlsx,.xls,.ppt,.pptx.pub' %>
+			  <p style="margin-top:20px;text-align: center;font-weight: bold">
+			    <%= f.submit :Submit, class: 'btn btn-primary' %>
+			  </p>
+			<% end %>
+		</div>
+	</div>
+</section>
+<% if current_user.admin? %>
+<a href="/contact_us/index">index</a>
+<% end %>

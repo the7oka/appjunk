@@ -1,0 +1,66 @@
+<style>
+	.messagingavatar{
+		width:50px;
+		height:50px;
+		border-radius: 3px;
+	}
+	.messagingme{
+		padding:5px;
+		background-color: #a1ce7f;
+		border-radius: 5px
+	}
+	.messagingyou{
+		padding:5px;
+		background-color: #a5af9d;
+		border-radius: 5px
+	}
+	.messagingportal{
+		padding:5px;
+		background-color: #dee1dc;
+		border-radius: 5px;
+		display:flex;
+		flex-direction: row;
+		margin-bottom:5px;
+	}
+	.username{
+		font-weight:bold;
+		text-decoration: underline;
+		color:black;
+	}
+</style>
+</script>
+<section class="container">
+<div class='col-sm-2'></div>
+<div class="col-sm-8">
+<h2>Messaging inbox</h2>
+</div>
+</section>
+
+
+
+
+
+<section class="container">
+<div class='col-sm-3'></div>
+<div class="col-sm-6">
+<% if @conversations.length == 0 %>
+	<p style="text-align: center">You have no messages, hun.</p>
+<% end %>
+<% @conversations.each do |conversation| %>
+	<% if conversation.sender_id == current_user.id %>
+	  <% @recipient = User.find(conversation.recipient_id) %>
+	<% else %>
+	  <% @recipient = User.find(conversation.sender_id) %>
+	<% end %>
+	<a href='/inbox/<%=@recipient.id%>'><div class="messagingportal">
+	<%= image_tag @recipient.avatar.url(:medium), class: 'messagingavatar' %>
+	<div style="display:flex;flex-direction: column;margin-left:10px">
+	<p class='username'><%=@recipient.display_name %></p>
+	<% if @recipient.messages.last != nil %>
+	<%=@recipient.messages.last.body%>
+	<% end %>
+	</div>
+	</div></a>
+	<% end %>
+</div>
+</section>

@@ -1,0 +1,65 @@
+
+	body{ 
+  background: url('/assets/body-background.jpg') no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+.staytuned{
+	padding-top:100px;
+	color:white;
+	font-size: 250%;
+	font-family: "Courier New", Courier, "Lucida Sans Typewriter", "Lucida Typewriter", monospace;
+	text-align: center;
+	text-shadow: 0.25px 0.25px 0.25px white;
+}
+.countdowncontainer{
+	text-align: center;
+	padding-top:70px;
+	color:white;
+	font-family: "Courier New", Courier, "Lucida Sans Typewriter", "Lucida Typewriter", monospace;
+}
+#daysview,#hoursview,#minutesview,#secondsview{
+	font-size:800%;
+}
+#days,#hours,#minutes,#seconds{
+	font-size:200%;
+}
+#footer {
+	display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: flex-end;
+    justify-content: flex-end;
+}
+footer {
+  color:white;
+  font-size: 12px;
+}
+#copyr{
+  margin-top: 15px;
+}
+#twitter,#facebook,#instagram,#tumblr{
+height: 40px;
+width:40px;
+background-size: 100%;
+}
+#twitter{background-image:url("/assets/1471703025_twitter.png");}
+#facebook{background-image:url("/assets/1471703029_facebook.png");}
+#tumblr{background-image:url("/assets/1479833335_tumblr.png");}
+#instagram{background-image:url("/assets/1471703058_instagram.png");}
+.footercontainer{
+	padding-top:110px;
+}
+#visitoremail_address{
+	height:30px;
+	width:190px;
+	display:inline;
+	margin-bottom:10px;
+}
+.subscribebutton{
+	margin-top: -3px;
+}
+.fb-share-button{
+	font-size:200%;
+}

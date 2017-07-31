@@ -1,0 +1,34 @@
+<% content_for :head do %>
+  <link rel="stylesheet" href="/assets/coinflip.scss">
+  <script type="text/javascript" src='/assets/coinflip.js'></script>
+  <meta property="og:description"   content="Flip the coin.. Get some statistics"/>
+  <meta property="og:image"         content="http://www.appjunk.com/assets/coinflipimage.PNG"/>
+  <meta property="og:url"           content="http://www.appjunk.com/coinflip"/>
+<% end %>
+<section class="container">
+  <div class ="row text-center">
+  	<div class ="col-sm-3"> 
+    </div>
+    <h1 id="page-title" class="col-sm-6">
+      Coin Flip
+    </h1>
+  </div>
+  <div class ="row text-center">
+    <div class ="col-sm-4 hidden-xs" style="padding-top:20px">
+      <p style="text-align: left">We're calculating the odds of getting heads or tails by assuming that at any certain number of tosses, 50% of the total tosses will be heads and 50% will be tails. So, knowing the number of actual successes for both heads and tails and the total number of tosses after the future toss.. we can calculate the probability of the next toss because the coin will attempt to go back to the 50% 50% sum of tosses.</p>
+    </div>
+    <div class="col-sm-4" >
+      <p id="defaultHeads" onclick="flipCoin();"></p>
+      <button class="flipItButton" onclick="flipCoin();"> Flip it </button>
+      <p> The coin has been fliped <span id="totalnumFlips"><%= @button.clicks%></span> times</p>
+      <div class="col-sm-12" style="text-align: center">
+      <a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]=http://www.appjunk.com/coinflip&p[images][0]=&p[title]=Coin flip&p[summary]=Flip the coin.. Get some statistics!" target="_blank" onclick="window.open(this.href,'targetWindow','toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=250'); return false"><button type="button" class="btn btn-facebook"><i class="fa fa-facebook" aria-hidden="true"></i> Share on Facebook</button></a>
+      </div>
+    </div>
+		<div class="col-sm-4" id="info">
+			<p id="writtenResult">Call it!<br>Your chance of getting Heads next is 50%<br>Your chance of getting Tails next is 50%</p>
+			<p> Your flips =  <span id="numFlips">0</span></p>
+		</div>
+  </div>
+</section>
+

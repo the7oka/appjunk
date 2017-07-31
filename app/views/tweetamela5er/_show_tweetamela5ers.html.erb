@@ -1,0 +1,217 @@
+<section class="container" style="padding:0; margin-top:20px">
+	<div class="col-md-8 col-sm-12">
+<% @tweets.each do |t|%>
+
+	<div class="col-sm-12" style=";background-color: #e6e6e6;padding-top:10px;margin-bottom:10px">
+		<nav id="messageUser" class="col-sm-12">
+		<% if t.covered == false %>
+			<a href="/profile/<%= t.user.id %>"  style="display:flex;flex-direction:row;text-decoration: none;">
+				<%= image_tag t.user.avatar.url(:medium) , :id => "complaintuserLogo"%>
+				<div style="display:flex;flex-direction:column;margin-left:10px">
+				<span style="font-weight:bold;margin-top:5px;color:#002266"><%= t.user.first_name.humanize %> <%= t.user.last_name.humanize%></span>
+				<span style="font-size:75%;"><%= time_ago_in_words(t.created_at) %> ago</span>
+				</div>
+			</a>
+		<% else %>
+			<a href="/profile/<%= @admin.id %>"  style="display:flex;flex-direction:row;text-decoration: none;">
+				<%= image_tag @admin.avatar.url(:medium) , :id => "complaintuserLogo"%>
+				<div style="display:flex;flex-direction:column;margin-left:10px">
+				<span style="font-weight:bold;margin-top:5px;color:#002266"><%= @admin.first_name.humanize %> <%= @admin.last_name.humanize%></span>
+				<span style="font-size:75%;"><%= time_ago_in_words(t.created_at) %> ago</span>
+				</div>
+			</a>
+		<% end %>
+			<% if t.approved == false && current_user.admin? %>
+					<button style="float:right;" class="approvedbutton" id="ab<%=t.id%>" href="/tweetamela5er/approve/<%=t.id%>">Approve</button>
+					<button style="float:right;" class="deletebutton" id="ab<%=t.id%>" href="/tweetamela5er/delete/<%=t.id%>">Delete</button>
+			<% end %>
+		</nav>
+		<div class="col-sm-2 hidden-xs"></div>
+		<div class="col-sm-8" style="margin-top:-40px;">	
+			<a href="<%=t.url%>" class="embed"></a>
+		</div>
+		<div class="col-sm-12" style="display:flex;flex-direction:row;justify-content:center;margin-bottom:20px">
+		<div style="margin-right:10px;padding-top:7px;font-weight:bold"><span id="pointscount<%=t.id%>"><%= t.get_likes.size - t.get_dislikes.size %></span>Pts</div>
+		<button 
+					<% if user_signed_in? %>
+					onclick="validfun(<%=t.id%>)" 
+					<% else %>
+					onclick="pleaseSignIn(<%=t.id%>)" 
+					<% end %>
+					type="button" class="btn-md 
+						<% if user_signed_in? %>
+						<% if current_user.voted_up_on? t %>
+							btn btn-success
+						<% else %>
+							btn btn-default
+						<% end %>
+						<% else %> 
+							btn btn-default
+						<% end %>
+						" id="vvalid<%=t.id%>">
+						<i class="fa fa-thumbs-o-up fa-lg" aria-hidden="true"></i></button>
+					<button  style="margin-left:10px"
+					<% if user_signed_in? %>
+					onclick="invalidfun(<%=t.id%>)"
+					<% else %>
+					onclick="pleaseSignIn(<%=t.id%>)" 
+					<% end %>
+					type="button"  class="btn-md 
+						<% if user_signed_in? %>
+						<% if current_user.voted_down_on? t %>
+							btn btn-danger
+						<% else %>
+							btn btn-default
+						<% end %>
+						<% else %>
+							btn btn-default
+						<% end %>
+							" id="vinvalid<%=t.id%>"><i class="fa fa-thumbs-o-down fa-lg" aria-hidden="true"></i></button>
+		<a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]=<%=t.url%>" target="_blank" onclick="window.open(this.href,'targetWindow','toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=250'); return false" style="margin-left:10px"><button type="button" class="btn btn-facebook facetw"><i class="fa fa-facebook" aria-hidden="true"></i> Share </button></a>
+
+
+
+
+
+
+
+
+
+
+
+		<button style="margin-left:10px" onclick="slidedownfunction(<%=t.id%>)" class="btn btn-default">Show More</button>
+					</div>
+					
+					<script>
+						var slidedownfunction = function(id){
+							$("#commentstuff"+id).slideToggle();
+						}
+					</script>
+					<div class="col-sm-12" style="display:none" id="commentstuff<%=t.id%>">
+					<% if user_signed_in? %>
+				<div style="display:flex;flex-direction:row;padding-top:10px;padding-left:5px;padding-right:5px">
+    				<nav id="messageUser">
+						<a href="/profile/<%= current_user.id %>" >
+											<%= image_tag current_user.avatar.url(:medium) , :id => "userBigLogo", :style => "margin-right:10px"%>
+									</a>
+					</nav>
+					<div style="width:100%">
+					<%= form_for([t, t.tweetacomments.build]) do |f| %>
+    					<%= f.text_area :content, class: 'form-control commentarea' %>
+
+    					<%= f.submit "Post comment", class: "btn btn-primary commentbutton"%>
+					<% end %>
+					</div>
+				</div>
+				<% end %>
+	<% t.tweetacomments.order(:cached_votes_up).reverse.each_with_index do |comment,index| %>
+		<% if index<3 %>
+		<div class="col-sm-12" style="display:flex;flex-direction:row;margin-bottom:0px">
+			<div>
+				<%= image_tag comment.user.avatar.url(:medium) , :id => "userBigLogo", :style => "margin-right:10px;"%>
+			</div>
+			<div>
+				<a href= "/profile/<%= comment.user.id%>" style="font-weight:bold;margin:0px;"><%= comment.user.display_name %></a>
+				<p style="display:inline-block;font-size:80%"><span id="comment<%= comment.id %>"><%= comment.get_likes.size - comment.get_dislikes.size %></span> points</p>
+				<%= simple_format comment.content, style: "margin:0px" %>
+				<div style="display:flex;flex-direction:row">
+						<a onclick="likeCCFun(<%= comment.id %>)" class="upArrow" id="upArrow<%= comment.id %>"
+							<% if user_signed_in? %>
+							<% if current_user.voted_up_on? comment %>
+								style="background-position: 0px -40px"
+							<% end %>
+							<% end %>
+						></a>
+						<a onclick="dislikeCCFun(<%= comment.id %>)" class="downArrow" id="downArrow<%= comment.id %>"
+							<% if user_signed_in? %>
+							<% if current_user.voted_down_on? comment %>
+							style="background-position: -20px -40px"
+							<% end %>
+							<% end %>
+						></a>
+				</div>
+
+			</div>
+			
+		</div>
+			<div class="col-sm-12" style="margin:0px">
+				<hr style="margin:0px;margin-bottom:10px">
+			</div>
+	<% end %>
+	<% end %>
+		<p style="padding-left: 40px;display:inline-block">...</p>
+		<%= link_to "show all comments", "/", style: "padding-left: 15px;"%>
+	</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	</div>
+<% end %>
+	</div>
+	<div class="col-md-4 hidden-ms" >
+	<h2 style="direction: rtl;font-family: tahoma;text-align: center">تويتات فشيخة</h2>
+		<% @besttweets.each do |t|%>
+	<div class="col-sm-12" style=";background-color: #e6e6e6;padding-top:10px;margin-bottom:10px">
+		<nav id="messageUser" class="col-sm-12">
+		<% if t.covered == false %>
+			<a href="/profile/<%= t.user.id %>"  style="display:flex;flex-direction:row;text-decoration: none;">
+				<%= image_tag t.user.avatar.url(:medium) , :id => "complaintuserLogo"%>
+				<div style="display:flex;flex-direction:column;margin-left:10px">
+				<span style="font-weight:bold;margin-top:5px;color:#002266"><%= t.user.first_name.humanize %> <%= t.user.last_name.humanize%></span>
+				<span style="font-size:75%;"><%= time_ago_in_words(t.created_at) %> ago</span>
+				</div>
+			</a>
+			<% else %>
+			<a href="/profile/<%= @admin.id %>"  style="display:flex;flex-direction:row;text-decoration: none;">
+				<%= image_tag @admin.avatar.url(:medium) , :id => "complaintuserLogo"%>
+				<div style="display:flex;flex-direction:column;margin-left:10px">
+				<span style="font-weight:bold;margin-top:5px;color:#002266"><%= @admin.first_name.humanize %> <%= @admin.last_name.humanize%></span>
+				<span style="font-size:75%;"><%= time_ago_in_words(t.created_at) %> ago</span>
+				</div>
+			</a>
+		<% end %>
+		</nav>
+		<div class="col-sm-2 hidden-xs"></div>
+		<div class="col-sm-8" style="margin-top:-40px;">	
+			<a href="<%=t.url%>" class="embed"></a>
+		</div>
+		<div class="col-sm-12" style="display:flex;flex-direction:row;justify-content:center;margin-bottom:20px">
+		<a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]=<%=t.url%>" target="_blank" onclick="window.open(this.href,'targetWindow','toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=250'); return false" style="margin-left:10px"><button type="button" class="btn btn-facebook facetw"><i class="fa fa-facebook" aria-hidden="true"></i> Share </button></a>
+
+
+
+
+
+</div>	
+
+
+
+
+
+
+
+
+
+
+
+
+	</div>
+<% end %>
+	</div>
+</section>
+<section class="container">
+<div class="col-sm-12" style="text-align: center">
+<%= will_paginate @tweets, renderer: BootstrapPagination::Rails %>
+</div>
+</section>

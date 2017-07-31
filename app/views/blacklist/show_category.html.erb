@@ -1,0 +1,122 @@
+<% content_for :head do %>
+	<link href="/assets/blacklist.scss" rel="stylesheet" >
+	<link href="/assets/bootstrap-social.scss" rel="stylesheet" >
+	<script type="text/javascript" src='/assets/blacklist.js'></script>
+	<script>
+		$(document).ready(function(){
+			c="";
+	companies = $('#companyList').html();
+	$('#companyList').html("<option value="+c+">Select a category first</option>")
+	options= null;
+	console.log('mother')
+	$('#categoryList').change(function() {
+		category = $('#categoryList :selected').text();
+		options = $(companies).filter("optgroup[label="+'"'+category+'"'+"]").html();
+		if (options == null){
+			$('#companyList').html("<option value="+c+">Select a category first</option>")
+		}
+		else{
+			$('#companyList').html(options)
+		}
+		});
+
+		
+});
+	</script>
+<% end %>
+<div style="display:none">
+<a href="/blacklist/new">new</a>
+<a href="/blacklist/new_company">new company</a>
+<a href="/blacklist/new_category">new category</a>
+</div>
+<section class="container" id="welcoming">
+	<div class="col-sm-8" id="welcomeMessage">
+			AppJunk's <span id="app" style="font-size:120%">shopping</span><span id="junk" style="font-size:120%"> blacklist</span> is the best way to get feedback for products and services before it's too late.<br>
+
+			<% if user_signed_in? %>
+				<p style="margin-top:10px">You're already signed in, <a href= "/profile/<%= current_user.id%>" style="font-weight:bold;margin:0px;"><%= current_user.display_name.humanize %></a></p>
+				<div style="margin-top:35px;margin-bottom:112px;">
+				<div class="col-sm-5">
+				<button type="button" class="btn btn-primary btn-lg" onclick="categoryFun()"><i class="fa fa-cogs fa-lg" aria-hidden="true"></i> Browse categories</button>
+				</div>
+				<div class="col-sm-2">
+				 <p style="margin:10px"> Or </p>
+				 </div>
+				 <div class="col-sm-5">
+				 <button  type="button" class="btn btn-primary btn-lg" onclick="newCFun()"><i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i> Post your complaint</button>
+				 </div>
+				 </div>
+			<%else%>
+				<p>We see you're not signed in yet. 
+				Sign in now:</p>
+				<div class="col-sm-6">
+				<div style="display:flex;flex-direction:column;margin-top:10px">
+					<a href="<%=user_twitter_omniauth_authorize_path%>" class="btn btn-block btn-social btn-lg btn-twitter" style="margin:auto;margin-bottom:10px;">
+                <span class="fa fa-twitter"></span> Sign in with Twitter
+            </a>
+            <a href="<%=user_facebook_omniauth_authorize_path%>" class="btn btn-block btn-social btn-lg btn-facebook" style="margin:auto;">
+              <span class="fa fa-facebook"></span> Sign in with Facebook
+            </a>
+      			</div>
+      			</div>
+      			<div class="col-sm-6">
+      			<div style="margin-top:10px;display:flex;flex-direction:column">
+      			Or just:
+      			<button type="button" class="btn btn-primary btn-lg" onclick="categoryFun()"><i class="fa fa-cogs fa-lg" aria-hidden="true"></i> Browse our categories</button>
+      			</div>
+      			</div>
+			<%end%>
+	</div>
+	<div class="col-sm-4">
+	<div style="margin-left:20px;">
+		<a class="twitter-timeline" data-height="239" data-theme="light" href="https://twitter.com/the7oka"></a> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+		</div>
+	</div>
+	</div>
+</section>
+<section class="container" id="categoriesPanel" style="display:none">
+<div class="col-sm-1">
+		<button onclick="reversecategoryFun()" class="btn btn-primary" style="margin-top:100px"> 
+		back
+		</button>
+		</div>
+<div class="col-sm-11" style="height:239px;background-color: white;border-radius: 5px; margin-bottom: 10px;">
+<p style="font-weight: bold;text-decoration: underline;font-size: 120%;margin-top: 10px;">Categories:</p>
+<ul>
+	<% @categoriess.each do |m|%>
+	<li><a href="/blacklist/index/cat/<%=m.id%>"><%= m.name.humanize %></a></li>
+	<% end %>
+</ul>
+</div>
+</section>
+<section class="container" id="newPanel" style="display:none">
+<div class="col-sm-1">
+		<button onclick="reversenewCFun()" class="btn btn-primary" style="margin-top:100px"> 
+		back
+		</button>
+		</div>
+	<div class="col-sm-11" style="height:239px;background-color: white;border-radius: 5px; margin-bottom: 10px;">
+		<div class="col-sm-4">
+			<%= form_for([@user, @complaint]) do |f| %>
+			<p style="margin-top:10px;font-weight:bold;text-decoration: underline">Post a complaint</p>
+			<%= collection_select(:company,:category_id, Category.order(:name) , :id ,:name,{:include_blank => 'All Categories'}, prompt: true,class: 'form-control form-control-sm',id: "categoryList") %>
+			<%= grouped_collection_select(:complaint, :company_id, Category.order(:name) , :companies ,:name, :id, :name,{}, prompt: true,class: 'form-control form-control-sm',id: "companyList") %>
+			<%= f.file_field :photo_one %>
+			<%= f.file_field :photo_two %>
+			<%= f.file_field :photo_three %>
+		</div>
+		<div class="col-sm-8">
+			  <p style="margin-top:10px">Complaint :</p>
+			    <%= f.text_area :content, :maxlength => "1500", :minlength=> "5",style: "width:100%;height:150px" %>
+			  <p>
+			    <%= f.submit :Submit, class: 'btn btn-primary' %>
+			  </p>
+			<% end %>
+		</div>
+		
+		</div>
+</section>
+<%= render partial: "show_complaint" %>
+<link href="/assets/lightbox.css" rel="stylesheet">
+<script src="/assets/lightbox.js"></script>
+	

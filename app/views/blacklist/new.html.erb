@@ -1,0 +1,46 @@
+<% content_for :head do %>
+	<link href="/assets/blacklist.scss" rel="stylesheet" >
+	<script>
+		$(document).ready(function(){
+			$('#complaint_company_id').empty()
+	companies = $('#complaint_company_id').html();
+	console.log(companies)
+	$('#company_category_id').change(function() {
+		category = $('#company_category_id :selected').text();
+		console.log(category);
+		options = $(companies).filter("optgroup[label="+'"'+category+'"'+"]").html();
+		console.log(options);
+		if (options == null){
+			$('#complaint_company_id').empty()
+		}
+		else{
+			$('#complaint_company_id').html(options)
+		}
+		});
+
+		
+});
+	</script>
+<% end %>
+<section class="container">
+	<div class="row">
+		<div class="col-sm-3"></div>
+		<div class="col-sm-6" style="margin-bottom:10px">
+		
+			<%= form_for([@user, @complaint]) do |f| %>
+			<p>Category :</p>
+			<%= collection_select(:company,:category_id, Category.order(:name) , :id ,:name, prompt: true) %>
+			<p>Company :</p>
+			<%= grouped_collection_select(:complaint, :company_id, Category.order(:name) , :companies ,:name, :id, :name, prompt: true) %>
+			<%= f.file_field :photo_one %>
+			<%= f.file_field :photo_two %>
+			<%= f.file_field :photo_three %>
+			  <p>Message :</p>
+			    <%= f.text_area :content, :maxlength => "1500", :minlength=> "5" %>
+			  <p>
+			    <%= f.submit %>
+			  </p>
+			<% end %>
+		</div>
+	</div>
+</section>

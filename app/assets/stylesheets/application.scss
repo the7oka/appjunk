@@ -1,0 +1,142 @@
+@import "font-awesome-sprockets";
+@import "font-awesome";
+//= require jquery.oembed
+ #app{
+	font-family: spyagency;
+	font-size:200%;
+	font-weight: bold;
+	color:#006bb3;
+	//border:1px solid black;
+}
+#junk{
+	font-family: outrunfuture;
+	font-size:200%;
+	font-weight: bold;
+	//border:1px solid black;
+	color:black;
+	text-shadow: 0.4px 0.4px 0.4px white;
+}
+#logo{
+	margin-top:-6px;
+	margin-bottom:0px;
+}
+#logolink:link{
+	text-decoration: none;
+}
+#logolink:hover {
+    text-decoration: none;
+}
+ #navSignUp {
+ 	//display:inline-block;
+ 	//border:1px solid black;
+ 	//padding-bottom:8px;
+ 	padding-top:0px;
+ 	margin-top:11px;
+ 	float:right;
+ }
+ #navSignUp a {
+ 	border:1px solid black;
+ 	padding-bottom:6px;
+ 	padding-top:6px;
+ 	padding-left:5px;
+ 	padding-right:5px;
+ }
+ #navSignUp a:hover{
+ 	background: #006bb3;
+ 	color:white;
+ }
+ #userLogo{
+ 	height:30px;
+ 	width:30px;
+    max-width: 50px;
+ 	border-radius: 5px;
+ 	margin-left:10px;
+ 	margin-top: -5px;
+ }
+ #navUser{
+ 	display:inline-block;
+    //border:1px solid black;
+    float:right;
+    margin-top:10px;
+}
+#logolink{
+	display:inline-block;
+}
+ .dropbtn {
+ 	display:inline-block;
+ }
+ .dropdown-content{
+ 	width:120px;
+ 	display:none;
+ 	position: absolute;
+ 	background-color: #f9f9f9;
+ 	margin-top:0px;
+ 	border-radius:5px;
+ 	box-shadow: 2px 2px 1px #006bb3;
+ 	z-index: 999;
+ }
+ .dropdown-content a {
+ 	display:block;
+ 	padding-bottom:20px;
+ 	padding-left: 20px;
+ 	padding-right:20px;
+ }
+ .dropbtn:hover .dropdown-content{
+ 	display:block;
+ }
+#nav {
+	margin-top:10px;
+	display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: space-around;
+    justify-content: space-around;
+    //border:1px solid black;
+    
+}
+#nav a,#navUser a {
+	text-align: center;
+	//margin-top:10px;
+	//border: 1px solid black;
+}
+#hr{
+	margin:0px;
+	margin-bottom:10px;
+	//border:1px solid black;
+}
+@font-face {
+	font-family: spyagency;
+	src: url('/assets/spyagencyv3.ttf') format('truetype');
+}
+@font-face {
+	font-family: outrunfuture;
+	src: url('/assets/outrunfuture.otf') format('truetype');
+}
+#userBigLogo {
+    width:50px;
+    height:50px;
+  }
+.btn-facebook {
+	width:170px;
+	color: #fff;
+	background-color: #4C67A1;
+	margin-bottom:10px;
+}
+.btn-facebook:hover {
+	color: #fff;
+	background-color: #405D9B;
+}
+.btn-facebook:focus {
+	color: #fff;
+}
+#profilebutton{
+	cursor:pointer;
+}
+#userLogohome{
+ 	height:30px;
+ 	width:30px;
+    //max-width: 50px;
+ 	border-radius: 50%;
+ 	//margin-left:10px;
+ 	margin-top: -10px;
+ 	margin-bottom:0px;
+ }

@@ -1,0 +1,118 @@
+<% content_for :head do %>
+	<link href="/assets/blacklist.scss" rel="stylesheet" >
+	<script type="text/javascript" src='/assets/blacklist.js'></script>
+	<meta property="og:description"   content="<%=@complaint.content%>"/>
+	<meta property="og:image"         content="<%=@complaint.photo_one.url%>"/>
+	<meta property="og:url"           content="http://www.appjunk.com/show/<%=@complaint.id%>"/>
+	<script>
+		$(document).ready(function(){
+			$('#app').html('shopping');
+			$('#junk').html(' blacklist');
+		});
+	</script>
+<% end %>
+<section class="container">	
+		<div class="col-sm-12">
+					<div style="padding-top:15px;" id="showMessage">
+						<a href="/profile/<%= @complaint.user.id %>">
+							<%= image_tag @complaint.user.avatar.url(:medium) , :id => "userLogo", :style => "margin-right:10px"%>
+							<%= @complaint.user.display_name %>
+						</a>
+					<div style="margin-left: 20px;padding-top:10px">
+					Category: <% if @complaint.company %><a href="/blacklist/index/cat/<%=@complaint.company.category.id%>"><%= @complaint.company.category.name %></a><%else%><%=@complaint.companymanual%><%end%><br>
+							Company: <% if @complaint.company %><a href="/blacklist/index/<%=@complaint.company.id%>"><%= @complaint.company.name %></a><%else%><%=@complaint.companymanual%><%end%><br>
+					</div>
+					<div class="showphotos">
+						<% if @complaint.photo_one.present? && @complaint.photo_two.present? && @complaint.photo_three.present? %>
+							<div style="display:flex;flex-direction:row;justify-content: center;">
+									<a href="<%= @complaint.photo_one.url %>" data-lightbox="roadtrip" style="margin-right:5px"><%= image_tag @complaint.photo_one.url(:medium), class: "sidephoto1"%></a>
+											<a href="<%= @complaint.photo_two.url %>" data-lightbox="roadtrip" style="margin-right:5px"><%= image_tag @complaint.photo_two.url(:medium), class: "sidephoto1" %></a>
+											<a href="<%= @complaint.photo_three.url %>" data-lightbox="roadtrip"><%= image_tag @complaint.photo_three.url(:medium), class: "sidephoto1" %></a>
+							</div>
+							<% end %>
+							<% if @complaint.photo_one.present? && @complaint.photo_two.present? && @complaint.photo_three.blank? %>
+							<div style="display:flex;flex-direction:row;justify-content: center;">
+									<a href="<%= @complaint.photo_one.url %>" data-lightbox="roadtrip" style="margin-right:5px;max-width:300px;"><%= image_tag @complaint.photo_one.url(:medium), class: "sidephoto1"%></a>
+											<a href="<%= @complaint.photo_two.url %>" data-lightbox="roadtrip" style="max-width:300px;"><%= image_tag @complaint.photo_two.url(:medium), class: "sidephoto1" %></a>
+							</div>
+							<% end %>
+							<% if @complaint.photo_one.present? && @complaint.photo_two.blank? && @complaint.photo_three.blank? %>
+							<div style="display:flex;flex-direction:row;justify-content: center;">
+									<a href="<%= @complaint.photo_one.url %>" data-lightbox="roadtrip" ><%= image_tag @complaint.photo_one.url, class: "sidephoto1", style: 'max-length:300px'%></a>
+							</div>
+							<% end %>
+							<div style="margin-left: 10px">
+							
+							<%= simple_format @complaint.content , class: "ctext" %>
+					</div>
+					<hr>
+					<p style="font-weight:bold">Did you find this complaint valid ?</p>
+					<button onclick="validfun(<%=@complaint.id%>)" type="button"
+						<% if user_signed_in? && (current_user.voted_up_on? @complaint) %>
+							class="btn btn-success"
+						<% else %> 
+							class="btn btn-default" 
+						<% end %>
+						id="cvalid<%=@complaint.id%>">
+						<i class="fa fa-thumbs-o-up fa-lg" aria-hidden="true"></i> Valid complaint 
+					</button>
+					<button onclick="invalidfun(<%=@complaint.id%>)" type="button" 
+						<% if user_signed_in? && (current_user.voted_down_on? @complaint) %>
+							class="btn btn-danger"
+						<% else %>
+							class="btn btn-default" 
+						<% end %>
+							id="cinvalid<%=@complaint.id%>"><i class="fa fa-thumbs-o-down fa-lg" aria-hidden="true"></i> Invalid complaint
+					</button>
+					<% if user_signed_in? && (current_user = @complaint.user || current_user.admin == true)%>
+					<a href="/blacklist/edit/<%=@complaint.id%>"><button>Edit my post</button></a>
+					<% end %>
+					<a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]=http://www.appjunk.com/blacklist/show/<%=@complaint.id%>&p[images][0]=&p[title]=Shopping Blacklisttarget="_blank" onclick="window.open(this.href,'targetWindow','toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=250'); return false" style="float:right"><button type="button" class="btn btn-facebook"><i class="fa fa-facebook" aria-hidden="true"></i> Share on Facebook</button></a>
+					</div>
+					</div>
+
+				</div>
+				<% if user_signed_in? %>
+				<div class="col-sm-12" style="display:flex;flex-direction:row;margin-top:10px">
+    				<nav id="messageUser">
+						<a href="/profile/<%= current_user.id %>" >
+											<%= image_tag current_user.avatar.url(:medium) , :id => "userBigLogo", :style => "margin-right:10px"%>
+									</a>
+					</nav>
+					<%= form_for([@complaint, @complaint.complaintcomments.build]) do |f| %>
+    					<%= f.text_area :content, style: "width: 100%;" %>
+
+    					<%= f.submit "Post comment"%>
+					<% end %>
+				</div>
+				<% end %>
+<% @complaintcomments.each do |comment| %>
+<div class="col-sm-12" style="display:flex;flex-direction:row;margin-bottom:10px">
+	<div>
+											<%= image_tag comment.user.avatar.url(:medium) , :id => "userBigLogo", :style => "margin-right:10px;"%>
+	</div>
+	<div>
+									<a href= "/profile/<%= comment.user.id%>" style="font-weight:bold;margin:0px;"><%= comment.user.display_name %></a> <p style="display:inline-block;font-size:80%"><span id="comment<%= comment.id %>"><%= comment.get_likes.size - comment.get_dislikes.size %></span> points</p>
+									<%= simple_format comment.content, style: "margin:0px;margin-bottom:5px;margin-top:-5px" %>
+						<div style="display:flex;flex-direction:row;">
+						<a onclick="likeCCFun(<%= comment.id %>)" class="upArrow" id="upArrow<%= comment.id %>"
+							<% if user_signed_in? && (current_user.voted_up_on? comment) %>
+							style="background-position: 0px -40px"
+							<% end %>
+						></a>
+						<a onclick="dislikeCCFun(<%= comment.id %>)" class="downArrow" id="downArrow<%= comment.id %>"
+							<% if user_signed_in? && (current_user.voted_down_on? comment) %>
+							style="background-position: -20px -40px"
+							<% end %>
+						></a></div>
+
+</div>
+</div>
+<div class="col-sm-12" style="margin:0px">
+<hr style="margin:0px;margin-bottom:10px;" id="hr">
+</div>
+<% end %>
+				</section>
+				
+					<link href="/assets/lightbox.css" rel="stylesheet">
+	<script src="/assets/lightbox.js"></script>

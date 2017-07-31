@@ -1,0 +1,31 @@
+<section class="container">
+	<div class="row">
+		<div class="col-sm-2"></div>
+		<div class="col-sm-8" style="margin-bottom:10px;border-radius: 5px">
+			<%= form_for(@video) do |f| %>
+			<p style="margin-top:5px;font-weight: bold">Category :</p>
+			<ul style="list-style-type: none;display:flex;justify-content: space-between;">
+			<% Videocat.all.each do |cat| %>
+				<li><%= check_box_tag 'video[videocat_ids][]', cat.id %><%= cat.name %></li>
+			<% end %>
+			</ul>
+			<p style="margin-top:5px;font-weight: bold">URL :</p>
+			<%= f.text_field :url, :maxlength => "50", :minlength=> "4",class: 'form-control' %>
+			<p style="margin-top:5px;font-weight: bold">Title :</p>
+			<%= f.text_field :title, :maxlength => "100", :minlength=> "4",class: 'form-control' %>
+			<p style="margin-top:5px;font-weight: bold">Description :</p>
+			 <%= f.text_area :description, :maxlength => "300", :minlength=> "5",class: 'form-control', style: 'height:100px' %>
+			<p style="margin-top:5px;font-weight: bold">Duration</p>
+			<%= f.number_field :duration,class: 'form-control' %>
+			  <p style="margin-top:5px;text-align: center;font-weight: bold">
+			    <%= f.submit :Submit, class: 'btn btn-primary' %>
+			  </p>
+			<% end %>
+		</div>
+	</div>
+</section>
+<section class="container">
+<div style="text-align: center" class="col-sm-12">
+<a href="/videos"><button class="btn">We have to go back,kate!</button></a>
+</div>
+</section>

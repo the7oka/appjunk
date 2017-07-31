@@ -1,0 +1,8 @@
+<div class="col-sm-3" style="margin-bottom:10px">
+			<%= form_for @carbrand do |f| %>
+				Name :
+			    <%= f.text_field :name, :maxlength => "30", :minlength=> "5",class: 'form-control form-control-sm' %>
+			    <%= f.file_field :photo %>
+			    <%= f.submit %>
+			<% end %>
+		</div>

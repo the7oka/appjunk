@@ -1,0 +1,134 @@
+<% content_for :head do %>
+  <link href="/assets/comicshop.scss" rel="stylesheet" type="text/css">
+  <script type="text/javascript" src='/assets/comicshop.js'></script>
+  <meta property="og:description"   content="<%=@meme.title.humanize%>"/>
+  <meta property="og:image"         content="<%=@meme.photo.url%>"/>
+<% end %>
+<section class="container">
+	<div class="col-sm-8" style="padding:0;margin:0">
+	<div class="col-sm-12 memecontainer<%=@meme.id%>">
+		<div class="col-sm-12">
+			<p class="titlebox"><%= @meme.title.humanize %></p>
+			<div style="float:right">
+			<% if @meme.trending == false && current_user.admin? %>
+			<button class="trendbutton" id="<%=@meme.id%>" href="/comicshop/trendit/<%=@meme.id%>">trend</button>
+			<% end %>
+			<% if @meme.hot == false && current_user.admin? %>
+			<button class="hotbutton" id="<%=@meme.id%>" href="/comicshop/hotit/<%=@meme.id%>">hot</button>
+			<% end %>
+			<% if user_signed_in? && (current_user.admin? || current_user == @meme.user) %>
+			<button class="deletebutton" id="<%=@meme.id%>" href="/comicshop/deleteit/<%=@meme.id%>">delete</button>
+			<% end %>
+			</div>
+		</div>
+		<div class="col-sm-12"  style="display:flex;flex-direction:row;margin-bottom:10px">
+		<p style="padding-top:10px"><span id="pointscount<%=@meme.id%>"><%= @meme.get_likes.size - @meme.get_dislikes.size %></span> Points - <%= @meme.memecomments.count %> Comments</p>
+    </div>
+		<div class="col-sm-12" style="text-align: center;margin-bottom:10px">
+			<%= image_tag @meme.photo.url, class: "displayphotos" %>
+		</div>
+		<div class="col-sm-5"  style="display:flex;flex-direction:row;margin-bottom:10px">
+			<button 
+					<% if user_signed_in? %>
+					onclick="validfun(<%=@meme.id%>)" 
+					<% else %>
+					onclick="pleaseSignIn(<%=@meme.id%>)" 
+					<% end %>
+					type="button" class="btn btn-md 
+						<% if user_signed_in? %>
+						<% if current_user.voted_up_on? @meme %>
+							btn btn-success
+						<% else %>
+							btn btn-default
+						<% end %>
+						<% else %> 
+							btn btn-default
+						<% end %>
+						" id="vvalid<%=@meme.id%>">
+						<i class="fa fa-thumbs-o-up fa-lg" aria-hidden="true"></i></button>
+					<button  style="margin-left:10px"
+					<% if user_signed_in? %>
+					onclick="invalidfun(<%=@meme.id%>)"
+					<% else %>
+					onclick="pleaseSignIn(<%=@meme.id%>)" 
+					<% end %>
+					type="button"  class="btn btn-md 
+						<% if user_signed_in? %>
+						<% if current_user.voted_down_on? @meme %>
+							btn btn-danger
+						<% else %>
+							btn btn-default
+						<% end %>
+						<% else %>
+							btn btn-default
+						<% end %>
+							" id="vinvalid<%=@meme.id%>"><i class="fa fa-thumbs-o-down fa-lg" aria-hidden="true"></i></button>
+
+							
+		</div>
+		<div class="col-sm-7"  style="display:flex;flex-direction:row;margin-bottom:10px">
+		<button class="btn" style="background-color: #1da1f2;color:white;margin-right: 10px"><i class="fa fa-twitter fa-md" aria-hidden="true"></i> Share on Twitter</button>
+		<button class="btn" style="background-color: #3b5998;color:white"><i class="fa fa-facebook fa-md" aria-hidden="true"></i> Share on Facebook</button>
+		</div>
+<div class="col-sm-12" style="margin:0px">
+<hr style="margin:0px;margin-bottom:10px;margin-top:10px">
+</div>
+    <% if user_signed_in? %>
+	<div class="col-sm-12" style="display:flex;flex-direction:row;margin-top:10px;padding-top:10px">
+    	<nav id="messageUser">
+			<a href="/profile/<%= current_user.id %>" >
+			<%= image_tag current_user.avatar.url(:medium) , :id => "userBigLogo", :style => "margin-right:10px"%></a>
+		</nav>
+		<div style="width:100%">
+		<%= form_for([@meme, @meme.memecomments.build]) do |f| %>
+    		<%= f.text_area :content, class: 'form-control' %>
+    		<%= f.submit "Post comment", class: 'btn btn-default' %>
+		<% end %>
+		</div>
+	</div>
+	<% end %>
+<% @memecomments.order(:cached_votes_score).reverse.each do |comment| %>
+	<div class="col-sm-12" style="display:flex;flex-direction:row;margin-bottom:10px;margin-top:10px">
+	<div>
+		<%= image_tag comment.user.avatar.url(:medium) , :id => "userBigLogo", :style => "margin-right:10px;"%>
+	</div>
+	<div>
+		<a href= "/profile/<%= comment.user.id%>" style="font-weight:bold;margin:0px;"><%= comment.user.display_name %></a>
+		<p style="display:inline-block;font-size:80%;"><span id="comment<%= comment.id %>"><%= comment.get_likes.size - comment.get_dislikes.size %></span> points</p>
+		<%= simple_format comment.content, style: "margin:0px;margin-bottom:5px;margin-top:-5px" %>
+		<div style="display:flex;flex-direction:row;">
+			<a onclick="likeCCFun(<%= comment.id %>)" class="upArrow" id="upArrow<%= comment.id %>"
+				<% if current_user.voted_up_on? comment %>
+							style="background-position: 0px -40px"
+				<% end %>
+			></a>
+			<a onclick="dislikeCCFun(<%= comment.id %>)" class="downArrow" id="downArrow<%= comment.id %>"
+				<% if current_user.voted_down_on? comment %>
+				style="background-position: -20px -40px"
+				<% end %>
+			></a></div>
+
+</div>
+</div>
+
+<div class="col-sm-12" style="margin:0px">
+<hr style="margin:0px;margin-bottom:10px">
+</div>
+<% end %>
+</div>
+</div>
+	<div class="col-sm-4">
+		<% @memesbefore.each do |meme| %>
+			<a href="/comicshop/show/<%=@meme.id%>"><div class="col-sm-12" style="margin-bottom:10px">
+			<%= image_tag meme.photo.url(:medium), id: "sidephoto" %>
+			<%= meme.title.humanize %></div>
+			</div>
+		<% end %>
+		<% @memesafter.each do |meme| %>
+			<a href="/comicshop/show/<%=@meme.id%>"><div class="col-sm-12" style="margin-bottom:10px">
+			<%= image_tag meme.photo.url(:medium), id: "sidephoto" %>
+			<%= meme.title.humanize %></div>
+			</div>
+		<% end %>
+	</div>
+</section>

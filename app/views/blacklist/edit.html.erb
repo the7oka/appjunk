@@ -1,0 +1,67 @@
+<% content_for :head do %>
+	<link href="/assets/blacklist.scss" rel="stylesheet" >
+	<script type="text/javascript" src='/assets/blacklist.js'></script>
+	<script type="text/javascript" src='/assets/bootstrap-filestyle.min.js'></script>
+	<meta property="og:description"   content="<%=@complaint.content%>"/>
+	<meta property="og:image"         content="<%=@complaint.photo_one.url%>"/>
+	<meta property="og:url"           content="http://www.appjunk.com/show/<%=@complaint.id%>"/>
+	<script>
+		$(document).ready(function(){
+			$(":file").filestyle({icon: false});
+			$(":file").filestyle('size', 'sm');
+			$('#app').html('shopping');
+			$('#junk').html(' blacklist');
+	companies = $('#complaint_company_id').html();
+	category = $('#company_category_id :selected').text();
+		options = $(companies).filter("optgroup[label="+'"'+category+'"'+"]").html();
+		if (options == null){
+			$('#complaint_company_id').empty()
+		}
+		else{
+			$('#complaint_company_id').html(options)
+		}
+	$('#company_category_id').change(function() {
+		category = $('#company_category_id :selected').text();
+		options = $(companies).filter("optgroup[label="+'"'+category+'"'+"]").html();
+		if (options == null){
+			$('#complaint_company_id').empty()
+		}
+		else{
+			$('#complaint_company_id').html(options)
+		}
+		});
+
+		
+});
+	</script>
+<% end %>
+<section class="container">	
+		<div class="col-sm-12">
+		<%= form_for([@complaint]) do |f| %>
+					<div style="padding-top:15px;" id="showMessage">
+						<a href="/profile/<%= @complaint.user.id %>">
+							<%= image_tag @complaint.user.avatar.url(:medium) , :id => "userLogo", :style => "margin-right:10px"%>
+							<%= @complaint.user.display_name %>
+						</a>
+					<div style="margin-left: 20px;padding-top:10px">
+					Category: <%= collection_select(:company,:category_id, Category.order(:name) , :id ,:name,{:include_blank => 'Select company category'}, prompt: true,class: 'form-control form-control-sm',id: "categoryList") %>
+					Company: <%= grouped_collection_select(:complaint, :company_id, Category.order(:name) , :companies ,:name, :id, :name,{}, prompt: true,class: 'form-control form-control-sm',id: "companyList") %>
+					</div>
+					<div class="showphotos">
+					<div style="padding-bottom:20px">
+						<%= f.file_field :photo_one, accept: "image/*" %>
+						<%= f.file_field :photo_two, accept: "image/*" %>
+						<%= f.file_field :photo_three, accept: "image/*" %>
+					</div>
+							<div>
+							
+							<%= f.text_area :content, :maxlength => "4000", :minlength=> "5",class: 'form-control',style: "width:100%;height:150px" %>
+						<div style="text-align: center">
+							<%= f.submit :Submit, class: 'btn btn-primary',style: 'margin-top:20px;margin-bottom:20px' %>
+						</div>
+					</div>
+					<hr>
+					</div>
+					</div>
+<% end %>
+				</div>

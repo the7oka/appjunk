@@ -1,0 +1,55 @@
+<style>
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+.form-control{
+	margin-bottom:10px;
+}
+.btn-primary{
+	width:100%;
+}
+</style>
+<section class="container">
+	<div class="col-sm-3"></div>
+	<div class="col-sm-6">
+	<%= form_for @project do |f| %>
+		<%= f.text_field :title, :maxlength => "50", :minlength=> "1", class: "form-control", placeholder: "Add project title" %>
+		<%= f.text_field :url, :maxlength => "50", :minlength=> "1", class: "form-control", placeholder: "Add project url" %>
+		<%= f.submit 'Add', class: "btn btn-primary" %>
+	<% end%>
+	</div>
+	<div class="col-sm-3"></div>
+</section>
+<section class="container">
+	<div class="col-sm-3"></div>
+	<div class="col-sm-6">
+		<table>
+		<% @projects.each_with_index do |project , index| %>
+			<tr>
+			<th style="width:100px"><%= index %></th>
+			<th style="width:500px"><%= project.title.humanize %></th>
+			<th style="width:300px"><%= project.url %></th>
+			<th><%= project.id %></th>
+			<% if project.super == false %>
+			<th><a href='/makesuper/<%=project.id%>'>Super</a></th>
+			<% else %>
+			<th><a href='/unmakesuper/<%=project.id%>'>UnSuper</a></th>
+			<% end %>
+
+			</tr>
+		<% end %>
+		</table>
+	</div>
+</section>

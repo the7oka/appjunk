@@ -1,0 +1,54 @@
+<% content_for :head do %>
+  <link href="/assets/countdown.scss" rel="stylesheet" type="text/css">
+  <meta property="og:description"   content="AppJunk is an upcoming Egyptian website made by users for users"/>
+  <meta property="og:image"         content="http://www.appjunk.com/assets/backgroundedited.jpg"/>
+  <meta property="og:url"           content="http://www.appjunk.com"/>
+<% end %>
+<section class="container">
+	<div class="staytuned">Stay tuned for the <span id="app" style="font-size: 120%">app</span><span id="junk" style="font-size: 120%">junk</span> website launch</div>
+</section>
+<section class="container countdowncontainer">
+	<div class="col-sm-6 col-md-3">
+		<div id="daysview">00</div>
+		<div id="days">Days</div>
+	</div>
+	<div class="col-sm-6 col-md-3">
+	<div id="hoursview">00</div>
+		<div id="hours">Hours</div>
+	</div>
+	<div class="col-sm-6 col-md-3">
+		<div id="minutesview">00</div>
+		<div id="seconds">Minutes</div>
+	</div>
+	<div class="col-sm-6 col-md-3">
+		<div id="secondsview">00</div>
+		<div id="seconds">Seconds</div>
+	</div>
+</section>
+
+<footer class="container footercontainer">
+	<div class="col-sm-12" style="padding-bottom:10px">
+	<div class="col-sm-6" style="text-align: center;margin-bottom:10px">
+		<%= form_for(@visitoremail) do |f| %>
+			<%= f.email_field :address, :placeholder => "example@example.com", :class => "form-control" %>
+			<%= f.submit "subscribe", :class => "btn btn-primary subscribebutton"%>
+		<% end %>
+	</div>
+	<div class="col-sm-6" style="text-align: center">
+		<a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]=http://www.appjunk.com&p[images][0]=&p[title]=Title%20Goes%20Here&p[summary]=Description%20goes%20here!" target="_blank" onclick="window.open(this.href,'targetWindow','toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=250'); return false"><button type="button" class="btn btn-facebook"><i class="fa fa-facebook" aria-hidden="true"></i> Share on Facebook</button></a>
+	</div>
+	</div>
+	<div class="col-sm-4 col-xs-5 col-lg-4" style="display:flex;flex-direction: row;">
+  		<div id="copyr">&copy; 2016 Appjunk</div>
+  	</div>
+
+  	<div class="col-sm-8 col-xs-7 col-lg-8">
+
+        <nav id="footer">
+    		<a href="http://www.twitter.com/appjunkcom" target="_blank"><p id="twitter"></p></a>
+       		<a href="http://www.facebook.com/appjunkcom" target="_blank"><p id="facebook"></p></a>
+		    <a href="http://the7oka.tumblr.com/" target="_blank"><p id="tumblr"></p></a>
+       		<a href="https://www.instagram.com/thereal7oka/" target="_blank"><p id="instagram"></p></a>
+      	</nav>
+    </div>
+ </footer>

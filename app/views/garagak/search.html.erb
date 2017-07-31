@@ -1,0 +1,188 @@
+<% content_for :head do %>
+	<link href="/assets/garagak.scss" rel="stylesheet" >
+	<script>
+		$(document).ready(function(){
+			$("#viewmore").click(function(){
+
+        	$("#themore").slideToggle("slow");
+        	$('#viewmorelink').text( $('#viewmorelink').text() == 'View more options' ? "View Less options" : "View more options");
+    	});
+			$('#app').html('Garag');
+		$('#junk').html('ak');
+		$('.selltitle').click(function(){
+		window.location = "/garagak/new";
+		})
+		$("#logolink").attr("href", "/garagak");
+			$('#year_carlisting').val(<%= params[:year] %>);
+			$('#engine_carlisting').val(<%= params[:engine] %>);
+			$('#fromyear_').val(<%= params[:fromyear] %>);
+			$('#toyear_').val(<%= params[:toyear] %>);
+			$('#frommilleage_').val(<%= params[:frommilleage] %>);
+			$('#tomilleage_').val(<%= params[:tomilleage] %>);
+			$('#fromprice_').val(<%= params[:fromprice] %>);
+			$('#toprice_').val(<%= params[:toprice] %>);
+			$('#frommilleage_').val(<%= params[:fromkm] %>);
+			$('#tomilleage_').val(<%= params[:tokm] %>);
+			<% if params[:automatic] %>
+			if (<%= params[:automatic] %> == "0"){
+				$('input:radio[name="automatic"]').filter('[value="0"]').attr('checked', true);
+			}
+			if (<%= params[:automatic] %> == "1"){
+				$('input:radio[name="automatic"]').filter('[value="1"]').attr('checked', true);
+			}
+			<% end %>
+			<% if params[:fourdoor] %>
+			if (<%= params[:fourdoor] %> == "0"){
+				$('input:radio[name="fourdoor"]').filter('[value="0"]').attr('checked', true);
+			}
+			if (<%= params[:fourdoor] %> == "1"){
+				$('input:radio[name="fourdoor"]').filter('[value="1"]').attr('checked', true);
+			}
+			<% end %>
+			c="";
+	carmodels = $('#carmodelList').html();
+	$('#carmodelList').html("<option value="+c+">Select a carbrand first</option>")
+	options= null;
+	$('#carbrandList').val(<%= params[:carbrand_id] %>);
+	carbrand = $('#carbrandList :selected').text();
+		options = $(carmodels).filter("optgroup[label="+'"'+carbrand+'"'+"]").html();
+		if (options == null){
+			$('#carmodelList').html("<option value="+c+">Select a carbrand first</option>")
+		}
+		else{
+			$('#carmodelList').html(options)
+		}
+	$('#carmodelList').val(<%= params[:carmodel_id] %>);
+	$('#cartypeList').val(<%= params[:cartype_id] %>);
+	$('#carbrandList').change(function() {
+		carbrand = $('#carbrandList :selected').text();
+		options = $(carmodels).filter("optgroup[label="+'"'+carbrand+'"'+"]").html();
+		if (options == null){
+			$('#carmodelList').html("<option value="+c+">Select a carbrand first</option>")
+		}
+		else{
+			$('#carmodelList').html(options)
+		}
+		});
+
+	areas = $('#areaList').html();
+	$('#areaList').html("<option value="+c+">Select a city first</option>")
+	options= null;
+	$('#cityList').val(<%= params[:city_id] %>);
+	city = $('#cityList :selected').text();
+		options = $(areas).filter("optgroup[label="+'"'+city+'"'+"]").html();
+		if (options == null){
+			$('#areaList').html("<option value="+c+">Select a city first</option>")
+		}
+		else{
+			$('#areaList').html(options)
+		}
+		$('#areaList').val(<%= params[:area_id] %>);
+	$('#cityList').change(function() {
+		city = $('#cityList :selected').text();
+		options = $(areas).filter("optgroup[label="+'"'+city+'"'+"]").html();
+		if (options == null){
+			$('#areaList').html("<option value="+c+">Select a city first</option>")
+		}
+		else{
+			$('#areaList').html(options)
+		}
+		});
+});
+</script>
+<% end %>
+<section class="container" style="padding:0px">
+	<div class="col-sm-6 inactivetitle selltitle">
+	Sell your car
+	</div>
+	<div class="col-sm-6 activetitle buytitle">
+	Buy a car
+	</div>
+</section>
+<section class="container formcontainer">
+<%= form_tag(carlistings_path, :method => "get", id: "search-form") do %>
+	<div class="col-sm-3">
+	<%= collection_select(:carmodel,:carbrand_id, Carbrand.order(:name) , :id ,:name,{:include_blank => 'All carbrands'},class: 'form-control form-control-sm',id: "carbrandList" , name: 'carbrand_id') %>
+	</div>
+	<div class="col-sm-3">
+	<%= grouped_collection_select(:carlisting, :carmodel_id, Carbrand.order(:name) , :carmodels ,:name, :id, :name,{},class: 'form-control form-control-sm',id: "carmodelList", name: 'carmodel_id') %>
+	</div>
+	<div class="col-sm-3">
+	<%= select :fromyear,nil, (Time.zone.now.year + 1).downto(Time.zone.now.year - 30).to_a,{:include_blank => 'From year'},class: 'form-control form-control-sm', name:'fromyear' %>
+	</div>
+	<div class="col-sm-3">
+	<%= select :toyear,nil, (Time.zone.now.year + 1).downto(Time.zone.now.year - 30).to_a,{:include_blank => 'To year'},class: 'form-control form-control-sm', name:'toyear' %>
+	</div>
+	<div class="col-sm-12" id="viewmore"><a id="viewmorelink">View more options</a></div>
+	<span id="themore">
+	<div class="col-sm-12">
+		<hr style="margin-bottom:10px;margin-top:5px">
+	</div>
+	<div class="col-sm-3">
+	<%= select :fromprice,nil, options_for_select((0..2000000).step(500)), {:include_blank => 'Minimum price'},:class => 'form-control form-control-sm', name: 'fromprice' %>
+	</div>
+	<div class="col-sm-3">
+	<%= select :toprice,nil, options_for_select((0..2000000).step(500)), {:include_blank => 'Maximum price'},:class => 'form-control form-control-sm', name: 'toprice' %>
+	</div>
+	<div class="col-sm-3">
+	<%= select :frommilleage,nil, options_for_select((0..100000).step(1000)), {:include_blank => 'Minimum KM'},:class => 'form-control form-control-sm', name: 'fromkm' %>
+	</div>
+	<div class="col-sm-3">
+	<%= select :tomilleage,nil, options_for_select((0..100000).step(1000)), {:include_blank => 'Maximum KM'},:class => 'form-control form-control-sm', name: 'tokm' %>
+	</div>
+	<div class="col-sm-12">
+		<hr style="margin-bottom:10px">
+	</div>
+	<div class="col-sm-3">
+	<%= collection_select(:area,:city_id, City.order(:name) , :id ,:name,{:include_blank => 'All cities'},class: 'form-control form-control-sm',id: "cityList", name: 'city_id') %>
+	</div>
+	<div class="col-sm-3">
+	<%= grouped_collection_select(:carlisting, :area_id, City.order(:name) , :areas ,:name, :id, :name,{},class: 'form-control form-control-sm',id: "areaList", name: 'area_id') %>
+	</div>
+	<div class="col-sm-3">
+	<%= select :engine,:carlisting, options_for_select((900..3000).step(100)),{:include_blank => 'Select engine capacity'},class: 'form-control form-control-sm', name: 'engine' %>
+	</div>
+	<div class="col-sm-3">
+	<%= select :tire,nil, options_for_select((5..30).step(1)), {:include_blank => 'Select tire size'},:class => 'form-control form-control-sm',name: 'tire'%>
+	</div>
+	<div class="col-sm-12">
+		<hr style="margin-bottom:10px">
+	</div>
+	<div class="col-sm-3" style="text-align: center;">
+	<div><%= radio_button :automatic,nil, "1",name: 'automatic' %>Automatic transmission</div>
+	<div style="margin-left:-16px"><%= radio_button :automatic,nil, "0",name: 'automatic' %>Manual transmission</div>
+	</div>
+	<div class="col-sm-3" style="text-align: center;">
+	<div><%= radio_button :fourdoor,nil, "1" , name: 'fourdoor' %>4-door</div>
+	<div><%= radio_button :fourdoor,nil, "0", name: 'fourdoor' %>2-door</div>
+	</div>
+	<div class="col-sm-3">
+	<%= collection_select(:carlisting, :cartype_id, Cartype.all, :id, :name,{:include_blank => 'Please select car type'},class: 'form-control form-control-sm',id: "cartypeList", name: 'cartype_id') %>
+	</div>
+	<div class="col-sm-12">
+		<hr style="margin-bottom:10px">
+	</div>
+	<div class="col-sm-12" style="display:flex; justify-content: space-between;">
+	<div><%= check_box nil,:ac, {name: 'ac'},"1",nil %>AC</div>
+	<div><%= check_box nil,:electricwindow, {name: 'electricwindow'},"1",nil %>Electric Windows</div>
+	<div><%= check_box nil,:sunroof, {name: 'sunroof'},"1",nil %>Sunroof</div>
+	<div><%= check_box nil,:abs, {name: 'abs'},"1",nil %>ABS</div>
+	<div><%= check_box nil,:ebd, {name: 'ebd'},"1",nil %>EBD</div>
+	<div><%= check_box nil,:centerlock, {name: 'centerlock'},"1",nil %>Centerlock</div>
+	</div>
+	<div class="col-sm-12" style="display:flex; justify-content: space-between;">
+	<div><%= check_box nil,:alarm, {name: 'alarms'},"1",nil %>Alarm</div>
+	<div><%= check_box nil,:cruisecontrol, {name: 'cruisecontrol'},"1",nil %>Cruise Control</div>
+	<div><%= check_box nil,:powersteering, {name: 'powersteering'},"1",nil %>Power steering</div>
+	<div><%= check_box nil,:airbag, {name: 'airbag'},"1",nil %>Airbag</div>
+	<div><%= check_box nil,:music, {name: 'music'},"1",nil %>Music</div>
+	<div><%= check_box nil,:electricmirror, {name: 'electricmirror'},"1",nil %>Electric mirrors</div>
+	<div><%= check_box nil,:foldingmirror, {name: 'foldingmirror'},"1",nil %>Folding mirrors</div>
+	</div>
+	</span>
+	<div class="col-sm-12" style="text-align: center;margin:20px">
+	<%= submit_tag "Search", name: nil, class: 'btn btn-primary btn-lg hefzbutton' %>
+	</div>
+<% end %>
+</section>
+<%= render partial: "results" %>

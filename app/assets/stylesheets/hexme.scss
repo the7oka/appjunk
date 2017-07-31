@@ -1,0 +1,67 @@
+#label{
+	text-align: right;
+}
+#floor,#output,#output2,#output3{
+	display:inline-block;
+	width:200px;
+	height:200px;
+	//border: 5px solid black;
+}
+#floor{
+	background-image: url("/assets/chessboard.jpg");
+	border-radius: 50%;
+}
+#output{
+	position:relative;
+	margin-left: -204px;
+	border-radius: 50%;
+}
+#ho,#so,#lo,#ao {
+	display:inline-block;
+	width: 50px;
+}
+#info{
+	font-size: 150%;
+	margin-top:60px;
+	display: inline-block;
+	text-align: left;
+}
+input[type=range]{
+    -webkit-appearance: none;
+    //width:300px;
+    border-radius: 10px;
+    //border:1px solid black;
+}
+#h{
+	background: -webkit-linear-gradient(left,hsla(0,100%,50%,1),hsla(45,100%,50%,1),hsla(90,100%,50%,1),hsla(135,100%,50%,1),hsla(180,100%,50%,1),hsla(225,100%,50%,1),hsla(270,100%,50%,1),hsla(315,100%,50%,1),hsla(360,100%,50%,1)); /*Safari 5.1-6*/
+	background: -o-linear-gradient(right,hsla(0,100%,50%,1),hsla(45,100%,50%,1),hsla(90,100%,50%,1),hsla(135,100%,50%,1),hsla(180,100%,50%,1),hsla(225,100%,50%,1),hsla(270,100%,50%,1),hsla(315,100%,50%,1),hsla(360,100%,50%,1)); /*Opera 11.1-12*/
+	background: -moz-linear-gradient(right,hsla(0,100%,50%,1),hsla(45,100%,50%,1),hsla(90,100%,50%,1),hsla(135,100%,50%,1),hsla(180,100%,50%,1),hsla(225,100%,50%,1),hsla(270,100%,50%,1),hsla(315,100%,50%,1),hsla(360,100%,50%,1)); /*Fx 3.6-15*/
+	background: linear-gradient(to right, hsla(0,100%,50%,1),hsla(45,100%,50%,1),hsla(90,100%,50%,1),hsla(135,100%,50%,1),hsla(180,100%,50%,1),hsla(225,100%,50%,1),hsla(270,100%,50%,1),hsla(315,100%,50%,1),hsla(360,100%,50%,1));
+    //border: none;
+}
+input[type=range]::-webkit-slider-runnable-track {
+    //width: 1000px;
+    height: 20px;
+    //background: grey;
+    //background: -webkit-linear-gradient(left,hsla(0,100%,50%,1),hsla(45,100%,50%,1),hsla(90,100%,50%,1),hsla(135,100%,50%,1),hsla(180,100%,50%,1),hsla(225,100%,50%,1),hsla(270,100%,50%,1),hsla(315,100%,50%,1),hsla(360,100%,50%,1)); /*Safari 5.1-6*/
+	//background: -o-linear-gradient(right,hsla(0,100%,50%,1),hsla(45,100%,50%,1),hsla(90,100%,50%,1),hsla(135,100%,50%,1),hsla(180,100%,50%,1),hsla(225,100%,50%,1),hsla(270,100%,50%,1),hsla(315,100%,50%,1),hsla(360,100%,50%,1)); /*Opera 11.1-12*/
+	//background: -moz-linear-gradient(right,hsla(0,100%,50%,1),hsla(45,100%,50%,1),hsla(90,100%,50%,1),hsla(135,100%,50%,1),hsla(180,100%,50%,1),hsla(225,100%,50%,1),hsla(270,100%,50%,1),hsla(315,100%,50%,1),hsla(360,100%,50%,1)); /*Fx 3.6-15*/
+	//background: linear-gradient(to right, hsla(0,100%,50%,1),hsla(45,100%,50%,1),hsla(90,100%,50%,1),hsla(135,100%,50%,1),hsla(180,100%,50%,1),hsla(225,100%,50%,1),hsla(270,100%,50%,1),hsla(315,100%,50%,1),hsla(360,100%,50%,1));
+    //border: none;
+
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    border: none;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: #e6e6e6;
+    margin-top: 0px;
+    border:1px solid black;
+}
+
+input[type=range]:focus {
+    outline: none;
+}

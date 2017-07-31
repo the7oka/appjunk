@@ -1,0 +1,101 @@
+<section class="container formcontainer">
+<%= form_for([@user, @carlisting]) do |f| %>
+			<div class="col-sm-6">
+			Choose a brand:
+			<%= collection_select(:carmodel,:carbrand_id, Carbrand.order(:name) , :id ,:name,{:include_blank => 'All carbrands'}, required: true,class: 'form-control form-control-sm',id: "carbrandList") %>
+			</div>
+			<div class="col-sm-6">
+			Choose a model:
+			<%= grouped_collection_select(:carlisting, :carmodel_id, Carbrand.order(:name),:carmodels_by_name , :name, :id, :name,{}, required: true,class: 'form-control form-control-sm',id: "carmodelList") %>
+			</div>
+			<div class="col-sm-12">
+			<hr style="margin-bottom:10px">
+			</div>
+			<div class="col-sm-6">
+			Choose a car type:
+			<%= collection_select(:carlisting, :cartype_id, Cartype.all, :id, :name,{:include_blank => 'Please select car type'}, required: true,class: 'form-control form-control-sm') %>
+			</div>
+			<div class="col-sm-6">
+			Year: <%= f.select :year, (Time.zone.now.year + 1).downto(Time.zone.now.year - 30).to_a, {}, { :class => 'form-control form-control-sm' }  %>
+			</div>
+			<div class="col-sm-6">
+			Engine(in CC): <%= f.select :engine, options_for_select((900..3000).step(100)), {}, { :class => 'form-control form-control-sm' } %>
+			</div>
+			<div class="col-sm-6">
+			Millage(in KM): <%= f.select :milleage, options_for_select((0..100000).step(1000)), {}, { :class => 'form-control form-control-sm' } %>
+			</div>
+			<div class="col-sm-6">
+			Price(in EGP): <%= f.select :price, options_for_select((500..2000000).step(500)), {}, { :class => 'form-control form-control-sm' } %>
+			</div>
+			<div class="col-sm-6">
+			Tires(in Inch): <%= f.select :tire, options_for_select((5..30).step(1)), {}, { :class => 'form-control form-control-sm' } %>
+			</div>
+			<div class="col-sm-12">
+			<hr style="margin-bottom:10px">
+			</div>
+			<div class="col-sm-6" style="text-align: center;">
+			<div><%= f.radio_button :automatic, "1", required: true %>Automatic transmission</div>
+			<div style="margin-left:-16px"><%= f.radio_button :automatic, "0" %>Manual transmission</div>
+			</div>
+			<div class="col-sm-6" style="text-align: center;">
+			<div><%= f.radio_button :fourdoor, "1" , required: true %>4-door</div>
+			<div><%= f.radio_button :fourdoor, "0" %>2-door</div>
+			</div>
+			<div class="col-sm-12">
+			<hr style="margin-bottom:10px">
+			</div>
+			<div class="col-sm-12" style="display:flex; justify-content: space-between;">
+			<div><%= f.check_box :ac %>AC</div>
+			<div><%= f.check_box :electricwindow %>Electric Windows</div>
+			<div><%= f.check_box :sunroof %>Sunroof</div>
+			<div><%= f.check_box :abs %>ABS</div>
+			<div><%= f.check_box :ebd %>EBD</div>
+			<div><%= f.check_box :centerlock %>Centerlock</div>
+			</div>
+			<div class="col-sm-12" style="display:flex; justify-content: space-between;">
+			<div><%= f.check_box :alarm %>Alarm</div>
+			<div><%= f.check_box :cruisecontrol %>Cruise Control</div>
+			<div><%= f.check_box :powersteering %>Power steering</div>
+			<div><%= f.check_box :airbag %>Airbag</div>
+			<div><%= f.check_box :music %>Music</div>
+			<div><%= f.check_box :electricmirror %>Electric mirrors</div>
+			<div><%= f.check_box :foldingmirror %>Folding mirrors</div>
+			</div>
+			<div class="col-sm-12">
+			<hr style="margin-bottom:10px">
+			</div>
+			<div class="col-sm 12" style="padding-left:20px;margin-bottom:10px">
+			Attach photos :
+			</div>
+			<div class="col-sm-6" style="padding-left:50px">
+			<%= f.file_field :photo_one %>
+			<%= f.file_field :photo_two %>
+			<%= f.file_field :photo_three %>
+			</div>
+			<div class="col-sm-6">
+			Phone: <%= f.telephone_field :phone, class: 'form-control phonearea', :maxlength => "11", :minlength=> "11",required: true %>
+			</div>
+			<div class="col-sm-12">
+			<hr style="margin-bottom:10px">
+			</div>
+			<div class="col-sm-12">
+			  details :
+			    <%= f.text_area :details, :maxlength => "1500", :minlength=> "5",style: "width:100%;height:150px",class: 'form-control',required: true %>
+			 </div>
+			 <div class="col-sm-12">
+			<hr style="margin-bottom:10px">
+			</div>
+			  <div class="col-sm-6">
+			Choose a city:
+			<%= collection_select(:area,:city_id, City.order(:name) , :id ,:name,{:include_blank => 'All cities'}, required: true,class: 'form-control form-control-sm',id: "cityList") %>
+			</div>
+			<div class="col-sm-6">
+			Choose an area:
+			<%= grouped_collection_select(:carlisting, :area_id, City.order(:name) , :areas ,:name, :id, :name,{}, required: true,class: 'form-control form-control-sm',id: "areaList") %>
+			</div>
+			
+			<div class="col-sm-12" style="text-align: center;margin:20px">
+			    <%= f.submit :Submit, class: 'btn btn-primary btn-lg hefzbutton' %>
+			</div>
+			<% end %>
+</section>

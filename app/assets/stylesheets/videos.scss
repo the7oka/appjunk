@@ -1,0 +1,116 @@
+body{
+	background-color: black
+}
+.sidevideo {
+	position: relative;
+	height:50%;
+	width:100%;
+	z-index:2;
+	cursor:pointer;
+}
+#bigone{
+	position: relative;
+	height:100%;
+	width:100%;
+	z-index:2;
+}
+#videologo{
+	margin:10px;
+	position:absolute;
+	z-index:3;
+	width:30%;
+	right: 0; 
+	bottom: 0;
+	border-radius: 5px;
+  opacity: 0.6;
+}
+#playbutton,#playbuttonreal{
+	position:absolute;
+	z-index:4;
+	width:10%;
+	height:auto;
+	right: 45%; 
+	top: 40%;
+	cursor:pointer;
+}
+#videocomment_content{
+	width:100%;
+}
+.upArrow {
+    //border: 1px solid black;
+    background-image: url(/assets/comment-sprite.png);
+    background-position: 0px 0px;
+    width: 22px;
+    margin-right:5px;
+    cursor: pointer;
+  }
+  .downArrow {
+    //border: 1px solid black;
+    background-image: url(/assets/comment-sprite.png);
+    background-position: -20px 0px;
+    height: 20px;
+    width: 22px;
+    cursor: pointer;
+  }
+hr {
+  margin:0px;
+  border: 0;
+  height: 1px;
+  background: #333;
+  background-image: linear-gradient(to right, #ccc, #333, #ccc);
+}
+
+#playlist {
+   	height:427px; 
+    overflow: scroll;
+    overflow-x: hidden;
+    border-radius: 5px;
+}
+
+/* Let's get this party started */
+.col-sm-4 ::-webkit-scrollbar {
+	background-color: grey;
+    width: 12px;
+    border-radius: 5px;
+}
+ 
+.col-sm-4 ::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    border-radius: 10px;
+}
+ 
+.col-sm-4 ::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: white;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+}
+#ulx {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    border-radius: 5px;
+    background-color: black;
+    margin-bottom:10px;
+}
+
+#ulx li {
+    float: left;
+}
+
+#ulx li a {
+    display: block;
+    color: #666;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+#ulx li a:hover:not(.active) {
+    background-color: #ddd;
+}
+
+#ulx li a.active {
+    color: white;
+    background-color: #aeaeae;
+}

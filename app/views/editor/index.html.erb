@@ -1,0 +1,41 @@
+<%= content_for :head do %>
+<link rel="stylesheet" href="assets/editor.scss">
+<script type="text/javascript" src="assets/editor.js"></script>
+<script src="/assets/ace.js"></script>  
+<script src="/assets/theme-clouds.js"></script>
+<script src="/assets/mode-markdown.js"></script>
+ <script src="/assets/textarea-as-ace-editor.js"></script>
+ <meta property="og:description"   content="Let's put your small code to the test!"/>
+	<meta property="og:image"         content="http://www.appjunk.com/assets/testmeimage.PNG"/>
+	<meta property="og:url"           content="http://www.appjunk.com/testme"/>
+    <script>
+      $( document ).ready(function() {
+        var editor = $("textarea").asAceEditor();
+      });
+    </script>
+<% end %>
+	<section class="container">
+			<div class="col-sm-6">
+				<textarea class="col-sm-12" id="input"></textarea>
+			</div>
+			<div class="col-sm-6">
+				<div class="col-sm-12" id="output"></div>
+			</div>
+	</section>
+	<section>
+		<div class="col-sm-12" id="buttons">
+			<div class="col-sm-2"></div>
+			<div class="col-sm-2">
+				<button id="zorar" onclick="cleanUp()">Clean Up</button>
+			</div>
+			<div class="col-sm-2">
+				<button id="zorar" onclick="editorFunction(); clickFunction()">RUN</button>
+			</div>
+			<div class="col-sm-2">
+				<input type="checkbox" id="automatic" >  Submit the changes LIVE</input>
+			</div>
+			<div class="col-sm-4" style="padding-top:15px">
+				<a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]=http://www.appjunk.com/testme&p[images][0]=&p[title]=TestMe code editor&p[summary]=Let's put your small code to the test!" target="_blank" onclick="window.open(this.href,'targetWindow','toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=250'); return false"><button type="button" class="btn btn-facebook"><i class="fa fa-facebook" aria-hidden="true"></i> Share on Facebook </button></a>
+			</div>
+		</div>
+	</section>

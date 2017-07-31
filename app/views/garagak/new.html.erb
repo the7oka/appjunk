@@ -1,0 +1,26 @@
+<% content_for :head do %>
+	<link href="/assets/garagak.scss" rel="stylesheet" >
+	<script type="text/javascript" src='/assets/garagak.js'></script>
+	<script type="text/javascript" src='/assets/bootstrap-filestyle.min.js'></script>
+	<script>
+		$(document).ready(function(){
+			$(":file").filestyle({icon: false});
+			$(":file").filesty
+			$('.buytitle').click(function(){
+				window.location = "/garagak/search";
+			})
+		})
+	</script>
+<% end %>
+<section class="jumbotron introcontainer">
+<span id="app" style="font-size:100%">garag</span><span id="junk" style="font-size:100%">ak</span> recommends that you double check every entry before submiting your ad to reach the perfect buyer for your car.
+</section>
+<section class="container" style="padding:0px">
+	<div class="col-sm-6 activetitle selltitle">
+	Sell your car
+	</div>
+	<div class="col-sm-6 inactivetitle buytitle">
+	Buy a car
+	</div>
+</section>
+<%= render partial: "carlisting_form" %>

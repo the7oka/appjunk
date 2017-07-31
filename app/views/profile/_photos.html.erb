@@ -1,0 +1,7 @@
+<div class="col-sm-12 photos" style="background-color: white;border-radius: 2px;padding:0">
+	<% @photoposts.each do |p| %>
+	<div class="col-sm-3 col-xs-6" style="padding:5px;margin:0;">
+		<a href="<%= p.photo_one.url %>" data-lightbox="roadtrip<%=p.id%>"><%= image_tag p.photo_one.url(:thumb), class: 'thumbphoto' %></a>
+	</div>
+	<% end %>
+</div>

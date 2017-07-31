@@ -1,0 +1,124 @@
+<% content_for :head do %>
+	<link href="/assets/dictionary.scss" rel="stylesheet">
+	<link href="/assets/colorbox.css" rel="stylesheet">
+	<script type="text/javascript" src='/assets/jquery.colorbox.js'></script>
+	<script type="text/javascript" src='/assets/dictionary.js'></script>
+	<link rel="stylesheet" href="/assets/bootstrap-social.css">
+	<meta property="og:description"   content="Let's make our own dictionary"/>
+	<meta property="og:image"         content="http://www.appjunk.com/assets/dictionaryimage1.PNG"/>
+	<meta property="og:url"           content="http://www.appjunk.com/dictionary"/>
+<% end %>
+<section class="container">
+<div class="col-sm-12 searchcontainer">
+<%= form_tag("/dictionary/search", method: "get") do %>
+  <%= text_field_tag :search, params[:search], placeholder: "ابحث عن كلمتك هنا ..", class: 'form-control'%>
+  <button class="btn btn-primary searchbutton"><i class="fa fa-arrow-circle-right fa-2x" aria-hidden="true"></i></button>
+  <% end %>
+  <button class="btn btn-primary randombutton" onclick="randompage()"><i class="fa fa-random fa-2x" aria-hidden="true"></i></button>
+  <button class="btn btn-primary addbutton" href="#inline-content" onclick="fillfunction('')"><i class="fa fa-plus fa-2x" aria-hidden="true"></i></button>
+  </div>
+</section>
+
+<div style="display:none">
+<% if user_signed_in? %>
+	<div id="inline-content">
+		<div id="creationbox">
+		<%= form_for @word do |f| %>
+			<p>جميع تعريفات القاموس المطور كتبت عن طريق أشخاص مثلك بالظبط..و الآن يمكنك ان تساهم بتعريفاتك الخاصة</p>
+			<%=f.text_field :word, placeholder: "الكلمة" %>
+			<p>اكتب تعريفك ليفهمه الجميع.. الكثير من الاشخاص سوف يقرأون ما ستكتبه.. اعطهم خلفية كاملة ليفهموك</p>
+			<%= fields_for @definition do |fa| %>
+      <%=fa.text_area :definition, placeholder: "اكتب تعريفك هنا.."  %>
+      		<p>اعط القارئ مثال للتوضيح.. يفضل ان يكون جزء من حديث بين اثنين او اكتر</p>
+      		<em><%=fa.text_area :example, placeholder: "اكتب مثال لكيفية استخدام الكلمة فى جملة هنا.."  %></em>
+   <% end %>
+   <%= f.submit 'Submit',class: "btn btn-primary btn-lg", id: "submitbutton", onclick: "submitfunction()"%>
+
+<% end %>
+<% else %>
+<div id="inline-content">
+	<div id='creationbox'>
+	<h3>عندنا احساس مرير انك مش مسجل دخول.. الموضوع مش هياخد ثانية</h3>
+		<div class="col-sm-6">
+		<a href="<%=user_twitter_omniauth_authorize_path%>" class="btn btn-block btn-social btn-lg btn-twitter" style="margin:auto;margin-bottom:10px;margin-top:20px">
+                <span class="fa fa-twitter"></span> Sign in with Twitter
+            </a>
+        </div>
+        <div class="col-sm-6">
+            <a href="<%=user_facebook_omniauth_authorize_path%>" class="btn btn-block btn-social btn-lg btn-facebook" style="margin:auto;margin-bottom:10px;margin-top:20px">
+              <span class="fa fa-facebook"></span> Sign in with Facebook
+            </a>
+        </div>
+        </div>
+    </div>
+<% end %>
+		</div>
+	</div>
+</div>
+<section class="container">
+	<div class="col-lg-8 col-md-12">
+<% @definitions.each_with_index do |definition, index| %>
+		<div class="wordcontainer">
+		<a href="/dictionary/word/<%=definition.word_id%>" class="word"><%= definition.word.word %></a>
+			<%=simple_format definition.definition, class: "definition" %>
+			---
+			<em><%= simple_format definition.example, class: "example" %></em>
+
+			<button style="margin-left:5px" 
+					<% if user_signed_in? %>
+					onclick="validfun(<%=definition.id%>)" 
+					<% else %>
+					onclick="pleaseSignIn(<%=definition.id%>)" 
+					<% end %>
+					type="button"
+						<% if user_signed_in? %>
+						<% if current_user.voted_up_on? definition %>
+							class="btn btn-success"
+						<% else %>
+							class="btn btn-default" 
+						<% end %>
+						<% else %> 
+							class="btn btn-default" 
+						<% end %>
+						id="vvalid<%=definition.id%>"><span id="likes<%=definition.id%>"><%= definition.get_likes.size %></span> 
+						<i class="fa fa-thumbs-o-up fa-md" aria-hidden="true"></i></button>
+					<button  style="margin-left:10px"
+					<% if user_signed_in? %>
+					onclick="invalidfun(<%=definition.id%>)"
+					<% else %>
+					onclick="pleaseSignIn(<%=definition.id%>)" 
+					<% end %>
+					type="button" 
+						<% if user_signed_in? %>
+						<% if current_user.voted_down_on? definition %>
+							class="btn btn-danger"
+						<% else %>
+							class="btn btn-default"
+						<% end %>
+						<% else %>
+							class="btn btn-default" 
+						<% end %>
+							id="vinvalid<%=definition.id%>"><span id="dislikes<%=definition.id%>"><%= definition.get_dislikes.size %></span> 
+							<i class="fa fa-thumbs-o-down fa-md" aria-hidden="true"></i></button>
+					<button href="#inline-content" onclick="fillfunction('<%=definition.word.word%>')" class="btn btn-primary addyoursbutton">ضيف معناك الخاص</button>
+			<p style="text-align: left;">Created by <a style="font-weight:bold;font-size:120%" href="/profile/<%= definition.user.id %>"><%= definition.user.display_name %></a> <%= time_ago_in_words(definition.created_at) %> ago</p>
+		</div>
+<% end %>
+</div>
+	<div class="col-lg-4 hidden-xs hidden-sm hidden-md">
+		<div id="wewantyou">
+			<p id="wewantyoumessage"><span style="background-color:yellow">انت </span><span style="background-color:yellow">من </span><span style="background-color:yellow">يصنع</span><br><span style="background-color:yellow">المعجم </span><span style="background-color:yellow">المطور</span></p>
+			<div><div id="wewantyouphoto"></div></div>
+		</div>
+		<div style="background-color: white;padding:10px">
+		<button class="btn btn-primary btn-lg newwordbutton" style="width:100%;" href="#inline-content" onclick="fillfunction('')"><span style="font-family:tahoma">ضيف كلمتك</span></button>
+		</div>
+	</div>
+</section>
+<script>
+$(document).ready(function(){
+	$('.addbutton').colorbox({inline:true, width:"50%"});
+	$('.newwordbutton').colorbox({inline:true, width:"50%"});
+	$('.addyoursbutton').colorbox({inline:true, width:"50%"});
+})
+</script>

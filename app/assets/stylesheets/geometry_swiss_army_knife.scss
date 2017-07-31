@@ -1,0 +1,56 @@
+#junk{
+	color:white;
+}
+#nav a{
+	color:white;
+}
+select, input, button{
+	color:black;
+}
+button {
+	background-color: #e6e6e6;
+	margin-bottom:10px;
+}
+h1 {
+	font-size: 40px;
+	//border:1px solid white;
+	margin-bottom: 0px;
+}
+h3 {
+	//border:1px solid white;
+	margin-top: 0px;
+}
+section {
+	font-family: "Lucida Console", Monaco, monospace;
+}
+body{
+	background-image: url("/assets/00032750.jpg");
+	color: white;
+}
+#universe{
+margin-top: 10px;
+}
+#miniuniverse{
+	margin-left: 10px;
+}
+#mySelect{
+font-size: 15px;
+width: 250px;
+border-radius: 3px;
+height: 30px;
+margin-bottom: 10px;
+}
+#width,#length,#height{
+width: 250px;
+height: 30px;
+border-radius: 3px;
+font-size: 15px;
+padding-left: 10px;
+}
+#squareButton{
+width:250px;
+height: 30px;
+border-radius: 3px;
+font-size: 15px;
+margin-top: 10px;
+}

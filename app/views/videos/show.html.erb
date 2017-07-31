@@ -1,0 +1,209 @@
+<% content_for :head do %>
+	<link href="/assets/videos.scss" rel="stylesheet" >
+	<link href="/assets/bootstrap-social.scss" rel="stylesheet" >
+	<script type="text/javascript" src='/assets/videos.js'></script>
+	<meta property="og:description"   content="<%= @video.title%>"/>
+	<meta property="og:image"         content="<%= @video.thumbnail%>"/>
+	<meta property="og:url"           content="http://www.appjunk.com/videos/<%=@video.id%>"/>
+<% end %>
+<section class="container">
+<div class="col-sm-8" style="padding:0px">
+		<div id="bigonewrapper">
+		<%= image_tag @video.thumbnail(:medium) ,id: "bigone" %>
+	<img src="/assets/videologo.png" id="videologo" />
+	<img src="/assets/playbutton.png" id="playbuttonreal" />
+	</div>
+		<div class="embed-responsive embed-responsive-16by9" id="videowrapper" style="display:none">
+		<div id="player"></div>
+		</div>
+	  	</div>
+	  	<script>
+      var tag = document.createElement('script');
+
+      tag.src = "https://www.youtube.com/iframe_api";
+      var firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+      var player;
+      function onYouTubeIframeAPIReady() {
+        player = new YT.Player('player', {
+          height: '390',
+          width: '640',
+          videoId: '<%= @video.url %>',
+          events: {
+            'onReady': onPlayerReady,
+          }
+        });
+      }
+      function onPlayerReady(event) {
+      	$('#playbuttonreal').click(function(){
+        event.target.playVideo();
+    })
+      }
+      var done = false;
+      function onPlayerStateChange(event) {
+        if (event.data == YT.PlayerState.PLAYING && !done) {
+          setTimeout(stopVideo, 6000);
+          done = true;
+        }
+      }
+      function stopVideo() {
+        player.stopVideo();
+      }
+    </script>
+    	<div class="col-sm-4">
+    		<div id="playlist">
+    			<% @videosbefore.each do |video| %>
+    			<div class="col-sm-12" style="padding:0px;padding-bottom:5px;padding-top:5px;padding-left:5px">
+    				<div class="col-sm-6"  style="padding:0px">
+    				<div id="smallonewrapper">
+						<a href="/videos/<%= video.id %>"><%= image_tag video.thumbnail(:medium) ,class: "sidevideo" %></a>
+						<img src="/assets/videologo.png" id="videologo" />
+					</div>
+					</div>
+					<div class="col-sm-6">
+						<p style="color:white;padding-top:10px;direction:rtl"><%= video.title %><br>
+						<% if video.duration? %>
+						<%=Time.at(video.duration).utc.strftime("%H:%M:%S")%>
+						<%end%>
+
+						</p>
+					</div>
+
+				</div>
+				<% end %>
+				<div class="col-sm-12" style="padding:0px;padding-bottom:5px;padding-top:5px;padding-left:5px;background-color: #484848">
+    				<div class="col-sm-6"  style="padding:0px">
+    				<div id="smallonewrapper">
+						<a href="/videos/<%= @video.id %>"><%= image_tag @video.thumbnail(:medium) ,class: "sidevideo" %></a>
+						<img src="/assets/videologo.png" id="videologo" />
+					</div>
+					</div>
+					<div class="col-sm-6">
+						<p style="color:white;padding-top:10px;direction:rtl"><%= @video.title %><br>
+<% if @video.duration? %>
+						<%=Time.at(@video.duration).utc.strftime("%H:%M:%S") %></p>
+						<%end%>
+					</div>
+
+				</div>
+				<% @videosafter.each do |video| %>
+    			<div class="col-sm-12" style="padding:0px;padding-bottom:5px;padding-top:5px;padding-left:5px">
+    				<div class="col-sm-6"  style="padding:0px">
+    				<div id="smallonewrapper">
+						<a href="/videos/<%= video.id %>"><%= image_tag video.thumbnail(:medium) ,class: "sidevideo" %></a>
+						<img src="/assets/videologo.png" id="videologo" />
+					</div>
+					</div>
+					<div class="col-sm-6">
+						<p style="color:white;padding-top:10px;direction:rtl"><%= video.title %><br>
+							<% if video.duration? %>
+						<%=Time.at(video.duration).utc.strftime("%H:%M:%S")%></p>
+						<% end%>
+
+					</div>
+
+				</div>
+				<% end %>
+	
+    		</div>
+    	</div>
+    </section>
+    <section class="container">
+    <div class="col-sm-8"  style="display:flex;flex-direction:row;margin-top:10px">
+<p class="vnotice<%=@video.id%> hidden-xs" style="font-weight:bold;color:white; margin-top:10px">Did you like this video ?</p>
+					<button style="margin-left:20px" 
+					<% if user_signed_in? %>
+					onclick="validfun(<%=@video.id%>)" 
+					<% else %>
+					onclick="pleaseSignIn(<%=@video.id%>)" 
+					<% end %>
+					type="button"
+						<% if user_signed_in? %>
+						<% if current_user.voted_up_on? @video %>
+							class="btn btn-success"
+						<% else %>
+							class="btn btn-default" 
+						<% end %>
+						<% else %> 
+							class="btn btn-default" 
+						<% end %>
+						id="vvalid<%=@video.id%>">
+						<i class="fa fa-thumbs-o-up fa-2x" aria-hidden="true"></i></button>
+					<button  style="margin-left:20px"
+					<% if user_signed_in? %>
+					onclick="invalidfun(<%=@video.id%>)"
+					<% else %>
+					onclick="pleaseSignIn(<%=@video.id%>)" 
+					<% end %>
+					type="button" 
+						<% if user_signed_in? %>
+						<% if current_user.voted_down_on? @video %>
+							class="btn btn-danger"
+						<% else %>
+							class="btn btn-default"
+						<% end %>
+						<% else %>
+							class="btn btn-default" 
+						<% end %>
+							id="vinvalid<%=@video.id%>"><i class="fa fa-thumbs-o-down fa-2x" aria-hidden="true"></i></button>
+      		<a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]=http://www.appjunk.com/videos/<%=@video.id%>&p[images][0]=&p[title]=Video of the day&p[summary]=Let's generate a password" target="_blank" onclick="window.open(this.href,'targetWindow','toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=250'); return false"><button type="button" class="btn btn-facebook fa-2x" style="margin-left:20px"><i class="fa fa-facebook" aria-hidden="true"></i> Share </button></a>
+    </section>
+    <section class="container">
+    <% if user_signed_in? %>
+	<div class="col-sm-12" style="display:flex;flex-direction:row;margin-top:10px;padding-top:10px">
+    	<nav id="messageUser">
+			<a href="/profile/<%= current_user.id %>" >
+			<%= image_tag current_user.avatar.url(:medium) , :id => "userBigLogo", :style => "margin-right:10px"%></a>
+		</nav>
+		<div style="width:100%">
+		<%= form_for([@video, @video.videocomments.build]) do |f| %>
+    		<%= f.text_area :content %>
+    		<%= f.submit "Post comment"%>
+		<% end %>
+		</div>
+	</div>
+	<% end %>
+<% @videocomments.each do |comment| %>
+	<div class="col-sm-12" style="display:flex;flex-direction:row;margin-bottom:10px;margin-top:10px">
+	<div>
+		<%= image_tag comment.user.avatar.url(:medium) , :id => "userBigLogo", :style => "margin-right:10px;"%>
+	</div>
+	<div>
+		<a href= "/profile/<%= comment.user.id%>" style="font-weight:bold;margin:0px;"><%= comment.user.display_name %></a>
+		<p style="display:inline-block;font-size:80%;color:white"><span id="comment<%= comment.id %>"><%= comment.get_likes.size - comment.get_dislikes.size %></span> points</p>
+		<%= simple_format comment.content, style: "margin:0px;color:white;margin-bottom:5px;margin-top:-5px" %>
+		<div style="display:flex;flex-direction:row;">
+			<a onclick="likeCCFun(<%= comment.id %>)" class="upArrow" id="upArrow<%= comment.id %>"
+				<% if current_user.voted_up_on? comment %>
+							style="background-position: 0px -40px"
+				<% end %>
+			></a>
+			<a onclick="dislikeCCFun(<%= comment.id %>)" class="downArrow" id="downArrow<%= comment.id %>"
+				<% if current_user.voted_down_on? comment %>
+				style="background-position: -20px -40px"
+				<% end %>
+			></a></div>
+
+</div>
+</div>
+
+<div class="col-sm-12" style="margin:0px">
+<hr style="margin:0px;margin-bottom:10px">
+</div>
+<% end %>
+</section>
+<script>
+$(document).ready(function(){
+})
+$('#playbuttonreal').click(function(){
+	$('#bigonewrapper').css('display','none');
+	$('#videowrapper').css('display','block');
+})
+$(".sidevideo").hover(
+  function() {
+    $(this).css('filter','contrast(200%) brightness(150%)');
+  }, function() {
+    $(this).css('filter','contrast(100%) brightness(100%)');
+  }
+);
+</script>

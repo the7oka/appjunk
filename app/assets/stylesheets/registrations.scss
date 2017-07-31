@@ -1,0 +1,36 @@
+input {
+	border-radius: 5px;
+	font-size:180%;
+	margin:5px;
+	padding:5px;
+}
+#error_explanation{
+	border:1px solid black;
+}
+#error_explanation h2{
+	font-size:150%;
+	color:white;
+	background: black;
+	margin:0px;
+	padding-left:10px;
+	margin-bottom:10px;
+	padding-bottom:5px;
+}
+.facebook,.twitter{
+	//border:1px solid black;
+	height:70px;
+	margin-bottom:20px;
+	border-radius:5px;
+}
+.facebook {
+	background-image: url("/assets/Facebook.png");
+	background-size: 139%;
+	background-position: 50% 31%;
+
+}
+.twitter {
+	background-image: url("/assets/Twitter.png");
+	background-size: 139%;
+	background-position: 50% 31%;
+
+}

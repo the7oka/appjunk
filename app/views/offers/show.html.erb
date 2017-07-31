@@ -1,0 +1,138 @@
+<% content_for :head do %>
+  <link href="/assets/offers.scss" rel="stylesheet" type="text/css">
+  <script type="text/javascript" src='/assets/offers.js'></script>
+<% end %>
+<section class="container">
+	<div class="col-sm-8">
+	<div class="col-sm-12">
+			<p class="titlebox"><%= @offer.title.humanize %></p>
+		</div>
+		<div class="col-sm-12" style="margin:0px">
+<hr style="margin:0px;margin-bottom:10px;margin-top:10px">
+</div>
+		<div class="col-sm-12" style="text-align: center;margin-bottom:20px">
+			<%= image_tag @offer.photo.url, class: "displayphoto" %>
+		</div>
+		<div class="col-sm-12"  style="display:flex;flex-direction:row;margin-bottom:10px">
+		<p style="padding-top:10px"><span id="pointscount<%=@offer.id%>"><%= @offer.get_likes.size - @offer.get_dislikes.size %></span> Points</p>
+<p class="vnotice<%=@offer.id%>" style="font-weight:bold;margin-top:10px"></p>
+					<button style="margin-left:20px" 
+					<% if user_signed_in? %>
+					onclick="validfun(<%=@offer.id%>)" 
+					<% else %>
+					onclick="pleaseSignIn(<%=@offer.id%>)" 
+					<% end %>
+					type="button"
+						<% if user_signed_in? %>
+						<% if current_user.voted_up_on? @offer %>
+							class="btn btn-success"
+						<% else %>
+							class="btn btn-default" 
+						<% end %>
+						<% else %> 
+							class="btn btn-default" 
+						<% end %>
+						id="vvalid<%=@offer.id%>">
+						<i class="fa fa-thumbs-o-up" aria-hidden="true"></i>The offer is interesting</button>
+					<button  style="margin-left:20px"
+					<% if user_signed_in? %>
+					onclick="invalidfun(<%=@offer.id%>)"
+					<% else %>
+					onclick="pleaseSignIn(<%=@offer.id%>)" 
+					<% end %>
+					type="button" 
+						<% if user_signed_in? %>
+						<% if current_user.voted_down_on? @offer %>
+							class="btn btn-danger"
+						<% else %>
+							class="btn btn-default"
+						<% end %>
+						<% else %>
+							class="btn btn-default" 
+						<% end %>
+							id="vinvalid<%=@offer.id%>"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i>The offer isn't interesting</button>
+    </div>
+		<div class="col-sm-12" style="margin:0px">
+<hr style="margin:0px;margin-bottom:10px;margin-top:10px">
+</div>
+		
+    <div class="col-sm-12">
+    	<%= @offer.details.humanize %>
+    </div>
+</div>
+<div class="col-sm-4">
+	<div class="col-sm-12" style="margin-top:80px">
+			<p style="font-weight:bold;font-size: 180%; display:inline">Rating:</p>
+	<% if @offerrate < 0 %>
+	<i class="fa fa-star fa-2x" aria-hidden="true" style="color:red"></i>
+	<% elsif @offerrate == 0 %>
+	<i class="fa fa-star-o fa-2x" aria-hidden="true"></i>
+	<% elsif @offerrate < 0.2 && @offerrate > 0 %>
+	<i class="fa fa-star-half-o fa-2x" aria-hidden="true"></i>
+	<% else %>
+	<i class="fa fa-star fa-2x" aria-hidden="true"></i>
+	<% end %>
+
+	<% if @offerrate <= 0.2 %>
+	<i class="fa fa-star-o fa-2x" aria-hidden="true"></i>
+	<% elsif @offerrate < 0.4 && @offerrate > 0.2 %>
+	<i class="fa fa-star-half-o fa-2x" aria-hidden="true"></i>
+	<% else %>
+	<i class="fa fa-star fa-2x" aria-hidden="true"></i>
+	<% end %>
+	
+	<% if @offerrate <= 0.4 %>
+	<i class="fa fa-star-o fa-2x" aria-hidden="true"></i>
+	<% elsif @offerrate < 0.6 && @offerrate > 0.4 %>
+	<i class="fa fa-star-half-o fa-2x" aria-hidden="true"></i>
+	<% else %>
+	<i class="fa fa-star fa-2x" aria-hidden="true"></i>
+	<% end %>
+	
+	<% if @offerrate <= 0.6 %>
+	<i class="fa fa-star-o fa-2x" aria-hidden="true"></i>
+	<% elsif @offerrate < 0.8 && @offerrate > 0.6 %>
+	<i class="fa fa-star-half-o fa-2x" aria-hidden="true"></i>
+	<% else %>
+	<i class="fa fa-star fa-2x" aria-hidden="true"></i>
+	<% end %>
+	
+	<% if @offerrate <= 0.8 %>
+	<i class="fa fa-star-o fa-2x" aria-hidden="true"></i>
+	<% elsif @offerrate < 1 && @offerrate > 0.8 %>
+	<i class="fa fa-star-half-o fa-2x" aria-hidden="true"></i>
+	<% else %>
+	<i class="fa fa-star fa-2x" aria-hidden="true"></i>
+	<% end %>
+	</div>
+	<div class="col-sm-12" style="margin:0px">
+<hr style="margin:0px;margin-bottom:10px;margin-top:10px">
+</div>
+<div class="col-sm-12">
+		<i class="fa fa-clock-o fa-lg" aria-hidden="true"></i> <%=@offer.delivery %> Delivery time:
+	</div>
+	<div class="col-sm-12" style="margin:0px">
+<hr style="margin:0px;margin-bottom:10px;margin-top:10px">
+</div>
+<div class="col-sm-12">
+		<i class="fa fa-shopping-cart fa-lg" aria-hidden="true"></i>  Bought this offer
+	</div>
+	<div class="col-sm-12" style="margin:0px">
+<hr style="margin:0px;margin-bottom:10px;margin-top:10px">
+</div>
+<div class="col-sm-12">
+		<i class="fa fa-gears fa-lg" aria-hidden="true"></i>  Category: <%= @offer.offercategory.name.humanize %>
+	</div>
+	<div class="col-sm-12" style="margin:0px">
+<hr style="margin:0px;margin-bottom:10px;margin-top:10px">
+</div>
+<div class="col-sm-12">
+    	<p>Request the offer :</p>
+    	<%= form_tag(offerrequests_path, :method => "get", id: "search-form") do %>
+    	<%= number_field_tag :quantity, '1' %>
+    	<input name="offer_id" type="hidden" value="<%=@offer.id%>" />
+    	<%= submit_tag "request", name: nil, class: 'btn btn-primary btn-lg hefzbutton' %>
+    	<% end %>
+   	</div>s
+</div>
+</section>

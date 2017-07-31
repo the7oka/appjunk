@@ -1,0 +1,12 @@
+<ul>
+			<% @donetasks.each_with_index do |task,index| %>
+			<div id="taskcoldone<%=task.id%>">
+			<div class="col-sm-10" style="padding:0;font-size: 140%;">
+				<%=index+1%>-<p id="task<%=task.id%>" class="tasktitle"><%= task.title.humanize %></p>
+			</div>
+			<div class="col-sm-1">
+				<a onclick="undonefunction(<%=task.id%>)"><i id="taskundone<%=task.id%>" class="fa fa-check-square-o fa-2x" aria-hidden="true"></i><i id="taskundonec<%=task.id%>" class="fa fa-square-o fa-2x" aria-hidden="true" style="display:none"></i></a>
+			</div>
+			</div>
+			<% end %>
+			</ul>

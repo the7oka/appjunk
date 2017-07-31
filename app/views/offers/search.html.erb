@@ -1,0 +1,115 @@
+<% content_for :head do %>
+	<link href="/assets/garagak.scss" rel="stylesheet" >
+	<script>
+		$(document).ready(function(){
+			$("#viewmore").click(function(){
+
+        	$("#themore").slideToggle("slow");
+        	$('#viewmorelink').text( $('#viewmorelink').text() == 'View more options' ? "View Less options" : "View more options");
+    	});
+			$('#app').html('Garag');
+		$('#junk').html('ak');
+		$('.selltitle').click(function(){
+		window.location = "/garagak/new";
+		})
+		$("#logolink").attr("href", "/garagak");
+			$('#year_carlisting').val(<%= params[:year] %>);
+			$('#engine_carlisting').val(<%= params[:engine] %>);
+			$('#fromyear_').val(<%= params[:fromyear] %>);
+			$('#toyear_').val(<%= params[:toyear] %>);
+			$('#frommilleage_').val(<%= params[:frommilleage] %>);
+			$('#tomilleage_').val(<%= params[:tomilleage] %>);
+			$('#fromprice_').val(<%= params[:fromprice] %>);
+			$('#toprice_').val(<%= params[:toprice] %>);
+			$('#frommilleage_').val(<%= params[:fromkm] %>);
+			$('#tomilleage_').val(<%= params[:tokm] %>);
+			<% if params[:automatic] %>
+			if (<%= params[:automatic] %> == "0"){
+				$('input:radio[name="automatic"]').filter('[value="0"]').attr('checked', true);
+			}
+			if (<%= params[:automatic] %> == "1"){
+				$('input:radio[name="automatic"]').filter('[value="1"]').attr('checked', true);
+			}
+			<% end %>
+			<% if params[:fourdoor] %>
+			if (<%= params[:fourdoor] %> == "0"){
+				$('input:radio[name="fourdoor"]').filter('[value="0"]').attr('checked', true);
+			}
+			if (<%= params[:fourdoor] %> == "1"){
+				$('input:radio[name="fourdoor"]').filter('[value="1"]').attr('checked', true);
+			}
+			<% end %>
+			c="";
+	carmodels = $('#carmodelList').html();
+	$('#carmodelList').html("<option value="+c+">Select a carbrand first</option>")
+	options= null;
+	$('#carbrandList').val(<%= params[:carbrand_id] %>);
+	carbrand = $('#carbrandList :selected').text();
+		options = $(carmodels).filter("optgroup[label="+'"'+carbrand+'"'+"]").html();
+		if (options == null){
+			$('#carmodelList').html("<option value="+c+">Select a carbrand first</option>")
+		}
+		else{
+			$('#carmodelList').html(options)
+		}
+	$('#carmodelList').val(<%= params[:carmodel_id] %>);
+	$('#cartypeList').val(<%= params[:cartype_id] %>);
+	$('#carbrandList').change(function() {
+		carbrand = $('#carbrandList :selected').text();
+		options = $(carmodels).filter("optgroup[label="+'"'+carbrand+'"'+"]").html();
+		if (options == null){
+			$('#carmodelList').html("<option value="+c+">Select a carbrand first</option>")
+		}
+		else{
+			$('#carmodelList').html(options)
+		}
+		});
+
+	areas = $('#areaList').html();
+	$('#areaList').html("<option value="+c+">Select a city first</option>")
+	options= null;
+	$('#cityList').val(<%= params[:city_id] %>);
+	city = $('#cityList :selected').text();
+		options = $(areas).filter("optgroup[label="+'"'+city+'"'+"]").html();
+		if (options == null){
+			$('#areaList').html("<option value="+c+">Select a city first</option>")
+		}
+		else{
+			$('#areaList').html(options)
+		}
+		$('#areaList').val(<%= params[:area_id] %>);
+	$('#cityList').change(function() {
+		city = $('#cityList :selected').text();
+		options = $(areas).filter("optgroup[label="+'"'+city+'"'+"]").html();
+		if (options == null){
+			$('#areaList').html("<option value="+c+">Select a city first</option>")
+		}
+		else{
+			$('#areaList').html(options)
+		}
+		});
+});
+</script>
+<% end %>
+<section class="container formcontainer">
+<%= form_tag(offers_path, :method => "get", id: "search-form") do %>
+	<div class="col-sm-3">
+	<div class="col-sm-3">
+	<%= select :fromprice,nil, options_for_select((0..2000000).step(500)), {:include_blank => 'Minimum price'},:class => 'form-control form-control-sm', name: 'fromprice' %>
+	</div>
+	<div class="col-sm-3">
+	<%= select :toprice,nil, options_for_select((0..2000000).step(500)), {:include_blank => 'Maximum price'},:class => 'form-control form-control-sm', name: 'toprice' %>
+	</div>
+	<div class="col-sm-3">
+	<%= select :fromdelivery,nil, options_for_select((1..15).step(1)), {:include_blank => 'Minimum price'},:class => 'form-control form-control-sm', name: 'fromprice' %>
+	</div>
+	<div class="col-sm-3">
+	<%= select :todelivery,nil, options_for_select((1..15).step(1)), {:include_blank => 'Maximum price'},:class => 'form-control form-control-sm', name: 'toprice' %>
+	</div>
+
+	<div class="col-sm-12" style="text-align: center;margin:20px">
+	<%= submit_tag "Search", name: nil, class: 'btn btn-primary btn-lg hefzbutton' %>
+	</div>
+<% end %>
+</section>
+<%= render partial: "results" %>

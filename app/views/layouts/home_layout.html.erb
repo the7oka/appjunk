@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>AppJunk | <%= @title %> </title>
+    <%= csrf_meta_tags %>
+    <script type="text/javascript" src="/assets/jquery.js"></script>
+    <%= javascript_include_tag 'application.js', 'data-turbolinks-track': 'reload' %>
+    <link rel="stylesheet" href="/assets/application.scss">
+    <script type="text/javascript" src="/assets/widgets.js"></script>
+    <link rel="stylesheet" href="/assets/bootstrap.min.css">
+    <script type="text/javascript" src="/assets/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/assets/notify.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/assets/icon.jpg" />
+
+    <meta property="fb:app_id"        content="1787403521537423"/>
+    <meta property="og:title"        content="AppJunk | <%= @title %>"/>
+    <meta property="og:type"          content="website"/>
+    <script>
+    <%#$(document).ready(function(){
+      x = document.getElementById("notice").innerHTML
+      if (x==""){}
+      else {
+      $.notify(x,{position:"right center"});
+      };
+    });%>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+      ga('create', 'UA-87923508-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+    <%= yield(:head) %>
+  </head>
+<body id="page-top">
+
+    <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
+                </button>
+                <a class="navbar-brand page-scroll" href="#page-top"><span id="app">app</span><span id="junk">junk</span></a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                <% if user_signed_in? %>
+                	<li id="profilebutton" href="#about">
+              				<a data-toggle="dropdown" style="text-decoration: none;"><%= image_tag current_user.avatar.url(:medium) , :id => "userLogohome"%> <%= current_user.display_name.humanize %> <span class="caret"></span></a>
+           					<ul class="dropdown-menu">
+								<li><a href="/profile/<%= current_user.id %>"">My Profile</a></li>
+								<li><a href="<%=destroy_user_session_path%>">Sign Out</a></li>
+								<li><a href="/">Vanilla appjunk</a></li>
+            				</ul>
+                    </li>
+                    <li class="hidden-sm hidden-md hidden-lg">
+                        <a class="page-scroll" href="<%=destroy_user_session_path%>">Sign out</a>
+                    </li>
+                <% else %>
+                	<li>
+                        <a class="page-scroll" href="/users/sign_in">Sign In</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="/users/sign_up">Sign Up</a>
+                    </li>
+                <% end %>
+                    <li>
+                        <a class="page-scroll" href="#about">About</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#services">Services</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#portfolio">Portfolio</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+  
+    <%= yield %>
+    </body>
+</html>
